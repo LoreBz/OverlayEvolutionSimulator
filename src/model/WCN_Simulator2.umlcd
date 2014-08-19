@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.yattasolutions.uml.diagrams.classifier:ClassDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.yattasolutions.uml.diagrams.classifier="http://ns.yatta-solutions.com/umllab/diagrams/classifier/1.1.0" xmi:id="_50f_AB42EeS7uI7kknsrHQ">
+  <modelElement href="WCN_Simulator2.uml#_5zeEQB42EeS7uI7kknsrHQ"/>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_HlUqkB43EeS7uI7kknsrHQ" sourceAnchor="0.0,78.0" targetAnchor="145.0,194.0" target="_HoJ8IB43EeS7uI7kknsrHQ" source="_HlXt4B43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6aJpwB42EeS7uI7kknsrHQ"/>
+    <bendpoints xmi:id="_IBaJoB43EeS7uI7kknsrHQ" sourceX="-240" targetY="176"/>
+    <stereotypes xmi:id="_HlVRoB43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6aMtEB42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_HlVRoR43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IBkhsB43EeS7uI7kknsrHQ" position="90.0,-8.5"/>
+    </nameVisual>
+    <sourceRole xmi:id="_HlVRoh43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6aJpwR42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBisgB43EeS7uI7kknsrHQ" position="-19.5,3.5"/>
+      <visibility xmi:id="_HlVRox43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HlVRpB43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_HlVRpR43EeS7uI7kknsrHQ" aggregationKind="NONE" name="source" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6YW6AB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBlIwB43EeS7uI7kknsrHQ" position="5.0,127.5"/>
+      <visibility xmi:id="_HlVRph43EeS7uI7kknsrHQ" label="-"/>
+      <cardinality xmi:id="_HlVRpx43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_HlXG0B43EeS7uI7kknsrHQ" sourceAnchor="215.0,0.0" targetAnchor="158.0,194.0" target="_HoJ8IB43EeS7uI7kknsrHQ" source="_HlXt4B43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6aMtER42EeS7uI7kknsrHQ"/>
+    <bendpoints xmi:id="_IBb-0B43EeS7uI7kknsrHQ" sourceY="-78" targetX="442" targetY="20"/>
+    <bendpoints xmi:id="_IBb-0R43EeS7uI7kknsrHQ" sourceX="-442" sourceY="-78" targetY="20"/>
+    <stereotypes xmi:id="_HlXG0R43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6aQXcB42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_HlXG0h43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IBnlAB43EeS7uI7kknsrHQ" position="90.0,-8.5"/>
+    </nameVisual>
+    <sourceRole xmi:id="_HlXG0x43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6aMtEh42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBmW4B43EeS7uI7kknsrHQ" position="-20.5,-50.0"/>
+      <visibility xmi:id="_HlXG1B43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HlXG1R43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_HlXG1h43EeS7uI7kknsrHQ" aggregationKind="NONE" name="destination" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6YZ9UB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBoMEB43EeS7uI7kknsrHQ" position="111.0,-28.5"/>
+      <visibility xmi:id="_HlXG1x43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HlXG2B43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_Hmbd0B43EeS7uI7kknsrHQ" sourceAnchor="294.0,0.0" targetAnchor="179.0,54.0" target="_HuxhgB43EeS7uI7kknsrHQ" source="_Hm5-8B43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6Z-qoR42EeS7uI7kknsrHQ"/>
+    <stereotypes xmi:id="_Hmbd0R43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6aBt8B42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_Hmbd0h43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IBqoUB43EeS7uI7kknsrHQ" position="-40.0,-63.5"/>
+    </nameVisual>
+    <sourceRole xmi:id="_Hmbd0x43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6Z-qoh42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBpaMB43EeS7uI7kknsrHQ" position="-20.5,-50.0"/>
+      <visibility xmi:id="_Hmbd1B43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_Hmbd1R43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_Hmbd1h43EeS7uI7kknsrHQ" aggregationKind="NONE" name="underlayGraph" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6X61IB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBrPYB43EeS7uI7kknsrHQ" position="5.5,5.0"/>
+      <visibility xmi:id="_Hmbd1x43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_Hmbd2B43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_HmsjkB43EeS7uI7kknsrHQ" sourceAnchor="0.0,59.0" targetAnchor="167.0,27.0" target="_HqDZkB43EeS7uI7kknsrHQ" source="_Hm5-8B43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6aCVAB42EeS7uI7kknsrHQ"/>
+    <stereotypes xmi:id="_HmsjkR43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6aFYUB42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_Hmsjkh43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IBuSsB43EeS7uI7kknsrHQ" position="1.0,-8.5"/>
+    </nameVisual>
+    <sourceRole xmi:id="_Hmsjkx43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6aCVAR42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBtEkB43EeS7uI7kknsrHQ" position="-20.0,3.5"/>
+      <visibility xmi:id="_HmsjlB43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HmtKoB43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_HmtKoR43EeS7uI7kknsrHQ" aggregationKind="NONE" name="overlayGraph" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6X8qUB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBu5wB43EeS7uI7kknsrHQ" position="5.5,-48.500000000000114"/>
+      <visibility xmi:id="_HmtKoh43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HmtKox43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_HmzRQB43EeS7uI7kknsrHQ" source="_Hm5-8B43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6aF_YB42EeS7uI7kknsrHQ"/>
+    <stereotypes xmi:id="_HmzRQR43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6aJCsB42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_HmzRQh43EeS7uI7kknsrHQ" text=""/>
+    <sourceRole xmi:id="_HmzRQx43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6aF_YR42EeS7uI7kknsrHQ"/>
+      <visibility xmi:id="_HmzRRB43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HmzRRR43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_HmzRRh43EeS7uI7kknsrHQ" aggregationKind="NONE" name="graphview" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6X_GkB42EeS7uI7kknsrHQ"/>
+      <visibility xmi:id="_HmzRRx43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HmzRSB43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_Hno-wB43EeS7uI7kknsrHQ" sourceAnchor="179.0,0.0" targetAnchor="264.0,97.0" target="_HoJ8IB43EeS7uI7kknsrHQ" source="_HuxhgB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6aUB0R42EeS7uI7kknsrHQ"/>
+    <bendpoints xmi:id="_IBg3UB43EeS7uI7kknsrHQ" sourceY="-246" targetX="1012"/>
+    <stereotypes xmi:id="_HoD1gR43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6aXFIB42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_HoDOcB43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IB4qwB43EeS7uI7kknsrHQ" position="-910.9999999999999,-8.500000000000142"/>
+    </nameVisual>
+    <sourceRole xmi:id="_HoDOcR43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6aUB0h42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IB3coB43EeS7uI7kknsrHQ" position="-20.5,-50.0"/>
+      <visibility xmi:id="_HoFqsR43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HoFqsB43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_HoD1gB43EeS7uI7kknsrHQ" aggregationKind="NONE" name="nodes" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6YwioB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IB4qwR43EeS7uI7kknsrHQ" position="5.0,-48.499999999999886"/>
+      <stereotypes xmi:id="_HoIuAB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Yy-4B42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HoIG8B43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HoGRwB43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_HpcVkB43EeS7uI7kknsrHQ" sourceAnchor="0.0,27.0" targetAnchor="427.0,59.0" target="_HriAQB43EeS7uI7kknsrHQ" source="_HqDZkB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6Z388B42EeS7uI7kknsrHQ"/>
+    <stereotypes xmi:id="_HpcVkR43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6Z7AQB42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_Hpc8oB43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IBxWAB43EeS7uI7kknsrHQ" position="-26.0,-8.5"/>
+    </nameVisual>
+    <sourceRole xmi:id="_Hpc8oR43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6Z388R42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBwH4B43EeS7uI7kknsrHQ" position="-19.5,3.5"/>
+      <visibility xmi:id="_Hpc8oh43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_Hpc8ox43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_Hpc8pB43EeS7uI7kknsrHQ" aggregationKind="NONE" name="peers" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6XwdEB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBx9EB43EeS7uI7kknsrHQ" position="5.5,-48.5"/>
+      <visibility xmi:id="_Hpc8pR43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_Hpc8ph43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_HqA9UB43EeS7uI7kknsrHQ" sourceAnchor="84.0,0.0" targetAnchor="301.0,54.0" target="_HyIXgB43EeS7uI7kknsrHQ" source="_HqDZkB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6Z7nUB42EeS7uI7kknsrHQ"/>
+    <stereotypes xmi:id="_HqA9UR43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6Z-qoB42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_HqA9Uh43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IBzyQB43EeS7uI7kknsrHQ" position="-40.0,-8.5"/>
+    </nameVisual>
+    <sourceRole xmi:id="_HqA9Ux43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6Z7nUR42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBykIB43EeS7uI7kknsrHQ" position="-20.5,-50.0"/>
+      <visibility xmi:id="_HqA9VB43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HqA9VR43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_HqA9Vh43EeS7uI7kknsrHQ" aggregationKind="NONE" name="links" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6X0HcB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IBzyQR43EeS7uI7kknsrHQ" position="6.5,5.0"/>
+      <visibility xmi:id="_HqA9Vx43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HqA9WB43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_HqrEoB43EeS7uI7kknsrHQ" sourceAnchor="214.0,118.0" targetAnchor="0.0,59.0" target="_HriAQB43EeS7uI7kknsrHQ" source="_HriAQB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6aQXcR42EeS7uI7kknsrHQ"/>
+    <bendpoints xmi:id="_IBebEB43EeS7uI7kknsrHQ" sourceY="84" targetX="214" targetY="143"/>
+    <bendpoints xmi:id="_IBfCIB43EeS7uI7kknsrHQ" sourceX="-325" sourceY="84" targetX="-111" targetY="143"/>
+    <bendpoints xmi:id="_IBfCIR43EeS7uI7kknsrHQ" sourceX="-325" sourceY="-59" targetX="-111"/>
+    <stereotypes xmi:id="_HrdHwR43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6aUB0B42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_HrcgsB43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IB2OgB43EeS7uI7kknsrHQ" position="217.5,-8.5"/>
+    </nameVisual>
+    <sourceRole xmi:id="_HrcgsR43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6aQXch42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IB1AYB43EeS7uI7kknsrHQ" position="5.5,5.0"/>
+      <visibility xmi:id="_HrfkAR43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HrfkAB43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_HrdHwB43EeS7uI7kknsrHQ" aggregationKind="NONE" name="neighbours" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6YmxoB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IB21kB43EeS7uI7kknsrHQ" position="-79.5,3.5"/>
+      <visibility xmi:id="_HrgLER43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HrgLEB43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:GeneralizationVisual" xmi:id="_HrPFUB43EeS7uI7kknsrHQ" sourceAnchor="214.0,0.0" targetAnchor="119.0,194.0" superClass="_HoJ8IB43EeS7uI7kknsrHQ" subClass="_HriAQB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6U1E4B42EeS7uI7kknsrHQ"/>
+    <bendpoints xmi:id="_IBfpMB43EeS7uI7kknsrHQ" sourceY="-500" targetX="-65" targetY="20"/>
+    <bendpoints xmi:id="_IBgQQB43EeS7uI7kknsrHQ" sourceX="65" sourceY="-500" targetY="20"/>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_HtMNIB43EeS7uI7kknsrHQ" sourceAnchor="0.0,27.0" targetAnchor="429.0,78.0" target="_HlXt4B43EeS7uI7kknsrHQ" source="_HuxhgB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6aXsMB42EeS7uI7kknsrHQ"/>
+    <stereotypes xmi:id="_HusB8R43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6aavgB42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_Hura4B43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IB7uEB43EeS7uI7kknsrHQ" position="-5.0,-8.5"/>
+    </nameVisual>
+    <sourceRole xmi:id="_Hura4R43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6aXsMR42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IB544B43EeS7uI7kknsrHQ" position="-19.5,3.5"/>
+      <visibility xmi:id="_HuvFQR43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HuvFQB43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_HusB8B43EeS7uI7kknsrHQ" aggregationKind="NONE" name="edges" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6Y0NAB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IB8VIB43EeS7uI7kknsrHQ" position="5.5,-48.49999999999994"/>
+      <visibility xmi:id="_HuvsUB43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HuvFQh43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:AssociationVisual" xmi:id="_Hwh1AB43EeS7uI7kknsrHQ" sourceAnchor="0.0,27.0" targetAnchor="132.0,194.0" target="_HoJ8IB43EeS7uI7kknsrHQ" source="_HyIXgB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6abWkB42EeS7uI7kknsrHQ"/>
+    <bendpoints xmi:id="_IBheYB43EeS7uI7kknsrHQ" sourceX="-167" targetY="319"/>
+    <stereotypes xmi:id="_HyBp0h43EeS7uI7kknsrHQ" name="Reference">
+      <modelElement href="WCN_Simulator2.uml#_6ady0B42EeS7uI7kknsrHQ"/>
+    </stereotypes>
+    <nameVisual xmi:id="_HyBCwB43EeS7uI7kknsrHQ" text="">
+      <visualProperties xmi:id="_IB-xYB43EeS7uI7kknsrHQ" position="-40.0,-34.5"/>
+    </nameVisual>
+    <sourceRole xmi:id="_HyBp0B43EeS7uI7kknsrHQ" aggregationKind="NONE" name="">
+      <modelElement href="WCN_Simulator2.uml#_6abWkR42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IB9jQB43EeS7uI7kknsrHQ" position="-20.0,3.5"/>
+      <visibility xmi:id="_HyF7QR43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HyF7QB43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+    </sourceRole>
+    <targetRole xmi:id="_HyBp0R43EeS7uI7kknsrHQ" aggregationKind="NONE" name="crossedNodes" navigable="true">
+      <modelElement href="WCN_Simulator2.uml#_6Y6ToB42EeS7uI7kknsrHQ"/>
+      <visualProperties xmi:id="_IB_YcB43EeS7uI7kknsrHQ" position="7.5,181.0"/>
+      <visibility xmi:id="_HyF7Qx43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HyF7Qh43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+    </targetRole>
+  </edges>
+  <edges xsi:type="com.yattasolutions.uml.diagrams.classifier:GeneralizationVisual" xmi:id="_HxSC8B43EeS7uI7kknsrHQ" sourceAnchor="301.0,0.0" targetAnchor="215.0,156.0" superClass="_HlXt4B43EeS7uI7kknsrHQ" subClass="_HyIXgB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6VUNEB42EeS7uI7kknsrHQ"/>
+  </edges>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_Hm5-8B43EeS7uI7kknsrHQ" name="Network" associationsOut="_Hmbd0B43EeS7uI7kknsrHQ _HmsjkB43EeS7uI7kknsrHQ _HmzRQB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6OhokB42EeS7uI7kknsrHQ"/>
+    <visualProperties xmi:id="_Hm5-8R43EeS7uI7kknsrHQ" position="1263.0,744.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_Hm5-8h43EeS7uI7kknsrHQ" label="+"/>
+    <attributes xmi:id="_Hm5-8x43EeS7uI7kknsrHQ" name="underlayGraph">
+      <modelElement href="WCN_Simulator2.uml#_6X61IB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_Hm5-9B43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6X8DQB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_Hm5-9R43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6X8DQB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_Hm5-9h43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_Hm5-9x43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_Hm5--B43EeS7uI7kknsrHQ" name="UnderlayGraph">
+        <modelElement href="WCN_Simulator2.uml#_6Q2j0B42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_Hm5--R43EeS7uI7kknsrHQ" name="overlayGraph">
+      <modelElement href="WCN_Simulator2.uml#_6X8qUB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_Hm5--h43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6X94cB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_Hm5--x43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6X94cB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_Hm5-_B43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_Hm5-_R43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_Hm5-_h43EeS7uI7kknsrHQ" name="OverlayGraph">
+        <modelElement href="WCN_Simulator2.uml#_6OP7wB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_Hm5-_x43EeS7uI7kknsrHQ" name="graphview">
+      <modelElement href="WCN_Simulator2.uml#_6X_GkB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_Hm5_AB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YAUsB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_Hm5_AR43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YAUsB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_Hm5_Ah43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_Hm5_Ax43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_Hm5_BB43EeS7uI7kknsrHQ" name="View">
+        <modelElement href="WCN_Simulator2.uml#_6UKWgB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_Hm5_BR43EeS7uI7kknsrHQ" name="Network">
+      <modelElement href="WCN_Simulator2.uml#_6OpkYB42EeS7uI7kknsrHQ"/>
+      <keywords xmi:id="_Hm5_Bh43EeS7uI7kknsrHQ" keyword="create"/>
+      <stereotypes xmi:id="_Hm5_Bx43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6OrZkB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_Hm5_CB43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_Hm5_CR43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6OrZkR42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_Hm5_Ch43EeS7uI7kknsrHQ" name="Network">
+          <modelElement href="WCN_Simulator2.uml#_6OhokB42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+    </operations>
+    <operations xmi:id="_Hm5_Cx43EeS7uI7kknsrHQ" name="Network">
+      <modelElement href="WCN_Simulator2.uml#_6WDM4B42EeS7uI7kknsrHQ"/>
+      <keywords xmi:id="_Hm5_DB43EeS7uI7kknsrHQ" keyword="create"/>
+      <visibility xmi:id="_Hm5_DR43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_Hm5_Dh43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6WFpIB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_Hm5_Dx43EeS7uI7kknsrHQ" name="Network">
+          <modelElement href="WCN_Simulator2.uml#_6OhokB42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_Hm5_EB43EeS7uI7kknsrHQ" name="underlayGraph">
+        <modelElement href="WCN_Simulator2.uml#_6WDz8B42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_Hm5_ER43EeS7uI7kknsrHQ" name="UnderlayGraph">
+          <modelElement href="WCN_Simulator2.uml#_6Q2j0B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_Hm5_Eh43EeS7uI7kknsrHQ" name="overlayGraph">
+        <modelElement href="WCN_Simulator2.uml#_6WDz8R42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_Hm5_Ex43EeS7uI7kknsrHQ" name="OverlayGraph">
+          <modelElement href="WCN_Simulator2.uml#_6OP7wB42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_Hm5_FB43EeS7uI7kknsrHQ" name="graphview">
+        <modelElement href="WCN_Simulator2.uml#_6WEbAB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_Hm5_FR43EeS7uI7kknsrHQ" name="View">
+          <modelElement href="WCN_Simulator2.uml#_6UKWgB42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+    </operations>
+    <operations xmi:id="_Hm5_Fh43EeS7uI7kknsrHQ" name="init">
+      <modelElement href="WCN_Simulator2.uml#_6WJ6kB42EeS7uI7kknsrHQ"/>
+      <visibility xmi:id="_Hm5_Fx43EeS7uI7kknsrHQ" label="~"/>
+      <parameters xmi:id="_Hm5_GB43EeS7uI7kknsrHQ" name="f">
+        <modelElement href="WCN_Simulator2.uml#_6WKhoB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_Hm5_GR43EeS7uI7kknsrHQ" name="File">
+          <modelElement href="WCN_Simulator2.uml#_6TxU8B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+    </operations>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_HoJ8IB43EeS7uI7kknsrHQ" name="Node" associationsIn="_HlUqkB43EeS7uI7kknsrHQ _HlXG0B43EeS7uI7kknsrHQ _Hno-wB43EeS7uI7kknsrHQ _Hwh1AB43EeS7uI7kknsrHQ" subclassedBy="_HrPFUB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+    <visualProperties xmi:id="_HoJ8IR43EeS7uI7kknsrHQ" position="281.0,30.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_HoJ8Ih43EeS7uI7kknsrHQ" label="+"/>
+    <attributes xmi:id="_HoJ8Ix43EeS7uI7kknsrHQ" name="id">
+      <modelElement href="WCN_Simulator2.uml#_6YFNMB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HoJ8JB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YHCYB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HoJ8JR43EeS7uI7kknsrHQ" label="-"/>
+      <cardinality xmi:id="_HoJ8Jh43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_HoJ8Jx43EeS7uI7kknsrHQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_HoJ8KB43EeS7uI7kknsrHQ" name="name">
+      <modelElement href="WCN_Simulator2.uml#_6YHpcB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HoJ8KR43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YJeoB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HoJ8Kh43EeS7uI7kknsrHQ" label="-"/>
+      <cardinality xmi:id="_HoJ8Kx43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_HoJ8LB43EeS7uI7kknsrHQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_HoJ8LR43EeS7uI7kknsrHQ" name="Node">
+      <modelElement href="WCN_Simulator2.uml#_6PCl8B42EeS7uI7kknsrHQ"/>
+      <keywords xmi:id="_HoJ8Lh43EeS7uI7kknsrHQ" keyword="create"/>
+      <visibility xmi:id="_HoJ8Lx43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HoJ8MB43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6PEbIh42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HoJ8MR43EeS7uI7kknsrHQ" name="Node">
+          <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_HoJ8Mh43EeS7uI7kknsrHQ" name="id">
+        <modelElement href="WCN_Simulator2.uml#_6PDNAB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HoJ8Mx43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HoJ8NB43EeS7uI7kknsrHQ" name="name">
+        <modelElement href="WCN_Simulator2.uml#_6PDNAR42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HoJ8NR43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </parameters>
+    </operations>
+    <operations xmi:id="_HoJ8Nh43EeS7uI7kknsrHQ" name="getId">
+      <modelElement href="WCN_Simulator2.uml#_6PGQUB42EeS7uI7kknsrHQ"/>
+      <visibility xmi:id="_HoJ8Nx43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HoJ8OB43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6PHecB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HoJ8OR43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </outParameters>
+    </operations>
+    <operations xmi:id="_HoJ8Oh43EeS7uI7kknsrHQ" name="getName">
+      <modelElement href="WCN_Simulator2.uml#_6PIskB42EeS7uI7kknsrHQ"/>
+      <visibility xmi:id="_HoJ8Ox43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HoJ8PB43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6PJ6sB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HoJ8PR43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </outParameters>
+    </operations>
+    <operations xmi:id="_HoJ8Ph43EeS7uI7kknsrHQ" name="hashCode">
+      <modelElement href="WCN_Simulator2.uml#_6PLI0B42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HoJ8Px43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6PNlEB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HoJ8QB43EeS7uI7kknsrHQ" name="Annotations">
+        <modelElement href="WCN_Simulator2.uml#_6PPaQB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HoJ8QR43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HoJ8Qh43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6PMW8B42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HoJ8Qx43EeS7uI7kknsrHQ" name="int">
+          <modelElement href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+        </type>
+      </outParameters>
+    </operations>
+    <operations xmi:id="_HoJ8RB43EeS7uI7kknsrHQ" name="toString">
+      <modelElement href="WCN_Simulator2.uml#_6PX9IB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HoJ8RR43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6PZyUB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HoJ8Rh43EeS7uI7kknsrHQ" name="Annotations">
+        <modelElement href="WCN_Simulator2.uml#_6PaZYB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HoJ8Rx43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HoJ8SB43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6PZLQB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HoJ8SR43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </outParameters>
+    </operations>
+    <operations xmi:id="_HoJ8Sh43EeS7uI7kknsrHQ" name="equals">
+      <modelElement href="WCN_Simulator2.uml#_6WUSoB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HoJ8Sx43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6WWu4B42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HoJ8TB43EeS7uI7kknsrHQ" name="Annotations">
+        <modelElement href="WCN_Simulator2.uml#_6WZLIB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HoJ8TR43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HoJ8Th43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6WWH0B42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HoJ8Tx43EeS7uI7kknsrHQ" name="boolean">
+          <modelElement href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_HoJ8UB43EeS7uI7kknsrHQ" name="obj">
+        <modelElement href="WCN_Simulator2.uml#_6WU5sB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HoJ8UR43EeS7uI7kknsrHQ" name="Object">
+          <modelElement href="WCN_Simulator2.uml#_6WSdcB42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+    </operations>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_HuxhgB43EeS7uI7kknsrHQ" name="UnderlayGraph" associationsIn="_Hmbd0B43EeS7uI7kknsrHQ" associationsOut="_Hno-wB43EeS7uI7kknsrHQ _HtMNIB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6Q2j0B42EeS7uI7kknsrHQ"/>
+    <visualProperties xmi:id="_HuxhgR43EeS7uI7kknsrHQ" position="1378.0,373.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_Huxhgh43EeS7uI7kknsrHQ" label="+"/>
+    <attributes xmi:id="_Huxhgx43EeS7uI7kknsrHQ" name="nodes">
+      <modelElement href="WCN_Simulator2.uml#_6YwioB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_2OEOYB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Yy-4B42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HuxhhB43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HuxhhR43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+      <type xmi:id="_Huxhhh43EeS7uI7kknsrHQ" name="Node">
+        <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_Huxhhx43EeS7uI7kknsrHQ" name="edges">
+      <modelElement href="WCN_Simulator2.uml#_6Y0NAB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HuxhiB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Y2CMB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HuvsUR43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Y2CMB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HuxhiR43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_Huxhih43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+      <type xmi:id="_Huxhix43EeS7uI7kknsrHQ" name="Edge">
+        <modelElement href="WCN_Simulator2.uml#_6Pl_kB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_HuxhjB43EeS7uI7kknsrHQ" name="UnderlayGraph">
+      <modelElement href="WCN_Simulator2.uml#_6XHj4B42EeS7uI7kknsrHQ"/>
+      <keywords xmi:id="_HuxhjR43EeS7uI7kknsrHQ" keyword="create"/>
+      <visibility xmi:id="_Huxhjh43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_Huxhjx43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6XIyAh42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HuxhkB43EeS7uI7kknsrHQ" name="UnderlayGraph">
+          <modelElement href="WCN_Simulator2.uml#_6Q2j0B42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_HuxhkR43EeS7uI7kknsrHQ" name="nodes">
+        <modelElement href="WCN_Simulator2.uml#_6XIK8B42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_Huxhkh43EeS7uI7kknsrHQ" name="Set">
+          <modelElement href="WCN_Simulator2.uml#_6UNZ0B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_Huxhkx43EeS7uI7kknsrHQ" name="edges">
+        <modelElement href="WCN_Simulator2.uml#_6XIK8R42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HuxhlB43EeS7uI7kknsrHQ" name="Set">
+          <modelElement href="WCN_Simulator2.uml#_6UNZ0B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+    </operations>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_HqDZkB43EeS7uI7kknsrHQ" name="OverlayGraph" associationsIn="_HmsjkB43EeS7uI7kknsrHQ" associationsOut="_HpcVkB43EeS7uI7kknsrHQ _HqA9UB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6OP7wB42EeS7uI7kknsrHQ"/>
+    <visualProperties xmi:id="_HqDZkR43EeS7uI7kknsrHQ" position="797.0,776.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_HqDZkh43EeS7uI7kknsrHQ" label="+"/>
+    <attributes xmi:id="_HqDZkx43EeS7uI7kknsrHQ" name="peers">
+      <modelElement href="WCN_Simulator2.uml#_6XwdEB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HqDZlB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Xy5UB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HqDZlR43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Xy5UB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HqDZlh43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HqDZlx43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+      <type xmi:id="_HqDZmB43EeS7uI7kknsrHQ" name="Peer">
+        <modelElement href="WCN_Simulator2.uml#_6QW0kB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_HqDZmR43EeS7uI7kknsrHQ" name="links">
+      <modelElement href="WCN_Simulator2.uml#_6X0HcB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HqDZmh43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6X2jsB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HqDZmx43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6X2jsB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HqDZnB43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HqDZnR43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+      <type xmi:id="_HqDZnh43EeS7uI7kknsrHQ" name="VirtualEdge">
+        <modelElement href="WCN_Simulator2.uml#_6RMiEB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_HqDZnx43EeS7uI7kknsrHQ" name="save_on_file">
+      <modelElement href="WCN_Simulator2.uml#_6V6qAB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HqDZoB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6V74IB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HqDZoR43EeS7uI7kknsrHQ" label="~"/>
+      <parameters xmi:id="_HqDZoh43EeS7uI7kknsrHQ" name="f">
+        <modelElement href="WCN_Simulator2.uml#_6V7REB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HqDZox43EeS7uI7kknsrHQ" name="File">
+          <modelElement href="WCN_Simulator2.uml#_6TxU8B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+    </operations>
+    <operations xmi:id="_XXjNMB43EeS7uI7kknsrHQ" name="OverlayGraph">
+      <modelElement href="WCN_Simulator2.uml#_XXT8oB43EeS7uI7kknsrHQ"/>
+      <keywords xmi:id="_XXjNMR43EeS7uI7kknsrHQ" keyword="create"/>
+      <visibility xmi:id="_XXjNMh43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_XXjNMx43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_XXUjsh43EeS7uI7kknsrHQ"/>
+        <type xmi:id="_XXjNNB43EeS7uI7kknsrHQ" name="OverlayGraph">
+          <modelElement href="WCN_Simulator2.uml#_6OP7wB42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_XXjNNR43EeS7uI7kknsrHQ" name="peers">
+        <modelElement href="WCN_Simulator2.uml#_XXUjsB43EeS7uI7kknsrHQ"/>
+        <type xmi:id="_XXjNNh43EeS7uI7kknsrHQ" name="Set">
+          <modelElement href="WCN_Simulator2.uml#_6UNZ0B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_XXjNNx43EeS7uI7kknsrHQ" name="links">
+        <modelElement href="WCN_Simulator2.uml#_XXUjsR43EeS7uI7kknsrHQ"/>
+        <type xmi:id="_XXjNOB43EeS7uI7kknsrHQ" name="Set">
+          <modelElement href="WCN_Simulator2.uml#_6UNZ0B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+    </operations>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_HyIXgB43EeS7uI7kknsrHQ" name="VirtualEdge" associationsIn="_HqA9UB43EeS7uI7kknsrHQ" associationsOut="_Hwh1AB43EeS7uI7kknsrHQ" generalizations="_HxSC8B43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6RMiEB42EeS7uI7kknsrHQ"/>
+    <visualProperties xmi:id="_HyIXgR43EeS7uI7kknsrHQ" position="580.0,516.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_HyIXgh43EeS7uI7kknsrHQ" label="+"/>
+    <attributes xmi:id="_HyIXgx43EeS7uI7kknsrHQ" name="crossedNodes">
+      <modelElement href="WCN_Simulator2.uml#_6Y6ToB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HyIXhB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Y8I0B42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HyGiUB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Y8I0B42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HyIXhR43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HyIXhh43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+      <type xmi:id="_HyIXhx43EeS7uI7kknsrHQ" name="Node">
+        <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_HyIXiB43EeS7uI7kknsrHQ" name="VirtualEdge">
+      <modelElement href="WCN_Simulator2.uml#_6XYCkB42EeS7uI7kknsrHQ"/>
+      <keywords xmi:id="_HyIXiR43EeS7uI7kknsrHQ" keyword="create"/>
+      <visibility xmi:id="_HyIXih43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HyIXix43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6XZ3wh42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HyIXjB43EeS7uI7kknsrHQ" name="VirtualEdge">
+          <modelElement href="WCN_Simulator2.uml#_6RMiEB42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_HyIXjR43EeS7uI7kknsrHQ" name="id">
+        <modelElement href="WCN_Simulator2.uml#_6XYCkR42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HyIXjh43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HyIXjx43EeS7uI7kknsrHQ" name="source">
+        <modelElement href="WCN_Simulator2.uml#_6XYpoB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HyIXkB43EeS7uI7kknsrHQ" name="Node">
+          <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HyIXkR43EeS7uI7kknsrHQ" name="destination">
+        <modelElement href="WCN_Simulator2.uml#_6XYpoR42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HyIXkh43EeS7uI7kknsrHQ" name="Node">
+          <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HyIXkx43EeS7uI7kknsrHQ" name="weight">
+        <modelElement href="WCN_Simulator2.uml#_6XYpoh42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HyIXlB43EeS7uI7kknsrHQ" name="int">
+          <modelElement href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HyIXlR43EeS7uI7kknsrHQ" name="crossedNodes">
+        <modelElement href="WCN_Simulator2.uml#_6XYpox42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HyIXlh43EeS7uI7kknsrHQ" name="Set">
+          <modelElement href="WCN_Simulator2.uml#_6UNZ0B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+    </operations>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_HlXt4B43EeS7uI7kknsrHQ" name="Edge" associationsIn="_HtMNIB43EeS7uI7kknsrHQ" associationsOut="_HlUqkB43EeS7uI7kknsrHQ _HlXG0B43EeS7uI7kknsrHQ" subclassedBy="_HxSC8B43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6Pl_kB42EeS7uI7kknsrHQ"/>
+    <visualProperties xmi:id="_HlXt4R43EeS7uI7kknsrHQ" position="666.0,322.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_HlXt4h43EeS7uI7kknsrHQ" label="+"/>
+    <attributes xmi:id="_HlXt4x43EeS7uI7kknsrHQ" name="id">
+      <modelElement href="WCN_Simulator2.uml#_6YQMUB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HlXt5B43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YRacB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HlXt5R43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HlXt5h43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_HlXt5x43EeS7uI7kknsrHQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_HlXt6B43EeS7uI7kknsrHQ" name="source">
+      <modelElement href="WCN_Simulator2.uml#_6YW6AB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HlXt6R43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YYvMB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HlXt6h43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YYvMB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HlXt6x43EeS7uI7kknsrHQ" label="-"/>
+      <cardinality xmi:id="_HlXt7B43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_HlXt7R43EeS7uI7kknsrHQ" name="Node">
+        <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_HlXt7h43EeS7uI7kknsrHQ" name="destination">
+      <modelElement href="WCN_Simulator2.uml#_6YZ9UB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HlXt7x43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YakYB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HlXt8B43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YakYB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HlXt8R43EeS7uI7kknsrHQ" label="+"/>
+      <cardinality xmi:id="_HlXt8h43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_HlXt8x43EeS7uI7kknsrHQ" name="Node">
+        <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_HlXt9B43EeS7uI7kknsrHQ" name="weight">
+      <modelElement href="WCN_Simulator2.uml#_6YeOwB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HlXt9R43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YgD8B42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HlXt9h43EeS7uI7kknsrHQ" label="-"/>
+      <cardinality xmi:id="_HlXt9x43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_HlXt-B43EeS7uI7kknsrHQ" name="int">
+        <modelElement href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_HlXt-R43EeS7uI7kknsrHQ" name="getSource">
+      <modelElement href="WCN_Simulator2.uml#_6Pza8B42EeS7uI7kknsrHQ"/>
+      <visibility xmi:id="_HlXt-h43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HlXt-x43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6UoQkB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HlXt_B43EeS7uI7kknsrHQ" name="Node">
+          <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+    </operations>
+    <operations xmi:id="_HlXt_R43EeS7uI7kknsrHQ" name="getWeight">
+      <modelElement href="WCN_Simulator2.uml#_6P13MB42EeS7uI7kknsrHQ"/>
+      <visibility xmi:id="_HlXt_h43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HlXt_x43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6P3FUB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HlXuAB43EeS7uI7kknsrHQ" name="int">
+          <modelElement href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+        </type>
+      </outParameters>
+    </operations>
+    <operations xmi:id="_HlXuAR43EeS7uI7kknsrHQ" name="toString">
+      <modelElement href="WCN_Simulator2.uml#_6P3sYB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HlXuAh43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6P5hkB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HlXuAx43EeS7uI7kknsrHQ" name="Annotations">
+        <modelElement href="WCN_Simulator2.uml#_6P6vsB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HlXuBB43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HlXuBR43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6P46gB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HlXuBh43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </outParameters>
+    </operations>
+    <operations xmi:id="_HlXuBx43EeS7uI7kknsrHQ" name="Edge">
+      <modelElement href="WCN_Simulator2.uml#_6Ul0UB42EeS7uI7kknsrHQ"/>
+      <keywords xmi:id="_HlXuCB43EeS7uI7kknsrHQ" keyword="create"/>
+      <visibility xmi:id="_HlXuCR43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HlXuCh43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6UnCcB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HlXuCx43EeS7uI7kknsrHQ" name="Edge">
+          <modelElement href="WCN_Simulator2.uml#_6Pl_kB42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_HlXuDB43EeS7uI7kknsrHQ" name="id">
+        <modelElement href="WCN_Simulator2.uml#_6Ul0UR42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HlXuDR43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HlXuDh43EeS7uI7kknsrHQ" name="source">
+        <modelElement href="WCN_Simulator2.uml#_6Ul0Uh42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HlXuDx43EeS7uI7kknsrHQ" name="Node">
+          <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HlXuEB43EeS7uI7kknsrHQ" name="destination">
+        <modelElement href="WCN_Simulator2.uml#_6Ul0Ux42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HlXuER43EeS7uI7kknsrHQ" name="Node">
+          <modelElement href="WCN_Simulator2.uml#_6O74QB42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HlXuEh43EeS7uI7kknsrHQ" name="weight">
+        <modelElement href="WCN_Simulator2.uml#_6UmbYB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HlXuEx43EeS7uI7kknsrHQ" name="int">
+          <modelElement href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+        </type>
+      </parameters>
+    </operations>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_HriAQB43EeS7uI7kknsrHQ" name="Peer" associationsIn="_HqrEoB43EeS7uI7kknsrHQ _HpcVkB43EeS7uI7kknsrHQ" associationsOut="_HqrEoB43EeS7uI7kknsrHQ" generalizations="_HrPFUB43EeS7uI7kknsrHQ">
+    <modelElement href="WCN_Simulator2.uml#_6QW0kB42EeS7uI7kknsrHQ"/>
+    <visualProperties xmi:id="_HriAQR43EeS7uI7kknsrHQ" position="121.0,744.0" size="-1.0,-1.0"/>
+    <visibility xmi:id="_HriAQh43EeS7uI7kknsrHQ" label="+"/>
+    <attributes xmi:id="_HriAQx43EeS7uI7kknsrHQ" name="neighbours">
+      <modelElement href="WCN_Simulator2.uml#_6YmxoB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HriARB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Yom0B42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <stereotypes xmi:id="_HrgyIB43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6Yom0B42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HriARR43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HriARh43EeS7uI7kknsrHQ" label="1..*" max="-1" min="1"/>
+      <type xmi:id="_HriARx43EeS7uI7kknsrHQ" name="Peer">
+        <modelElement href="WCN_Simulator2.uml#_6QW0kB42EeS7uI7kknsrHQ"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_HriASB43EeS7uI7kknsrHQ" name="peer_id">
+      <modelElement href="WCN_Simulator2.uml#_6YpN4B42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HriASR43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6YrDEB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HriASh43EeS7uI7kknsrHQ" label="~"/>
+      <cardinality xmi:id="_HriASx43EeS7uI7kknsrHQ" label="1" max="1" min="1"/>
+      <type xmi:id="_HriATB43EeS7uI7kknsrHQ" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <operations xmi:id="_HriATR43EeS7uI7kknsrHQ" name="getNewscastSample">
+      <modelElement href="WCN_Simulator2.uml#_6UyBkB42EeS7uI7kknsrHQ"/>
+      <visibility xmi:id="_HriATh43EeS7uI7kknsrHQ" label="~"/>
+      <outParameters xmi:id="_HriATx43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6UzPsB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HriAUB43EeS7uI7kknsrHQ" name="Peer">
+          <modelElement href="WCN_Simulator2.uml#_6QW0kB42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_HriAUR43EeS7uI7kknsrHQ" name="og">
+        <modelElement href="WCN_Simulator2.uml#_6UyooB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HriAUh43EeS7uI7kknsrHQ" name="OverlayGraph">
+          <modelElement href="WCN_Simulator2.uml#_6OP7wB42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+    </operations>
+    <operations xmi:id="_HriAUx43EeS7uI7kknsrHQ" name="Peer">
+      <modelElement href="WCN_Simulator2.uml#_6WstIB42EeS7uI7kknsrHQ"/>
+      <keywords xmi:id="_HriAVB43EeS7uI7kknsrHQ" keyword="create"/>
+      <visibility xmi:id="_HriAVR43EeS7uI7kknsrHQ" label="+"/>
+      <outParameters xmi:id="_HriAVh43EeS7uI7kknsrHQ">
+        <modelElement href="WCN_Simulator2.uml#_6WuiUB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HriAVx43EeS7uI7kknsrHQ" name="Peer">
+          <modelElement href="WCN_Simulator2.uml#_6QW0kB42EeS7uI7kknsrHQ"/>
+        </type>
+      </outParameters>
+      <parameters xmi:id="_HriAWB43EeS7uI7kknsrHQ" name="id">
+        <modelElement href="WCN_Simulator2.uml#_6WstIR42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HriAWR43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HriAWh43EeS7uI7kknsrHQ" name="name">
+        <modelElement href="WCN_Simulator2.uml#_6WstIh42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HriAWx43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HriAXB43EeS7uI7kknsrHQ" name="neighbours">
+        <modelElement href="WCN_Simulator2.uml#_6WtUMB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HriAXR43EeS7uI7kknsrHQ" name="Set">
+          <modelElement href="WCN_Simulator2.uml#_6UNZ0B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+      <parameters xmi:id="_HriAXh43EeS7uI7kknsrHQ" name="peer_id">
+        <modelElement href="WCN_Simulator2.uml#_6WtUMR42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HriAXx43EeS7uI7kknsrHQ" name="String">
+          <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </type>
+      </parameters>
+    </operations>
+    <operations xmi:id="_HriAYB43EeS7uI7kknsrHQ" name="updatePeer">
+      <modelElement href="WCN_Simulator2.uml#_6W3FMB42EeS7uI7kknsrHQ"/>
+      <stereotypes xmi:id="_HriAYR43EeS7uI7kknsrHQ" name="LegacyStyledElement">
+        <modelElement href="WCN_Simulator2.uml#_6W46YB42EeS7uI7kknsrHQ"/>
+      </stereotypes>
+      <visibility xmi:id="_HriAYh43EeS7uI7kknsrHQ" label="~"/>
+      <parameters xmi:id="_HriAYx43EeS7uI7kknsrHQ" name="newscastSample">
+        <modelElement href="WCN_Simulator2.uml#_6W3sQB42EeS7uI7kknsrHQ"/>
+        <type xmi:id="_HriAZB43EeS7uI7kknsrHQ" name="Set">
+          <modelElement href="WCN_Simulator2.uml#_6UNZ0B42EeS7uI7kknsrHQ"/>
+        </type>
+      </parameters>
+    </operations>
+  </nodes>
+</com.yattasolutions.uml.diagrams.classifier:ClassDiagram>
