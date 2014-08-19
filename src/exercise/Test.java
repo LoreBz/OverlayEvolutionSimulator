@@ -22,6 +22,7 @@ public class Test {
 		UnderlayGraph underlayGraph = new UnderlayGraph(graphFile);
 		OverlayGraph overlayGraph = new OverlayGraph(null, null);
 		overlayGraph.randomInit(underlayGraph);
+		System.out.println(underlayGraph);
 		
 
 	}

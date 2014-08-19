@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Node implements Comparable<Node> {
@@ -16,6 +17,7 @@ public class Node implements Comparable<Node> {
 	public Node(String id, String name) {
 		this.id = id;
 		this.name = name;
+		this.onehop_neighs = new HashSet<>();
 	}
 
 	public String getId() {
