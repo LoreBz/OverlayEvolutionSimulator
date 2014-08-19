@@ -23,8 +23,8 @@ public class Test {
 		OverlayGraph overlayGraph = new OverlayGraph(null, null);
 		overlayGraph.randomInit(underlayGraph);
 		System.out.println(underlayGraph);
-		
-
+		System.out.println(overlayGraph);
+		test.displayall();
 	}
 
 	final boolean setLookAndFeel() {
@@ -65,4 +65,7 @@ public class Test {
 		return null;
 	}
 
+	void displayall() {
+		// far partire la grafica con bottoni e disegnino del grafo!
+	}
 }

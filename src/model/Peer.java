@@ -34,4 +34,22 @@ public class Peer extends Node {
 		return retval;
 	}
 
+	public List<Peer> getNeighbours() {
+		return neighbours;
+	}
+
+	public void setNeighbours(List<Peer> neighbours) {
+		this.neighbours = neighbours;
+	}
+
+	public String getPeer_id() {
+		return peer_id;
+	}
+
+	public void setPeer_id(String peer_id) {
+		this.peer_id = peer_id;
+	}
+	
+	
+
 }

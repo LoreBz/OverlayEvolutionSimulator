@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Node implements Comparable<Node> {
-	final private String id;
-	final private String name;
+	String id;
+	String name;
 	Set<Node> onehop_neighs;
 
 	public Node(String id, String name, Set<Node> onehop_neighs) {
@@ -50,8 +50,8 @@ public class Node implements Comparable<Node> {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		// if (getClass() != obj.getClass())
+		// return false;
 		Node other = (Node) obj;
 		if (id == null) {
 			if (other.id != null)

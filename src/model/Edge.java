@@ -1,12 +1,12 @@
 package model;
 
 public class Edge {
-	private final String id;
-	private final Node source;
-	private final Node destination;
-	private final float weight;
+	String id;
+	Node source;
+	Node destination;
+	Float weight;
 
-	public Edge(String id, Node source, Node destination, float weight) {
+	public Edge(String id, Node source, Node destination, Float weight) {
 		this.id = id;
 		this.source = source;
 		this.destination = destination;
