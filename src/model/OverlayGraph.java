@@ -38,24 +38,13 @@ public class OverlayGraph {
 
 		// generate a random neighbourhood for each peer
 		for (Peer p : peers) {
-			List<Peer> neighbours = newscast_randomSample(NEWSCASTSAMPLE_SIZE, p);
+			List<Peer> neighbours = newscast_randomSample(NEWSCASTSAMPLE_SIZE,
+					p);
 			p.neighbours = neighbours;
 		}
 
-		// generate appropriately virtualedges (according to the random
-		// generated neighbourhood of every peer)
-		for (Peer p : peers) {
-			for (Peer neigh : p.getNeighbours()) {
-				VirtualEdge ve = new VirtualEdge(p.getName() + neigh.getName(),
-						p, neigh, null, null);
-				if (!links.contains(ve)) {
-					links.add(ve);
-				}
-			}
-		}
-		// for every link calculate the underlaypath "crossedEdge set" and total
-		// weight (sum of the weight of the crossed edges)
-		
+		// the generation of virtualedges is demanded to Network.updateNetwork()
+
 	}
 
 	List<Peer> newscast_randomSample(int how_many_peer, Peer caller) {
@@ -96,7 +85,7 @@ public class OverlayGraph {
 	@Override
 	public String toString() {
 		String retval = "";
-		retval += "\nPeer:\n";
+		retval += "\nOVERLAY\nPeer:\n";
 		Collections.sort(peers);
 		for (Peer p : peers) {
 			retval += p.getName() + " - ";

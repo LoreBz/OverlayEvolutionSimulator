@@ -51,7 +51,7 @@ public class DjkstraUtil {
 		root.setDistance(distance);
 		root.setPredecessors(predecessors);
 		System.out
-				.println("Fine Djkstra per il nodo: " + root.getName() + "\n");
+				.println("End Djkstra for node: " + root.getName() + "\n");
 	}
 
 	private void findMinimalDistances(Node node) {

@@ -99,7 +99,7 @@ public class UnderlayGraph {
 	@Override
 	public String toString() {
 		String retval = "";
-		retval += "\nNodi:\n";
+		retval += "\nUNDERLAY\nNodi:\n";
 		for (Node n : nodes) {
 			retval += n.getName() + " - ";
 		}

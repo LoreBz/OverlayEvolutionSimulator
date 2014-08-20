@@ -6,6 +6,7 @@ import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import model.Network;
 import model.OverlayGraph;
 import model.UnderlayGraph;
 
@@ -19,15 +20,18 @@ public class Test {
 		Test test = new Test();
 		test.setLookAndFeel();
 		File graphFile = test.importGraphFile();
+
 		UnderlayGraph underlayGraph = new UnderlayGraph(graphFile);
 		underlayGraph.buildOLSRtables();
-		System.out.println("CI ARRIVO 1");
+
 		OverlayGraph overlayGraph = new OverlayGraph(null, null);
-		System.out.println("CI ARRIVO 2");
 		overlayGraph.randomInit(underlayGraph);
-		System.out.println("CI ARRIVO 3");
-		// System.out.println(underlayGraph);
-		// System.out.println(overlayGraph);
+		
+		Network network = new Network(underlayGraph, overlayGraph, null);
+		network.updateNetwork();
+		
+		 System.out.println(network.getUnderlayGraph());
+		 System.out.println(network.getOverlayGraph());
 		// test.displayall();
 	}
 
