@@ -17,5 +17,13 @@ public class VirtualEdge extends Edge {
 		// TODO Auto-generated method stub
 		return source.getName() + " " + destination.getName() + ": (" + weight + ")";
 	}
+	
+	@Override
+	public Float getWeight() {
+		// TODO Auto-generated method stub
+		//return super.getWeight();
+		//devo ritornare la somma dei pesi dei link sul percorso
+		return null;
+	}
 
 }

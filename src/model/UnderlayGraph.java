@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import MyUtil.DjkstraUtil;
+
 public class UnderlayGraph {
 
 	List<Node> nodes;
@@ -50,9 +52,9 @@ public class UnderlayGraph {
 
 				// initializing onehopneighbourhood for each peer so that
 				// graph-visiting algo will works
-				//(olsr provides neigh sensing)
-				n1.getOnehop_neighs().add(n2);
-				n2.getOnehop_neighs().add(n1);
+				// (olsr provides neigh sensing)
+				// n1.getOnehop_neighs().add(n2);
+				// n2.getOnehop_neighs().add(n1);
 
 			}
 
@@ -66,6 +68,16 @@ public class UnderlayGraph {
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	public boolean buildOLSRtables() {
+		System.out.println("BUILD OLSR TABLES\n\n");
+		for (Node n : nodes) {
+			DjkstraUtil djkstraUtil = new DjkstraUtil();
+			djkstraUtil.runDjkstra_OLSR(this, n);
+		}
+		System.out.println("END BUILD OLSR TABLES\n\n");
+		return true;
 	}
 
 	public List<Node> getNodes() {
@@ -97,4 +109,5 @@ public class UnderlayGraph {
 		}
 		return retval + "\n";
 	}
+
 }

@@ -25,7 +25,7 @@ public class Edge {
 		return source;
 	}
 
-	public float getWeight() {
+	public Float getWeight() {
 		return weight;
 	}
 

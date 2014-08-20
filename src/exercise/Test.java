@@ -20,11 +20,15 @@ public class Test {
 		test.setLookAndFeel();
 		File graphFile = test.importGraphFile();
 		UnderlayGraph underlayGraph = new UnderlayGraph(graphFile);
+		underlayGraph.buildOLSRtables();
+		System.out.println("CI ARRIVO 1");
 		OverlayGraph overlayGraph = new OverlayGraph(null, null);
+		System.out.println("CI ARRIVO 2");
 		overlayGraph.randomInit(underlayGraph);
-		System.out.println(underlayGraph);
-		System.out.println(overlayGraph);
-		test.displayall();
+		System.out.println("CI ARRIVO 3");
+		// System.out.println(underlayGraph);
+		// System.out.println(overlayGraph);
+		// test.displayall();
 	}
 
 	final boolean setLookAndFeel() {

@@ -1,23 +1,23 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
 public class Node implements Comparable<Node> {
 	String id;
 	String name;
-	Set<Node> onehop_neighs;
+	Map<Node, Node> predecessors;
+	Map<Node, Float> distance;
 
-	public Node(String id, String name, Set<Node> onehop_neighs) {
-		this.id = id;
-		this.name = name;
-		this.onehop_neighs = onehop_neighs;
-	}
+	// Set<Node> onehop_neighs;
 
 	public Node(String id, String name) {
 		this.id = id;
 		this.name = name;
-		this.onehop_neighs = new HashSet<>();
+		this.predecessors = null;
+		this.distance = null;
 	}
 
 	public String getId() {
@@ -26,14 +26,6 @@ public class Node implements Comparable<Node> {
 
 	public String getName() {
 		return name;
-	}
-
-	public Set<Node> getOnehop_neighs() {
-		return onehop_neighs;
-	}
-
-	public void setOnehop_neighs(Set<Node> onehop_neighs) {
-		this.onehop_neighs = onehop_neighs;
 	}
 
 	@Override
@@ -66,6 +58,23 @@ public class Node implements Comparable<Node> {
 		return name;
 	}
 
+	public List<Node> getOnehop_neighs(List<Edge> edges) {
+		ArrayList<Node> neighbours = new ArrayList<>();
+		for (Edge edge : edges) {
+			if (edge.getSource().equals(this)) {
+				neighbours.add(edge.getDestination());
+			}
+			if (edge.getDestination().equals(this)) {
+				neighbours.add(edge.getSource());
+			}
+		}
+		HashSet<Node> removeduplicate = new HashSet<>();
+		removeduplicate.addAll(neighbours);
+		neighbours.clear();
+		neighbours.addAll(removeduplicate);
+		return neighbours;
+	}
+
 	@Override
 	public int compareTo(Node other) {
 		// compareTo should return < 0 if this is supposed to be
@@ -79,6 +88,22 @@ public class Node implements Comparable<Node> {
 			return 1;
 		else
 			return 0;
+	}
+
+	public Map<Node, Node> getPredecessors() {
+		return predecessors;
+	}
+
+	public void setPredecessors(Map<Node, Node> predecessors) {
+		this.predecessors = predecessors;
+	}
+
+	public Map<Node, Float> getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Map<Node, Float> distance) {
+		this.distance = distance;
 	}
 
 }
