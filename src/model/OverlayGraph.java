@@ -10,12 +10,13 @@ public class OverlayGraph {
 
 	List<Peer> peers;
 	List<VirtualEdge> links;
-	final int NEWSCASTSAMPLE_SIZE = 2;
+	 int NEWSCASTSAMPLE_SIZE = 20;
 
-	public OverlayGraph(List<Peer> peers, List<VirtualEdge> links) {
+	public OverlayGraph(List<Peer> peers, List<VirtualEdge> links, int dim) {
 		super();
 		this.peers = peers;
 		this.links = links;
+		this.NEWSCASTSAMPLE_SIZE=dim;
 	}
 
 	public void randomInit(UnderlayGraph ug) {

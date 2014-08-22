@@ -27,7 +27,7 @@ public class Peer extends Node {
 
 	public void updatePeer(List<Peer> newscastSample, String metrica,
 			UnderlayGraph underlayGraph) {
-		System.out.println("Updating peer: " + this.name);
+		//System.out.println("Updating peer: " + this.name);
 
 		List<Peer> new_selected_neighs = new ArrayList<>();
 		// marcare tutti i peer noti come non classificati
@@ -50,12 +50,12 @@ public class Peer extends Node {
 				ve.setPath(ve.retrievePath(underlayGraph));
 				rankedPeers.put(peer, new Float(ve.getPath().size()));
 			}
-			// stampa del ranking
-			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
-				System.out.println("Peer: " + entry.getKey().getName()
-						+ ", rank=" + entry.getValue() + " - ");
-			}
-			System.out.println("\n");
+//			// stampa del ranking
+//			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
+//				System.out.println("Peer: " + entry.getKey().getName()
+//						+ ", rank=" + entry.getValue() + " - ");
+//			}
+//			System.out.println("\n");
 			// selezione
 			while (new_selected_neighs.size() < neigh_size) {
 				Peer selectedP = getMinimumFromMap(rankedPeers);
@@ -73,12 +73,12 @@ public class Peer extends Node {
 				ve.setPath(ve.retrievePath(underlayGraph));
 				rankedPeers.put(peer, ve.getWeight());
 			}
-			// stampa del ranking
-			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
-				System.out.println("Peer: " + entry.getKey().getName()
-						+ ", rank=" + entry.getValue() + " - ");
-			}
-			System.out.println("\n");
+//			// stampa del ranking
+//			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
+//				System.out.println("Peer: " + entry.getKey().getName()
+//						+ ", rank=" + entry.getValue() + " - ");
+//			}
+//			System.out.println("\n");
 			// selezione
 			while (new_selected_neighs.size() < neigh_size) {
 				Peer selectedP = getMinimumFromMap(rankedPeers);
@@ -112,12 +112,12 @@ public class Peer extends Node {
 				}
 				rankedPeers.put(peer, numeropeercoinvolti);
 			}
-			// stampa del ranking
-			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
-				System.out.println("Peer: " + entry.getKey().getName()
-						+ ", rank=" + entry.getValue() + " - ");
-			}
-			System.out.println("\n");
+//			// stampa del ranking
+//			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
+//				System.out.println("Peer: " + entry.getKey().getName()
+//						+ ", rank=" + entry.getValue() + " - ");
+//			}
+//			System.out.println("\n");
 			// selezione
 			while (new_selected_neighs.size() < neigh_size) {
 				Peer selectedP = getMinimumFromMap(rankedPeers);

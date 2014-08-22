@@ -5,8 +5,16 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -35,10 +43,14 @@ public class Test {
 	JTextField tf_valoremedio;
 	JTextField tf_contatoreAggiornamenti;
 	JTextField tf_ultimoValMedio;
-	JTextField tf_ValMedioAttuale;
+	JTextField tf_diff_att_prec;
+	JPanel central_panel;
 	Network network;
 	String metrica;
 	JButton button_update;
+	JButton button_saveOverlay;
+	Graph underlaygraph;
+	Graph overlaygraph;
 
 	public Test() {
 
@@ -48,16 +60,19 @@ public class Test {
 		final Test test = new Test();
 		test.setLookAndFeel();
 		File graphFile = test.importGraphFile();
-		if (graphFile == null) {
-			JOptionPane.showMessageDialog(null,
-					"Chiusura applicazione: impossibile procedere senza selezionare un file edges");
+
+		String neighs_size = JOptionPane
+				.showInputDialog(
+						null,
+						"Dimensione vicinato dei peer?\n(Attenzione: con grandi numeri non funziona per grafi molto piccoli)");
+		if (neighs_size == null) {
 			System.exit(0);
 		}
-
+		int number = Integer.parseInt(neighs_size);
 		UnderlayGraph underlayGraph = new UnderlayGraph(graphFile);
 		underlayGraph.buildOLSRtables();
 
-		OverlayGraph overlayGraph = new OverlayGraph(null, null);
+		OverlayGraph overlayGraph = new OverlayGraph(null, null, number);
 		overlayGraph.randomInit(underlayGraph);
 
 		test.network = new Network(underlayGraph, overlayGraph, null);
@@ -78,15 +93,125 @@ public class Test {
 				Simulator s = new Simulator(test.network, test.metrica);
 				s.one_cicle_update();
 				test.tf_contatoreAggiornamenti.setText("" + (n + 1));
-				test.update_graphics_components();
+				test.update_graphics_components(test.network, test.metrica);
+			}
+		});
+		test.button_saveOverlay.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				test.saveOverlayGraphonFile(test.network.getOverlayGraph());
 			}
 		});
 
 	}
 
-	protected void update_graphics_components() {
+	protected void saveOverlayGraphonFile(OverlayGraph overlayGraph) {
+		// TODO Auto-generated method stub
+		File selectedFile = null;
+		JFileChooser fileDialog = new JFileChooser();
+		int saveChoice = fileDialog.showSaveDialog(null);
+		if (saveChoice == JFileChooser.APPROVE_OPTION) {
+			selectedFile = fileDialog.getSelectedFile();
+		}
+
+		try {
+
+			File file = new File(selectedFile.getAbsolutePath() + ".edges");
+
+			if (file.createNewFile()) {
+				System.out.println("File is created!");
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new FileWriter(file.getAbsolutePath())));
+				for (VirtualEdge ve : overlayGraph.getLinks()) {
+					out.println("" + ve.getSource().getName() + " "
+							+ ve.getDestination().getName() + " "
+							+ ve.getWeight());
+				}
+				out.close();
+			} else {
+				System.out.println("File already exists.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	protected void update_graphics_components(Network n, String metrica) {
 		// aggiornare i campi valore medio, ultimo valore medio e differenza tra
 		// i due
+		Float valore_medio_attuale;
+		Float ultimo_valore_medio;
+		Float differenza_attuale_precendente;
+		Float total = new Float(0);
+
+		// calcolo valore medio attuale
+		List<Float> ranks = new ArrayList<>();
+		switch (metrica) {
+		case "HopCount":
+			for (VirtualEdge ve : n.getOverlayGraph().getLinks()) {
+				// ve.setPath(ve.retrievePath(n.getUnderlayGraph()));
+				ranks.add(new Float(ve.getPath().size()));
+			}
+			break;
+		case "Djkstra-ETX":
+			for (VirtualEdge ve : n.getOverlayGraph().getLinks()) {
+				// ve.setPath(ve.retrievePath(n.getUnderlayGraph()));
+				ranks.add(new Float(ve.getWeight()));
+			}
+			break;
+		case "AvoidMultiPeerPath":
+			for (VirtualEdge ve : n.getOverlayGraph().getLinks()) {
+				// ve.setPath(ve.retrievePath(n.getUnderlayGraph()));
+				Set<Node> nodi_attraversati = new HashSet<>();
+				for (Edge e : ve.getPath()) {
+					nodi_attraversati.add(e.getSource());
+					nodi_attraversati.add(e.getDestination());
+				}
+				// per ogni virtualink, nodiattrvarsati comprenderà ve.source e
+				// ve.dest che sono dei peer! per questo faccio patrire il
+				// contatore da - 2
+				Float numeropeercoinvolti = new Float(-2);
+				for (Node node : nodi_attraversati) {
+					if (n.getOverlayGraph().getPeers().contains(node)) {
+						numeropeercoinvolti++;
+					}
+				}
+				ranks.add(numeropeercoinvolti);
+			}
+			break;
+		default:
+			break;
+		}
+		for (Float rank : ranks) {
+			total += rank;
+		}
+		valore_medio_attuale = total / (n.getOverlayGraph().getLinks().size());
+
+		// aggiornamento label ecc della grafica
+		ultimo_valore_medio = Float.parseFloat(tf_valoremedio.getText());
+
+		tf_valoremedio.setText("" + valore_medio_attuale);
+		tf_ultimoValMedio.setText("" + ultimo_valore_medio);
+		differenza_attuale_precendente = Math.abs(ultimo_valore_medio
+				- valore_medio_attuale);
+		tf_diff_att_prec.setText("" + differenza_attuale_precendente);
+
+		// vediamo se da qui posso modificare la grafica dei grafi
+		overlaygraph.getEdgeSet().clear();
+		for (VirtualEdge edge : network.getOverlayGraph().getLinks()) {
+			// aggiunge archi non direzionati tra edge.source e edge.destination
+			String source = edge.getSource().getName();
+			String destination = edge.getDestination().getName();
+			overlaygraph.addEdge(source + "<->" + destination, source,
+					destination, false);
+			// overlaygraph.getEdge(source + destination).setAttribute(
+			// "ui.label", edge.toString());
+			overlaygraph.getEdge(source + "<->" + destination).setAttribute(
+					"ui.class", "virtual");
+		}
 
 	}
 
@@ -131,11 +256,19 @@ public class Test {
 		// FileNameExtensionFilter filter = new
 		// FileNameExtensionFilter("edges");
 		// fc.setFileFilter(filter);
+		File retval = null;
 		int returnVal = fc.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			System.out.println("You chose to open this file: "
 					+ fc.getSelectedFile().getName());
-			return fc.getSelectedFile();
+			retval = fc.getSelectedFile();
+			return retval;
+		}
+		if (retval == null) {
+			JOptionPane
+					.showMessageDialog(null,
+							"Chiusura applicazione: impossibile procedere senza selezionare un file edges");
+			System.exit(0);
 		}
 		return null;
 	}
@@ -144,7 +277,7 @@ public class Test {
 		// far partire la grafica con bottoni e disegnini dei grafi!
 
 		// creazione vista grafo underlay
-		Graph underlaygraph = new SingleGraph("Graph");
+		underlaygraph = new SingleGraph("Graph");
 		underlaygraph.addAttribute("ui.quality");
 		underlaygraph.addAttribute("ui.antialias");
 		URL stylesheeturl = getClass().getResource(
@@ -161,11 +294,11 @@ public class Test {
 			// aggiunge archi non direzionati tra edge.source e edge.destination
 			String source = edge.getSource().getName();
 			String destination = edge.getDestination().getName();
-			underlaygraph.addEdge(source + destination, source, destination,
-					false);
-			underlaygraph.getEdge(source + destination).setAttribute("weight",
-					edge.getWeight());
-			underlaygraph.getEdge(source + destination).setAttribute(
+			underlaygraph.addEdge(source + "<->" + destination, source,
+					destination, false);
+			underlaygraph.getEdge(source + "<->" + destination).setAttribute(
+					"weight", edge.getWeight());
+			underlaygraph.getEdge(source + "<->" + destination).setAttribute(
 					"ui.label", edge.getWeight());
 		}
 		// prepare the peer-nodes to be displayed as peer
@@ -177,7 +310,7 @@ public class Test {
 
 		// creazione vista grafo overlay
 
-		Graph overlaygraph = new SingleGraph("Graph");
+		overlaygraph = new SingleGraph("Graph");
 		overlaygraph.addAttribute("ui.quality");
 		overlaygraph.addAttribute("ui.antialias");
 		// URL stylesheeturl1 = getClass().getResource(
@@ -213,7 +346,7 @@ public class Test {
 		myJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myJFrame.getContentPane().setLayout(new BorderLayout());
 
-		JPanel central_panel = new JPanel();
+		central_panel = new JPanel();
 		central_panel.setLayout(new GridLayout(1, 2));
 
 		// displaying the underlaygraph
@@ -232,7 +365,7 @@ public class Test {
 		southern_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		button_update = new JButton("Update Peers");
 
-		JButton button_saveOverlay = new JButton("Save overlay graph");
+		button_saveOverlay = new JButton("Save overlay graph");
 		southern_panel.add(button_update);
 		southern_panel.add(button_saveOverlay);
 		myJFrame.getContentPane().add(southern_panel, BorderLayout.SOUTH);
@@ -298,17 +431,17 @@ public class Test {
 		tf_ultimoValMedio.setColumns(10);
 
 		JPanel panel_4 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_4.getLayout();
+		// FlowLayout flowLayout = (FlowLayout) panel_4.getLayout();
 		panel.add(panel_4);
 
 		JLabel lblValoreMedioAttuale = new JLabel(
 				"Differenza tra valore medio precendente ed attuale");
 		panel_4.add(lblValoreMedioAttuale);
 
-		tf_ValMedioAttuale = new JTextField();
-		tf_ValMedioAttuale.setEditable(false);
-		panel_4.add(tf_ValMedioAttuale);
-		tf_ValMedioAttuale.setColumns(10);
+		tf_diff_att_prec = new JTextField();
+		tf_diff_att_prec.setEditable(false);
+		panel_4.add(tf_diff_att_prec);
+		tf_diff_att_prec.setColumns(10);
 		myJFrame.getContentPane().add(eastern_panel, BorderLayout.EAST);
 
 		myJFrame.setVisible(true);
@@ -340,11 +473,11 @@ public class Test {
 	}
 
 	public JTextField getTf_ValMedioAttuale() {
-		return tf_ValMedioAttuale;
+		return tf_diff_att_prec;
 	}
 
 	public void setTf_ValMedioAttuale(JTextField tf_ValMedioAttuale) {
-		this.tf_ValMedioAttuale = tf_ValMedioAttuale;
+		this.tf_diff_att_prec = tf_ValMedioAttuale;
 	}
 
 }
