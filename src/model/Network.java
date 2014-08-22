@@ -27,8 +27,10 @@ public class Network {
 		// checkUnderlay();
 		// chechOverlay();
 
+		//rimuove i virtualedge attuali
 		overlayGraph.getLinks().clear();
 
+		//inizializza nuovi virtualedge in base al vicinato attuale dei peer
 		List<VirtualEdge> actual_virtualedges = new ArrayList<>();
 		for (Peer p : overlayGraph.getPeers()) {
 			for (Peer neigh : p.getNeighbours()) {
@@ -43,9 +45,11 @@ public class Network {
 		// finish initializing the actual_virtualedges initializing their path
 		// and their weight
 		for (VirtualEdge ve : actual_virtualedges) {
+			
 			ve.setPath(ve.retrievePath(underlayGraph));
 		}
 
+		//aggiorna l'overlaygrpah
 		overlayGraph.setLinks(actual_virtualedges);
 
 		return true;

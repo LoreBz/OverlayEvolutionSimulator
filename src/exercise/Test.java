@@ -3,14 +3,19 @@ package exercise;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URL;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -20,21 +25,34 @@ import model.Node;
 import model.OverlayGraph;
 import model.Peer;
 import model.UnderlayGraph;
+import model.VirtualEdge;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
 
 public class Test {
+	JTextField tf_valoremedio;
+	JTextField tf_contatoreAggiornamenti;
+	JTextField tf_ultimoValMedio;
+	JTextField tf_ValMedioAttuale;
+	Network network;
+	String metrica;
+	JButton button_update;
 
 	public Test() {
 
 	}
 
 	public static void main(String[] args) {
-		Test test = new Test();
+		final Test test = new Test();
 		test.setLookAndFeel();
 		File graphFile = test.importGraphFile();
+		if (graphFile == null) {
+			JOptionPane.showMessageDialog(null,
+					"Chiusura applicazione: impossibile procedere senza selezionare un file edges");
+			System.exit(0);
+		}
 
 		UnderlayGraph underlayGraph = new UnderlayGraph(graphFile);
 		underlayGraph.buildOLSRtables();
@@ -42,12 +60,46 @@ public class Test {
 		OverlayGraph overlayGraph = new OverlayGraph(null, null);
 		overlayGraph.randomInit(underlayGraph);
 
-		Network network = new Network(underlayGraph, overlayGraph, null);
-		network.updateNetwork();
+		test.network = new Network(underlayGraph, overlayGraph, null);
+		test.network.updateNetwork();
 
-		System.out.println(network.getUnderlayGraph());
-		System.out.println(network.getOverlayGraph());
-		test.displayall(network);
+		test.displayall(test.network);
+
+		// richiesta metrica da utilizzare
+		test.metrica = test.getMetricFromUser();
+		test.button_update.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Integer n = Integer.parseInt(test.tf_contatoreAggiornamenti
+						.getText());
+				System.out.println("Esecuzione ciclo di aggiornamento no: "
+						+ (n + 1));
+				Simulator s = new Simulator(test.network, test.metrica);
+				s.one_cicle_update();
+				test.tf_contatoreAggiornamenti.setText("" + (n + 1));
+				test.update_graphics_components();
+			}
+		});
+
+	}
+
+	protected void update_graphics_components() {
+		// aggiornare i campi valore medio, ultimo valore medio e differenza tra
+		// i due
+
+	}
+
+	private String getMetricFromUser() {
+		Object[] selectionValues = { "HopCount", "Djkstra-ETX",
+				"AvoidMultiPeerPath" };
+		String initialSelection = "HopCount";
+		Object selection = JOptionPane.showInputDialog(null,
+				"Scegli il criterio di aggiornamento dei peer",
+				"Metriche/criteri", JOptionPane.QUESTION_MESSAGE, null,
+				selectionValues, initialSelection);
+		System.out.println(selection);
+		return (String) selection;
 	}
 
 	final boolean setLookAndFeel() {
@@ -89,7 +141,7 @@ public class Test {
 	}
 
 	void displayall(Network network) {
-		// far partire la grafica con bottoni e disegnino del grafo!
+		// far partire la grafica con bottoni e disegnini dei grafi!
 
 		// creazione vista grafo underlay
 		Graph underlaygraph = new SingleGraph("Graph");
@@ -128,8 +180,8 @@ public class Test {
 		Graph overlaygraph = new SingleGraph("Graph");
 		overlaygraph.addAttribute("ui.quality");
 		overlaygraph.addAttribute("ui.antialias");
-		URL stylesheeturl1 = getClass().getResource(
-				"/resources/overlay_stylesheet.css");
+		// URL stylesheeturl1 = getClass().getResource(
+		// "/resources/overlay_stylesheet.css");
 		overlaygraph.addAttribute("ui.stylesheet", "url('" + stylesheeturl
 				+ "')");
 		for (Node node : network.getOverlayGraph().getPeers()) {
@@ -139,19 +191,16 @@ public class Test {
 			overlaygraph.getNode(node.getName()).addAttribute("ui.class",
 					"important");
 		}
-		for (Edge edge : network.getOverlayGraph().getLinks()) {
+		for (VirtualEdge edge : network.getOverlayGraph().getLinks()) {
 			// aggiunge archi non direzionati tra edge.source e edge.destination
 			String source = edge.getSource().getName();
 			String destination = edge.getDestination().getName();
-			overlaygraph.addEdge(source + destination, source, destination,
-					false);
-			// underlaygraph.getEdge(source +
-			// destination).setAttribute("weight",
-			// edge.getWeight());
-			// underlaygraph.getEdge(source + destination).setAttribute(
-			// "ui.label", edge.getWeight());
-			overlaygraph.getEdge(source + destination).setAttribute("ui.class",
-					"virtual");
+			overlaygraph.addEdge(source + "<->" + destination, source,
+					destination, false);
+			// overlaygraph.getEdge(source + destination).setAttribute(
+			// "ui.label", edge.toString());
+			overlaygraph.getEdge(source + "<->" + destination).setAttribute(
+					"ui.class", "virtual");
 		}
 
 		// Preparing the frame
@@ -176,16 +225,19 @@ public class Test {
 		View overlaygraphview = overlaygraph.display().getDefaultView();
 		overlaygraphview.openInAFrame(false);
 		central_panel.add(overlaygraphview);
-		myJFrame.add(central_panel, BorderLayout.CENTER);
+		myJFrame.getContentPane().add(central_panel, BorderLayout.CENTER);
 
 		// providing buttons
 		JPanel southern_panel = new JPanel();
 		southern_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JButton button_update = new JButton("Update Peers");
-		JButton button_restart = new JButton("Restart");
+		button_update = new JButton("Update Peers");
+
+		JButton button_saveOverlay = new JButton("Save overlay graph");
 		southern_panel.add(button_update);
-		southern_panel.add(button_restart);
-		myJFrame.add(southern_panel, BorderLayout.SOUTH);
+		southern_panel.add(button_saveOverlay);
+		myJFrame.getContentPane().add(southern_panel, BorderLayout.SOUTH);
+
+		// listeners for buttons
 
 		// displaying label with statistics
 		JPanel eastern_panel = new JPanel();
@@ -195,17 +247,104 @@ public class Test {
 		JPanel row2 = new JPanel();
 		JPanel row3 = new JPanel();
 		JLabel lab1 = new JLabel(
-				"Valore medio etx calcolato sull'inisieme dei link virtuali:");
+				"Valore medio metrica tenuta in considerazionei:");
 		JLabel lab2 = new JLabel("Contatore aggiornamenti della topologia");
+		row1.setLayout(new BoxLayout(row1, BoxLayout.Y_AXIS));
 		// JLabel lab3 = new JLabel("asd");
 		row1.add(lab1);
+		row2.setLayout(new BoxLayout(row2, BoxLayout.Y_AXIS));
 		row2.add(lab2);
 		// row3.add(lab3);
 		eastern_panel.add(row1);
+
+		JPanel panel_1 = new JPanel();
+		row1.add(panel_1);
+
+		tf_valoremedio = new JTextField();
+		panel_1.add(tf_valoremedio);
+		tf_valoremedio.setEditable(false);
+		tf_valoremedio.setText("0000");
+		tf_valoremedio.setColumns(8);
 		eastern_panel.add(row2);
+
+		JPanel panel_2 = new JPanel();
+		row2.add(panel_2);
+
+		tf_contatoreAggiornamenti = new JTextField();
+		panel_2.add(tf_contatoreAggiornamenti);
+		tf_contatoreAggiornamenti.setText("0");
+		tf_contatoreAggiornamenti.setEditable(false);
+		tf_contatoreAggiornamenti.setColumns(10);
 		eastern_panel.add(row3);
-		myJFrame.add(eastern_panel, BorderLayout.EAST);
+		row3.setLayout(new BoxLayout(row3, BoxLayout.Y_AXIS));
+
+		JLabel lblOsservatorioConvergenzaA = new JLabel(
+				"Osservatorio convergenza a regime");
+		row3.add(lblOsservatorioConvergenzaA);
+
+		JPanel panel = new JPanel();
+		row3.add(panel);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		JPanel panel_3 = new JPanel();
+		panel.add(panel_3);
+
+		JLabel lblUltimoValoreMedio = new JLabel("Ultimo valore medio");
+		panel_3.add(lblUltimoValoreMedio);
+
+		tf_ultimoValMedio = new JTextField();
+		tf_ultimoValMedio.setEditable(false);
+		panel_3.add(tf_ultimoValMedio);
+		tf_ultimoValMedio.setColumns(10);
+
+		JPanel panel_4 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_4.getLayout();
+		panel.add(panel_4);
+
+		JLabel lblValoreMedioAttuale = new JLabel(
+				"Differenza tra valore medio precendente ed attuale");
+		panel_4.add(lblValoreMedioAttuale);
+
+		tf_ValMedioAttuale = new JTextField();
+		tf_ValMedioAttuale.setEditable(false);
+		panel_4.add(tf_ValMedioAttuale);
+		tf_ValMedioAttuale.setColumns(10);
+		myJFrame.getContentPane().add(eastern_panel, BorderLayout.EAST);
 
 		myJFrame.setVisible(true);
 	}
+
+	public JTextField getTf_valoremedio() {
+		return tf_valoremedio;
+	}
+
+	public void setTf_valoremedio(JTextField tf_valoremedio) {
+		this.tf_valoremedio = tf_valoremedio;
+	}
+
+	public JTextField getTf_contatoreAggiornamenti() {
+		return tf_contatoreAggiornamenti;
+	}
+
+	public void setTf_contatoreAggiornamenti(
+			JTextField tf_contatoreAggiornamenti) {
+		this.tf_contatoreAggiornamenti = tf_contatoreAggiornamenti;
+	}
+
+	public JTextField getTf_ultimoValMedio() {
+		return tf_ultimoValMedio;
+	}
+
+	public void setTf_ultimoValMedio(JTextField tf_ultimoValMedio) {
+		this.tf_ultimoValMedio = tf_ultimoValMedio;
+	}
+
+	public JTextField getTf_ValMedioAttuale() {
+		return tf_ValMedioAttuale;
+	}
+
+	public void setTf_ValMedioAttuale(JTextField tf_ValMedioAttuale) {
+		this.tf_ValMedioAttuale = tf_ValMedioAttuale;
+	}
+
 }

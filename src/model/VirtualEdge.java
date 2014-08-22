@@ -18,12 +18,12 @@ public class VirtualEdge extends Edge {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		String retval = source.getName() + " " + destination.getName() + ": ("
-				+ weight + ")\nPath: ";
-		for ( Edge e : this.path) {
-			retval+=" "+e+" ->";
+		String retval = "Path: ";
+		for (Edge e : this.path) {
+			retval += "(" + e.getSource() + "-" + e.getDestination() + ")"
+					+ " ->";
 		}
-		retval+="\n";
+		retval += "\n";
 		return retval;
 	}
 
@@ -32,7 +32,14 @@ public class VirtualEdge extends Edge {
 		// TODO Auto-generated method stub
 		// return super.getWeight();
 		// devo ritornare la somma dei pesi dei link sul percorso
-		return null;
+		Float retval = new Float(0);
+		if (this.path != null && !this.path.isEmpty()) {
+			for (Edge e : this.path) {
+				retval += e.getWeight();
+			}
+			return retval;
+		} else
+			return null;
 	}
 
 	public List<Edge> retrievePath(UnderlayGraph ug) {

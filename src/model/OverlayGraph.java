@@ -38,8 +38,7 @@ public class OverlayGraph {
 
 		// generate a random neighbourhood for each peer
 		for (Peer p : peers) {
-			List<Peer> neighbours = newscast_randomSample(NEWSCASTSAMPLE_SIZE,
-					p);
+			List<Peer> neighbours = newscast_randomSample(p);
 			p.neighbours = neighbours;
 		}
 
@@ -47,11 +46,11 @@ public class OverlayGraph {
 
 	}
 
-	List<Peer> newscast_randomSample(int how_many_peer, Peer caller) {
+	public List<Peer> newscast_randomSample(Peer caller) {
 		List<Peer> randomSample = new ArrayList<>();
 		int addition_counter = 0;
 
-		while (addition_counter <= how_many_peer) {
+		while (addition_counter <= NEWSCASTSAMPLE_SIZE) {
 			int randomInt = new Random().nextInt(peers.size());
 			Peer p = peers.get(randomInt);
 			if (!randomSample.contains(p) && !caller.equals(p)) {
@@ -63,7 +62,7 @@ public class OverlayGraph {
 		return randomSample;
 	}
 
-	void save_on_file(File f) {
+	public void save_on_file(File f) {
 	}
 
 	public List<Peer> getPeers() {

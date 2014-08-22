@@ -40,8 +40,8 @@ public class Edge {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
 		Edge other = (Edge) obj;
 		if (this.source == other.source
 				&& this.destination == other.destination
