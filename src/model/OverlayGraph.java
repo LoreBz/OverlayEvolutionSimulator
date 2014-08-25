@@ -10,7 +10,7 @@ public class OverlayGraph {
 
 	List<Peer> peers;
 	List<VirtualEdge> links;
-	 int NEWSCASTSAMPLE_SIZE = 20;
+	 int NEWSCASTSAMPLE_SIZE;
 
 	public OverlayGraph(List<Peer> peers, List<VirtualEdge> links, int dim) {
 		super();
@@ -51,7 +51,7 @@ public class OverlayGraph {
 		List<Peer> randomSample = new ArrayList<>();
 		int addition_counter = 0;
 
-		while (addition_counter <= NEWSCASTSAMPLE_SIZE) {
+		while (addition_counter < NEWSCASTSAMPLE_SIZE) {
 			int randomInt = new Random().nextInt(peers.size());
 			Peer p = peers.get(randomInt);
 			if (!randomSample.contains(p) && !caller.equals(p)) {

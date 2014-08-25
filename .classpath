@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="C:/Users/Lorenzo/Documents/KeplerWorkspace/CSSS-2012-Demos/lib/gs-algo-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Lorenzo/Documents/KeplerWorkspace/CSSS-2012-Demos/lib/gs-core-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Lorenzo/Documents/KeplerWorkspace/CSSS-2012-Demos/lib/gs-ui-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lorenzo/Documents/NetBeansProjects/SocialNodes/itextpdf-5.3.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

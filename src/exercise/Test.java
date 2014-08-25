@@ -1,12 +1,14 @@
 package exercise;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,9 +37,19 @@ import model.Peer;
 import model.UnderlayGraph;
 import model.VirtualEdge;
 
+import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class Test {
 	JTextField tf_valoremedio;
@@ -61,17 +73,10 @@ public class Test {
 		test.setLookAndFeel();
 		File graphFile = test.importGraphFile();
 
-		String neighs_size = JOptionPane
-				.showInputDialog(
-						null,
-						"Dimensione vicinato dei peer?\n(Attenzione: con grandi numeri non funziona per grafi molto piccoli)");
-		if (neighs_size == null) {
-			System.exit(0);
-		}
-		int number = Integer.parseInt(neighs_size);
 		UnderlayGraph underlayGraph = new UnderlayGraph(graphFile);
 		underlayGraph.buildOLSRtables();
 
+		int number = test.getNeighSize();
 		OverlayGraph overlayGraph = new OverlayGraph(null, null, number);
 		overlayGraph.randomInit(underlayGraph);
 
@@ -100,9 +105,115 @@ public class Test {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				System.out.println(test.network.getOverlayGraph());
 				test.saveOverlayGraphonFile(test.network.getOverlayGraph());
+				test.saveStatstic();
 			}
 		});
+
+	}
+
+	int getNeighSize() {
+		String neighs_size = JOptionPane
+				.showInputDialog(
+						null,
+						"Dimensione vicinato dei peer?\n(Attenzione: con grandi numeri non funziona per grafi molto piccoli)");
+		if (neighs_size == null) {
+			System.exit(0);
+		}
+
+		return Integer.parseInt(neighs_size);
+	}
+
+	void saveStatstic() {
+
+		ArrayList<org.graphstream.graph.Node> degreemap = Toolkit
+				.degreeMap(overlaygraph);
+		Double avgDegree = Toolkit.averageDegree(overlaygraph);
+		Double densitiy = Toolkit.density(overlaygraph);
+		Double diameter = Toolkit.diameter(overlaygraph);
+		double[] clusteringCoefficients = Toolkit
+				.clusteringCoefficients(overlaygraph);
+		Double averageClusteringCoefficient = Toolkit
+				.averageClusteringCoefficient(overlaygraph);
+
+		// chidere all'utente se visualizzare le statistiche
+		int response = JOptionPane.showConfirmDialog(null,
+				"Vuoi vedere le statistiche del grafo di overlay?",
+				"Mostrare statistiche", JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
+		if (response == JOptionPane.NO_OPTION) {
+			// System.out.println("No button clicked");
+		} else if (response == JOptionPane.YES_OPTION) {
+			// System.out.println("Yes button clicked");
+			try {
+
+				// create a temp file
+				File temp = null;
+				temp = File.createTempFile("temp-file-name_statistics", ".pdf");
+
+				Document document = new Document();
+				PdfWriter.getInstance(document, new FileOutputStream(temp));
+				document.open();
+
+				PdfPTable table = new PdfPTable(2);
+
+				// t.setBorderColor(BaseColor.GRAY);
+				// t.setPadding(4);
+				// t.setSpacing(4);
+				// t.setBorderWidth(1);
+
+				PdfPCell c1 = new PdfPCell(new Phrase("Variabile"));
+				c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(c1);
+
+				c1 = new PdfPCell(new Phrase("Valore"));
+				c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(c1);
+
+				table.setHeaderRows(1);
+
+				table.addCell("avg(" + metrica + ") [etx]");
+				table.addCell("" + tf_valoremedio.getText());
+
+				table.addCell("nodes number[#]");
+				table.addCell("" + overlaygraph.getNodeCount());
+
+				table.addCell("edges number[#]");
+				table.addCell("" + overlaygraph.getEdgeCount());
+
+				table.addCell("avgDegree[#]");
+				table.addCell("" + avgDegree);
+
+				table.addCell("densitiy\n(the number of links in the graph divided\nby the total number of possible links)[#]");
+				table.addCell("" + densitiy);
+
+				table.addCell("diameter (*considering non weighted edges)[#]");
+				table.addCell("" + diameter);
+
+				table.addCell("averageClusteringCoefficient[#]");
+				table.addCell("" + averageClusteringCoefficient);
+
+				Paragraph tablepara = new Paragraph();
+				tablepara.add(table);
+				document.add(tablepara);
+
+				document.close();
+				// System.out.println("Temp file : " + temp.getAbsolutePath());
+				// PrintWriter out = new PrintWriter(new BufferedWriter(
+				// new FileWriter(temp.getAbsolutePath())));
+				// out.println("avereageqlcs " + avgDegree);
+				// out.close();
+				Desktop.getDesktop().open(temp);
+
+			} catch (IOException | DocumentException e) {
+
+				e.printStackTrace();
+
+			}
+		} else if (response == JOptionPane.CLOSED_OPTION) {
+			// System.out.println("JOptionPane closed");
+		}
 
 	}
 
@@ -114,6 +225,8 @@ public class Test {
 		if (saveChoice == JFileChooser.APPROVE_OPTION) {
 			selectedFile = fileDialog.getSelectedFile();
 		}
+		if (selectedFile == null)
+			return;
 
 		try {
 
