@@ -91,13 +91,10 @@ public class Test {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Integer n = Integer.parseInt(test.tf_contatoreAggiornamenti
-						.getText());
-				System.out.println("Esecuzione ciclo di aggiornamento no: "
-						+ (n + 1));
+				test.updateCiclesCounter();
 				Simulator s = new Simulator(test.network, test.metrica);
 				s.one_cicle_update();
-				test.tf_contatoreAggiornamenti.setText("" + (n + 1));
+
 				test.update_graphics_components(test.network, test.metrica);
 			}
 		});
@@ -110,6 +107,13 @@ public class Test {
 				test.saveStatstic();
 			}
 		});
+
+	}
+
+	void updateCiclesCounter() {
+		Integer n = Integer.parseInt(tf_contatoreAggiornamenti.getText());
+		System.out.println("Esecuzione ciclo di aggiornamento no: " + (n + 1));
+		tf_contatoreAggiornamenti.setText("" + (n + 1));
 
 	}
 
@@ -127,13 +131,13 @@ public class Test {
 
 	void saveStatstic() {
 
-		ArrayList<org.graphstream.graph.Node> degreemap = Toolkit
-				.degreeMap(overlaygraph);
+//		ArrayList<org.graphstream.graph.Node> degreemap = Toolkit
+//				.degreeMap(overlaygraph);
 		Double avgDegree = Toolkit.averageDegree(overlaygraph);
 		Double densitiy = Toolkit.density(overlaygraph);
 		Double diameter = Toolkit.diameter(overlaygraph);
-		double[] clusteringCoefficients = Toolkit
-				.clusteringCoefficients(overlaygraph);
+		// double[] clusteringCoefficients = Toolkit
+		// .clusteringCoefficients(overlaygraph);
 		Double averageClusteringCoefficient = Toolkit
 				.averageClusteringCoefficient(overlaygraph);
 
@@ -172,9 +176,22 @@ public class Test {
 				table.addCell(c1);
 
 				table.setHeaderRows(1);
-
-				table.addCell("avg(" + metrica + ") [etx]");
-				table.addCell("" + tf_valoremedio.getText());
+				switch (metrica) {
+				case "HopCount":
+					table.addCell("avg(" + metrica + ") [#hop]");
+					table.addCell("" + tf_valoremedio.getText());
+					break;
+				case "Djkstra-ETX":
+					table.addCell("avg(" + metrica + ") [etx]");
+					table.addCell("" + tf_valoremedio.getText());
+					break;
+				case "AvoidMultiPeerPath":
+					table.addCell("avg(" + metrica + ") [#Peer_on_path]");
+					table.addCell("" + tf_valoremedio.getText());
+					break;
+				default:
+					break;
+				}
 
 				table.addCell("nodes number[#]");
 				table.addCell("" + overlaygraph.getNodeCount());
