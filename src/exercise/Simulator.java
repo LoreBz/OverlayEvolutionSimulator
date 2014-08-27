@@ -2,9 +2,9 @@ package exercise;
 
 import java.util.List;
 
-import model.Network;
-import model.OverlayGraph;
-import model.Peer;
+import model_topoMan.Network;
+import model_topoMan.OverlayGraph;
+import model_topoMan.Peer;
 
 public class Simulator {
 	Network network;

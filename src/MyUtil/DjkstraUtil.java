@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import model.Edge;
-import model.Node;
-import model.UnderlayGraph;
+import model_topoMan.Edge;
+import model_topoMan.Node;
+import model_topoMan.UnderlayGraph;
 
 public class DjkstraUtil {
 	Set<Node> settledNodes;

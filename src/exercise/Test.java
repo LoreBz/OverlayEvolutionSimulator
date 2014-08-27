@@ -30,13 +30,13 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import model.Edge;
-import model.Network;
-import model.Node;
-import model.OverlayGraph;
-import model.Peer;
-import model.UnderlayGraph;
-import model.VirtualEdge;
+import model_topoMan.Edge;
+import model_topoMan.Network;
+import model_topoMan.Node;
+import model_topoMan.OverlayGraph;
+import model_topoMan.Peer;
+import model_topoMan.UnderlayGraph;
+import model_topoMan.VirtualEdge;
 
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Graph;
@@ -62,6 +62,7 @@ public class Test {
 	String metrica;
 	JButton button_update;
 	JButton button_saveOverlay;
+	JButton button_startOverlayStreamingEvaluation;
 	Graph underlaygraph;
 	Graph overlaygraph;
 
@@ -109,6 +110,18 @@ public class Test {
 			}
 		});
 
+		test.button_startOverlayStreamingEvaluation
+				.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+						JOptionPane.showMessageDialog(null,
+								"non fa ancora niente sorry");
+
+					}
+				});
+
 	}
 
 	void updateCiclesCounter() {
@@ -155,8 +168,8 @@ public class Test {
 
 				// create a temp file
 
-				final File temp = File.createTempFile("temp-file-name_statistics",
-						".pdf");
+				final File temp = File.createTempFile(
+						"temp-file-name_statistics", ".pdf");
 				temp.deleteOnExit();
 				Runtime.getRuntime().addShutdownHook(new Thread() {
 					public void run() {
@@ -507,10 +520,12 @@ public class Test {
 		JPanel southern_panel = new JPanel();
 		southern_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		button_update = new JButton("Update Peers");
-
 		button_saveOverlay = new JButton("Save overlay graph");
+		button_startOverlayStreamingEvaluation = new JButton("Streaming Test");
+
 		southern_panel.add(button_update);
 		southern_panel.add(button_saveOverlay);
+		southern_panel.add(button_startOverlayStreamingEvaluation);
 		myJFrame.getContentPane().add(southern_panel, BorderLayout.SOUTH);
 
 		// listeners for buttons

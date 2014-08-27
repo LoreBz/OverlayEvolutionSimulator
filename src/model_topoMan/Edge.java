@@ -1,4 +1,4 @@
-package model;
+package model_topoMan;
 
 public class Edge {
 	String id;
