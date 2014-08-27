@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -131,8 +132,8 @@ public class Test {
 
 	void saveStatstic() {
 
-//		ArrayList<org.graphstream.graph.Node> degreemap = Toolkit
-//				.degreeMap(overlaygraph);
+		// ArrayList<org.graphstream.graph.Node> degreemap = Toolkit
+		// .degreeMap(overlaygraph);
 		Double avgDegree = Toolkit.averageDegree(overlaygraph);
 		Double densitiy = Toolkit.density(overlaygraph);
 		Double diameter = Toolkit.diameter(overlaygraph);
@@ -153,8 +154,20 @@ public class Test {
 			try {
 
 				// create a temp file
-				File temp = null;
-				temp = File.createTempFile("temp-file-name_statistics", ".pdf");
+
+				final File temp = File.createTempFile("temp-file-name_statistics",
+						".pdf");
+				temp.deleteOnExit();
+				Runtime.getRuntime().addShutdownHook(new Thread() {
+					public void run() {
+						try {
+							Files.delete(temp.toPath());
+							// System.out.println("deleted file at "+path);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				});
 
 				Document document = new Document();
 				PdfWriter.getInstance(document, new FileOutputStream(temp));
