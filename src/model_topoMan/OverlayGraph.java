@@ -1,6 +1,5 @@
 package model_topoMan;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,13 +9,13 @@ public class OverlayGraph {
 
 	List<Peer> peers;
 	List<VirtualEdge> links;
-	 int NEWSCASTSAMPLE_SIZE;
+	int NEWSCASTSAMPLE_SIZE;
 
 	public OverlayGraph(List<Peer> peers, List<VirtualEdge> links, int dim) {
 		super();
 		this.peers = peers;
 		this.links = links;
-		this.NEWSCASTSAMPLE_SIZE=dim;
+		this.NEWSCASTSAMPLE_SIZE = dim;
 	}
 
 	public void randomInit(UnderlayGraph ug) {
@@ -61,9 +60,6 @@ public class OverlayGraph {
 		}// end while
 
 		return randomSample;
-	}
-
-	public void save_on_file(File f) {
 	}
 
 	public List<Peer> getPeers() {

@@ -27,6 +27,14 @@ public class DistributionGraph {
 		return null;
 	}
 
+	public DistributionPeer getDistributionPeer(String name) {
+		for (DistributionPeer dp : this.dpeers) {
+			if (dp.getName() == name)
+				return dp;
+		}
+		return null;
+	}
+
 	public Chunk getYoungestChunk() {
 		Collections.sort(this.streaming_buffer);
 		return this.streaming_buffer.get(this.streaming_buffer.size() - 1);

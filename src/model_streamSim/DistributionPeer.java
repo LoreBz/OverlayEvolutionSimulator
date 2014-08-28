@@ -30,6 +30,23 @@ public class DistributionPeer {
 		// TODO Auto-generated constructor stub
 	}
 
+	public DistributionPeer(String name, Double uploadBandwidht,
+			DistributionGraph known_topology_graph) {
+		super();
+		this.name = name;
+		this.uploadBandwidht = uploadBandwidht;
+		this.known_topology_graph = known_topology_graph;
+		// questi li inizializzo vuoti a mano non si sa mai
+		this.neighbours = new ArrayList<>();
+		this.flag_stream_completed = false;
+		this.buffer = new ArrayList<>();
+		this.received_offers = new HashMap<>();
+		this.requests_queue = new HashMap<>();
+		this.received_requests = new HashMap<>();
+		this.transmission_queue = new HashMap<>();
+		this.received_chunks = new ArrayList<>();
+	}
+
 	public DistributionPeer(String name, List<DistributionPeer> neighbours,
 			boolean flag_stream_completed, ArrayList<Chunk> buffer,
 			Double uploadBandwidht, DistributionGraph known_topology_graph) {
@@ -134,15 +151,17 @@ public class DistributionPeer {
 		// sono offerti di collaborare
 		if (this.requests_queue == null)
 			return;
-		//finchè ci sono richieste
+		// finchè ci sono richieste
 		if (!this.requests_queue.isEmpty()) {
 			for (Entry<DistributionPeer, Chunk> entry : this.requests_queue
 					.entrySet()) {
-				//prendi il peer a cui inoltrare la richiesta e il chunk da richiedere
+				// prendi il peer a cui inoltrare la richiesta e il chunk da
+				// richiedere
 				DistributionPeer selected_peer = entry.getKey();
 				Chunk requested_chunk = entry.getValue();
 
-				//aggiungi questa richiesta alle richieste ricevute del selected_peer
+				// aggiungi questa richiesta alle richieste ricevute del
+				// selected_peer
 				List<DistributionPeer> chunk_requesters = selected_peer
 						.getReceived_requests().get(requested_chunk);
 
@@ -164,7 +183,8 @@ public class DistributionPeer {
 			// consuma le richieste ricevute in ordine di chunk
 			// estrai una richiesta;
 			Transmission transmission = popRequest();
-			//se poprequest mi ritorna null vuol dire che non ci sono trasmissioni  da fare
+			// se poprequest mi ritorna null vuol dire che non ci sono
+			// trasmissioni da fare
 			if (transmission == null)
 				return;
 			// se c'è una trasmissione da fare calcola la banda richiesta per
