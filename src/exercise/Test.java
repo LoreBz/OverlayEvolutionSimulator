@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
@@ -94,7 +95,8 @@ public class Test {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				test.updateCiclesCounter();
-				Simulator s = new Simulator(test.network, test.metrica);
+				OverlayEvSimul s = new OverlayEvSimul(test.network,
+						test.metrica);
 				s.one_cicle_update();
 
 				test.update_graphics_components(test.network, test.metrica);
@@ -115,9 +117,22 @@ public class Test {
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
-						JOptionPane.showMessageDialog(null,
-								"non fa ancora niente sorry");
+						Integer chunk_number;
+						Float chunksize;
+						Map<Double, Float> uploadClasses2percentage = null;
+
+						String chunk_number_string = JOptionPane
+								.showInputDialog(null,
+										"Quanti chunk vuoi far trasmettere alla sorgente dello streaming?");
+						chunk_number = Integer.parseInt(chunk_number_string);
+
+						String chunksize_string = JOptionPane.showInputDialog(
+								null, "Dimnesione dei chunk [MB]?");
+						chunksize = Float.parseFloat(chunk_number_string);
+
+						StreamingSimul simul = new StreamingSimul(test.network,
+								chunk_number, chunksize,
+								uploadClasses2percentage);
 
 					}
 				});

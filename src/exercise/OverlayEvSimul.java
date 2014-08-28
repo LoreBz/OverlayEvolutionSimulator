@@ -6,11 +6,11 @@ import model_topoMan.Network;
 import model_topoMan.OverlayGraph;
 import model_topoMan.Peer;
 
-public class Simulator {
+public class OverlayEvSimul {
 	Network network;
 	String metrica;
 
-	public Simulator(Network network, String metrica) {
+	public OverlayEvSimul(Network network, String metrica) {
 		super();
 		this.network = network;
 		this.metrica = metrica;

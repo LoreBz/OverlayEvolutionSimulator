@@ -51,4 +51,21 @@ public class Chunk implements Comparable<Chunk> {
 			return 0;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Chunk other = (Chunk) obj;
+		if (chunk_Seq_number == other.getChunk_Seq_number()
+				&& chunk_size == other.getChunk_size()
+				&& generation_time == other.getGeneration_time())
+			return true;
+		else
+			return false;
+	}
+
 }

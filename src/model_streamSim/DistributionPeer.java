@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import model_topoMan.Edge;
+
 public class DistributionPeer {
 
 	static Integer systemTime = 0;
@@ -22,6 +24,7 @@ public class DistributionPeer {
 	Map<Chunk, List<DistributionPeer>> received_requests;
 	Map<Chunk, List<DistributionPeer>> transmission_queue;
 	ArrayList<Chunk> received_chunks;
+	DistributionGraph known_topology_graph;
 
 	public DistributionPeer() {
 		// TODO Auto-generated constructor stub
@@ -29,7 +32,7 @@ public class DistributionPeer {
 
 	public DistributionPeer(String name, List<DistributionPeer> neighbours,
 			boolean flag_stream_completed, ArrayList<Chunk> buffer,
-			Double uploadBandwidht) {
+			Double uploadBandwidht, DistributionGraph known_topology_graph) {
 		super();
 		this.name = name;
 		this.neighbours = neighbours;
@@ -41,6 +44,7 @@ public class DistributionPeer {
 		this.received_requests = new HashMap<>();
 		this.transmission_queue = new HashMap<>();
 		this.received_chunks = new ArrayList<>();
+		this.known_topology_graph = known_topology_graph;
 	}
 
 	public void sendOffers() {
@@ -130,12 +134,15 @@ public class DistributionPeer {
 		// sono offerti di collaborare
 		if (this.requests_queue == null)
 			return;
+		//finchè ci sono richieste
 		if (!this.requests_queue.isEmpty()) {
 			for (Entry<DistributionPeer, Chunk> entry : this.requests_queue
 					.entrySet()) {
+				//prendi il peer a cui inoltrare la richiesta e il chunk da richiedere
 				DistributionPeer selected_peer = entry.getKey();
 				Chunk requested_chunk = entry.getValue();
 
+				//aggiungi questa richiesta alle richieste ricevute del selected_peer
 				List<DistributionPeer> chunk_requesters = selected_peer
 						.getReceived_requests().get(requested_chunk);
 
@@ -153,21 +160,69 @@ public class DistributionPeer {
 	void transmit_requested_chunks() {
 		Double residual_upBand = this.getUploadBandwidht();
 		// occio condizione difficile di un while
-		while (!this.received_requests.isEmpty() || residual_upBand > 0) {
+		while (residual_upBand > 0) {
 			// consuma le richieste ricevute in ordine di chunk
+			// estrai una richiesta;
+			Transmission transmission = popRequest();
+			//se poprequest mi ritorna null vuol dire che non ci sono trasmissioni  da fare
+			if (transmission == null)
+				return;
+			// se c'è una trasmissione da fare calcola la banda richiesta per
+			// effettuarla
+			Chunk chunkToTX = transmission.getPayload();
+			Edge TX_link = this.known_topology_graph.getEdge(this.name,
+					transmission.getDestination_peer().getName());
+			Float requestedBand = TX_link.getWeight();
+			requestedBand *= chunkToTX.getChunk_size();
 
-			// estrai una richiesta; calcola quanta banda richiede la
-			// trasmissione del chunk sul link this<->destinazione
 			// se hai banda residua sufficiente fai la trasmissione e decrementa
 			// la banda
-			// altrimenti...o usciamo oppure controlliamo quanta banda ci è
-			// rimasta...se ce n'è ancora un po' almeno per provare una
-			// trasmissione su un link molto buono andiamo ancora avanti sennò
-			// usciamo del tutto
+			if (residual_upBand > requestedBand) {
+				// effettua la trasmissione
+				DistributionPeer receiver = transmission.getDestination_peer();
+				receiver.getReceived_chunks().add(chunkToTX);
+				// e decrementa la banda residua
+				residual_upBand -= requestedBand;
+			} else {
+				// altrimenti...o usciamo oppure controlliamo quanta banda ci è
+				// rimasta...se ce n'è ancora un po' almeno per provare una
+				// trasmissione su un link molto buono andiamo ancora avanti
+				// sennò
+				// usciamo del tutto
+				if (residual_upBand < 3.0)
+					return;
+			}
 
-			// aggiorna la banda residua e assicurati di aver tolto la richiesta
-			// dalla mappa delle richieste
 		}
+	}
+
+	private Transmission popRequest() {
+		if (!this.received_requests.isEmpty()) {
+			// trasmettiamo in ordine di chunk più utile (contrario dell'ordine
+			// naturale dei chunk)
+			Set<Chunk> chunks = this.received_requests.keySet();
+			ArrayList<Chunk> sorted_chunks = new ArrayList<>();
+			sorted_chunks.addAll(chunks);
+			Collections.sort(sorted_chunks);
+			Collections.reverse(sorted_chunks);
+			// prendiamo il primo chunk per recuperare i suoi richidenti
+			Chunk veryFirstChunk = sorted_chunks.get(0);
+			List<DistributionPeer> requesters = this.received_requests
+					.get(veryFirstChunk);
+			// estraiamo il primo richiedente e aggiorniamo la mappa delle
+			// richieste
+			DistributionPeer popDP = requesters.get(0);
+			requesters.remove(popDP);
+			if (requesters.isEmpty())
+				this.received_requests.remove(veryFirstChunk);
+			else
+				this.received_requests.put(veryFirstChunk, requesters);
+			Transmission t = new Transmission(veryFirstChunk, popDP);
+			return t;
+
+		}
+
+		return null;
 	}
 
 	void updateBuffer() {
@@ -178,11 +233,28 @@ public class DistributionPeer {
 		for (Chunk c : this.received_chunks) {
 			this.buffer.add(c);
 		}
+		this.received_chunks.clear();
 	}
 
 	void reset() {
 		// azzera le struttre dati per ricominciare il ciclo:
 		// offri-seleziona-trasmetti-aggiorna
+		this.received_offers.clear();
+		this.received_requests.clear();
+		this.received_chunks.clear();
+		this.requests_queue.clear();
+		this.transmission_queue.clear();
+		Chunk youngestchunk = getYoungestChunk();
+		if (youngestchunk == known_topology_graph.getYoungestChunk())
+			this.flag_stream_completed = true;
+		else
+			this.flag_stream_completed = false;
+	}
+
+	Chunk getYoungestChunk() {
+		Collections.sort(this.buffer);
+		Chunk youngest_c = this.buffer.get(this.buffer.size() - 1);
+		return youngest_c;
 	}
 
 	DistributionPeer getMostDesiderablePeer(List<DistributionPeer> list) {
