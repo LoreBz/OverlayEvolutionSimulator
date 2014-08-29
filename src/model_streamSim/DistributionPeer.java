@@ -14,17 +14,17 @@ import model_topoMan.Edge;
 public class DistributionPeer {
 
 	static Integer systemTime = 0;
-	String name;
-	List<DistributionPeer> neighbours;
-	boolean flag_stream_completed = false;
-	ArrayList<Chunk> buffer;
-	Double uploadBandwidht;
-	Map<Chunk, List<DistributionPeer>> received_offers;
-	Map<DistributionPeer, Chunk> requests_queue;
-	Map<Chunk, List<DistributionPeer>> received_requests;
-	Map<Chunk, List<DistributionPeer>> transmission_queue;
-	ArrayList<Chunk> received_chunks;
-	DistributionGraph known_topology_graph;
+	private String name;
+	private List<DistributionPeer> neighbours;
+	private boolean flag_received_requests = false;
+	private ArrayList<Chunk> buffer;
+	private Double uploadBandwidht;
+	private Map<Chunk, List<DistributionPeer>> received_offers;
+	private Map<DistributionPeer, Chunk> requests_queue;
+	private Map<Chunk, List<DistributionPeer>> received_requests;
+	private Map<Chunk, List<DistributionPeer>> transmission_queue;
+	private ArrayList<Chunk> received_chunks;
+	private DistributionGraph known_topology_graph;
 
 	public DistributionPeer() {
 		// TODO Auto-generated constructor stub
@@ -38,7 +38,7 @@ public class DistributionPeer {
 		this.known_topology_graph = known_topology_graph;
 		// questi li inizializzo vuoti a mano non si sa mai
 		this.neighbours = new ArrayList<>();
-		this.flag_stream_completed = false;
+		this.flag_received_requests = false;
 		this.buffer = new ArrayList<>();
 		this.received_offers = new HashMap<>();
 		this.requests_queue = new HashMap<>();
@@ -48,12 +48,12 @@ public class DistributionPeer {
 	}
 
 	public DistributionPeer(String name, List<DistributionPeer> neighbours,
-			boolean flag_stream_completed, ArrayList<Chunk> buffer,
+			boolean flag_received_requests, ArrayList<Chunk> buffer,
 			Double uploadBandwidht, DistributionGraph known_topology_graph) {
 		super();
 		this.name = name;
 		this.neighbours = neighbours;
-		this.flag_stream_completed = flag_stream_completed;
+		this.flag_received_requests = flag_received_requests;
 		this.buffer = buffer;
 		this.uploadBandwidht = uploadBandwidht;
 		this.received_offers = new HashMap<>();
@@ -87,9 +87,13 @@ public class DistributionPeer {
 						updated_local_providers.add(this);
 					} else {
 						updated_local_providers = new ArrayList<>();
+						updated_local_providers.add(this);
 					}
-
+					System.out.println("OFFERTA: da" + this.getName() + " a "
+							+ neigh.getName() + "; chunk #"
+							+ chunk.getChunk_Seq_number());
 					local_received_offers.put(chunk, updated_local_providers);
+					// neigh.setReceived_offers(local_received_offers);
 				}
 			}
 		}
@@ -101,6 +105,8 @@ public class DistributionPeer {
 		// criterio latest useful
 
 		if (!this.received_offers.isEmpty()) {
+
+			System.out.println(this.getName() + " schedula le richieste...");
 			// annotiamoci chi sono i peer che si sono offerti come provider per
 			// chidergli solo un chunk alla volta
 			Set<DistributionPeer> providers = new HashSet<>();
@@ -120,28 +126,34 @@ public class DistributionPeer {
 			Collections.sort(offered_chunks);
 			Collections.reverse(offered_chunks);
 
-			// per ogni chunk prendiamo il provider più desiderabile ancora
+			// per ogni chunk offerto che ci manca prendiamo il provider più
+			// desiderabile ancora
 			// disponibile e prepariamo una richiesta
+			offered_chunks.removeAll(this.buffer);
 			this.requests_queue.clear();
 			for (Chunk chunk : offered_chunks) {
 				List<DistributionPeer> chunk_providers = this.received_offers
 						.get(chunk);
-				if (chunk_providers == null)
-					return;
 				boolean flag = false;
 				// occio che sono fuso in testa e non riesco a impostare una
-				// condizione while. Finchè la lista non è vuota oppure non ho
+				// condizione while. Finchè la lista non è vuota oppure non
+				// ho
 				// positivamente aggiunto una richiesta
 				while (!flag && !chunk_providers.isEmpty()) {
 					DistributionPeer best_peer = getMostDesiderablePeer(chunk_providers);
 					if (providers.contains(best_peer)) {
 						requests_queue.put(best_peer, chunk);
+						providers.remove(best_peer);
 						flag = true;
-					} else {
-						chunk_providers.remove(best_peer);
+						System.out.println("RICHIESTA PIANIFICATA: "
+								+ this.getName() + " chiede a "
+								+ best_peer.getName() + " chunk #"
+								+ chunk.getChunk_Seq_number());
 					}
 				}
 			}
+		} else {
+			this.setflag_received_requests(false);
 		}
 
 	}
@@ -171,12 +183,20 @@ public class DistributionPeer {
 				chunk_requesters.add(this);
 				selected_peer.getReceived_requests().put(requested_chunk,
 						chunk_requesters);
+				System.out.println("RICHIESTA INVIATA: da" + this.getName()
+						+ " a " + selected_peer.getName() + " chunk# "
+						+ requested_chunk.getChunk_Seq_number());
 
 			}
 		}
 	}
 
-	void transmit_requested_chunks() {
+	public void transmit_requested_chunks() {
+		if (!received_requests.isEmpty()) {
+			this.setflag_received_requests(true);
+		} else {
+			this.setflag_received_requests(false);
+		}
 		Double residual_upBand = this.getUploadBandwidht();
 		// occio condizione difficile di un while
 		while (residual_upBand > 0) {
@@ -203,6 +223,9 @@ public class DistributionPeer {
 				receiver.getReceived_chunks().add(chunkToTX);
 				// e decrementa la banda residua
 				residual_upBand -= requestedBand;
+				System.out.println("TRASMISSIONE: da " + this.getName() + " a "
+						+ receiver.getName() + " chunk# "
+						+ chunkToTX.getChunk_Seq_number());
 			} else {
 				// altrimenti...o usciamo oppure controlliamo quanta banda ci è
 				// rimasta...se ce n'è ancora un po' almeno per provare una
@@ -245,18 +268,21 @@ public class DistributionPeer {
 		return null;
 	}
 
-	void updateBuffer() {
+	public void updateBuffer() {
 		// controlla i received_chunks e aggiungili al buffer
-		if (!this.received_chunks.isEmpty()) {
+		if (this.received_chunks.isEmpty()) {
 			return;
+		} else {
+			System.out.println(this.getName() + " ha ricevuto chunks!");
+			for (Chunk c : this.received_chunks) {
+				this.buffer.add(c);
+				System.out.println(c.getChunk_Seq_number() + ", ");
+			}
+			this.received_chunks.clear();
 		}
-		for (Chunk c : this.received_chunks) {
-			this.buffer.add(c);
-		}
-		this.received_chunks.clear();
 	}
 
-	void reset() {
+	public void reset() {
 		// azzera le struttre dati per ricominciare il ciclo:
 		// offri-seleziona-trasmetti-aggiorna
 		this.received_offers.clear();
@@ -264,18 +290,23 @@ public class DistributionPeer {
 		this.received_chunks.clear();
 		this.requests_queue.clear();
 		this.transmission_queue.clear();
-		Chunk youngestchunk = getYoungestChunk();
-		if (youngestchunk == known_topology_graph.getYoungestChunk())
-			this.flag_stream_completed = true;
-		else
-			this.flag_stream_completed = false;
+		// Chunk youngestchunk = getYoungestChunk();
+		// if (youngestchunk == known_topology_graph.getYoungestChunk())
+		// this.flag_received_requests = true;
+		// else
+		// this.flag_received_requests = false;
+		System.out.println("RESET: Peer " + this.getName()
+				+ " ha ricevuto richieste in questo ciclo?="
+				+ this.isflag_received_requests());
 	}
 
-	Chunk getYoungestChunk() {
-		Collections.sort(this.buffer);
-		Chunk youngest_c = this.buffer.get(this.buffer.size() - 1);
-		return youngest_c;
-	}
+	// Chunk getYoungestChunk() {
+	// Chunk youngest_c = null;
+	// Collections.sort(this.buffer);
+	// if (!this.buffer.isEmpty())
+	// youngest_c = this.buffer.get(this.buffer.size() - 1);
+	// return youngest_c;
+	// }
 
 	DistributionPeer getMostDesiderablePeer(List<DistributionPeer> list) {
 		DistributionPeer maxdes = null;
@@ -303,12 +334,12 @@ public class DistributionPeer {
 		this.neighbours = neighbours;
 	}
 
-	public boolean isFlag_stream_completed() {
-		return flag_stream_completed;
+	public boolean isflag_received_requests() {
+		return flag_received_requests;
 	}
 
-	public void setFlag_stream_completed(boolean flag_stream_completed) {
-		this.flag_stream_completed = flag_stream_completed;
+	public void setflag_received_requests(boolean flag_received_requests) {
+		this.flag_received_requests = flag_received_requests;
 	}
 
 	public ArrayList<Chunk> getBuffer() {

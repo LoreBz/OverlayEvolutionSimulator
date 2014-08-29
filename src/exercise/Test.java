@@ -126,13 +126,16 @@ public class Test {
 										"Quanti chunk vuoi far trasmettere alla sorgente dello streaming?");
 						chunk_number = Integer.parseInt(chunk_number_string);
 
-						String chunksize_string = JOptionPane.showInputDialog(
-								null, "Dimnesione dei chunk [MB]?");
-						chunksize = Float.parseFloat(chunk_number_string);
+						String chunksize_string = JOptionPane
+								.showInputDialog(null,
+										"Dimnesione dei chunk [MB] (valore plausibile è di 0,1)?");
+						chunksize = Float.parseFloat(chunksize_string);
 
 						StreamingSimul simul = new StreamingSimul(test.network,
 								chunk_number, chunksize,
 								uploadClasses2percentage);
+
+						simul.startSimulation();
 
 					}
 				});

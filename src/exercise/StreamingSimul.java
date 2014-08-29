@@ -1,7 +1,9 @@
 package exercise;
 
+import java.util.ArrayList;
 import java.util.Map;
 
+import model_streamSim.Chunk;
 import model_streamSim.DistributionGraph;
 import model_streamSim.DistributionPeer;
 import model_topoMan.Edge;
@@ -31,7 +33,7 @@ public class StreamingSimul {
 
 	private void init() {
 
-		DistributionGraph distributionGraph = new DistributionGraph();
+		distributionGraph = new DistributionGraph();
 		OverlayGraph streaming_graph = network.getOverlayGraph();
 
 		for (Peer p : streaming_graph.getPeers()) {
@@ -51,8 +53,7 @@ public class StreamingSimul {
 			}
 		}
 
-		// inizializzazione archi grafo distribuzione (ma non dovrebbero
-		// servire...)
+		// inizializzazione archi grafo distribuzione
 		for (VirtualEdge ve : streaming_graph.getLinks()) {
 			Node source = ve.getSource();
 			Node dest = ve.getDestination();
@@ -60,11 +61,32 @@ public class StreamingSimul {
 					source, dest, ve.getWeight());
 			distributionGraph.getEdges().add(e);
 		}
+		ArrayList<Chunk> initial_buffer = getInitialBuffer();
+		distributionGraph.setStreaming_buffer(initial_buffer);
 
 	}
 
 	void startSimulation() {
+		for (DistributionPeer dp : distributionGraph.getDpeers()) {
+			runSimulation(dp);
+		}
+		return;
 
 	}
 
+	void runSimulation(DistributionPeer sorgente) {
+		sorgente.setBuffer(distributionGraph.getStreaming_buffer());
+		sorgente.setflag_received_requests(true);
+		distributionGraph.distribuisci(sorgente);
+		distributionGraph.reset();
+	}
+
+	ArrayList<Chunk> getInitialBuffer() {
+		ArrayList<Chunk> retval = new ArrayList<>();
+		for (int i = 0; i < chunk_number; i++) {
+			Chunk c = new Chunk(i, chunksize, i);
+			retval.add(c);
+		}
+		return retval;
+	}
 }
