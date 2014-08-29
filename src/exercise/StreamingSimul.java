@@ -1,6 +1,7 @@
 package exercise;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 import model_streamSim.Chunk;
@@ -61,21 +62,31 @@ public class StreamingSimul {
 					source, dest, ve.getWeight());
 			distributionGraph.getEdges().add(e);
 		}
-		ArrayList<Chunk> initial_buffer = getInitialBuffer();
-		distributionGraph.setStreaming_buffer(initial_buffer);
+		// ArrayList<Chunk> initial_buffer = getInitialBuffer();
+		// distributionGraph.setStreaming_buffer(initial_buffer);
 
 	}
 
 	void startSimulation() {
-		for (DistributionPeer dp : distributionGraph.getDpeers()) {
-			runSimulation(dp);
+		Collections.sort(distributionGraph.getDpeers());
+		for (DistributionPeer source : distributionGraph.getDpeers()) {
+//			JOptionPane.showConfirmDialog(
+//					null,
+//					"Vuoi lanciare uno streaming dalla sorgente: "
+//							+ source.getName() + "?");
+			runSimulation(source);
+//			JOptionPane.showConfirmDialog(
+//					null,
+//					"Fine dello streaming test dalla sorgente: "
+//							+ source.getName() + ". Continuare?");
 		}
 		return;
 
 	}
 
 	void runSimulation(DistributionPeer sorgente) {
-		sorgente.setBuffer(distributionGraph.getStreaming_buffer());
+		ArrayList<Chunk> source_buffer = getInitialBuffer();
+		sorgente.setBuffer(source_buffer);
 		sorgente.setflag_received_requests(true);
 		distributionGraph.distribuisci(sorgente);
 		distributionGraph.reset();

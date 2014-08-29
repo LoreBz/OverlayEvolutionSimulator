@@ -12,12 +12,12 @@ public class DistributionGraph {
 
 	List<DistributionPeer> dpeers;
 	Set<Edge> edges;
-	ArrayList<Chunk> streaming_buffer;
+
+	// ArrayList<Chunk> streaming_buffer;
 
 	public DistributionGraph() {
 		this.dpeers = new ArrayList<>();
 		this.edges = new HashSet<>();
-		this.streaming_buffer = new ArrayList<>();
 	}
 
 	public Edge getEdge(String sourcename, String destname) {
@@ -70,6 +70,7 @@ public class DistributionGraph {
 	}
 
 	public void distribuisci(DistributionPeer sorgente) {
+		DistributionPeer.systemTime = 0;
 		System.out.println("Cominciata la trasmissione dal peer_sorgete: "
 				+ sorgente.getName());
 		boolean completed = false;
@@ -111,20 +112,19 @@ public class DistributionGraph {
 			}
 			completed = !completed_update;
 			System.out.println("\nRESTART\n");
-			// aggiorniamo il tempo dei DP
-			DistributionPeer.systemTime++;
+
 		}
 		System.out.println("Terminata la trasmissione dal peer: "
 				+ sorgente.getName());
 	}
 
-	public ArrayList<Chunk> getStreaming_buffer() {
-		return streaming_buffer;
-	}
-
-	public void setStreaming_buffer(ArrayList<Chunk> streaming_buffer) {
-		this.streaming_buffer = streaming_buffer;
-	}
+	// public ArrayList<Chunk> getStreaming_buffer() {
+	// return streaming_buffer;
+	// }
+	//
+	// public void setStreaming_buffer(ArrayList<Chunk> streaming_buffer) {
+	// this.streaming_buffer = streaming_buffer;
+	// }
 
 	public void reset() {
 		for (DistributionPeer dp : this.getDpeers()) {
@@ -135,6 +135,8 @@ public class DistributionGraph {
 			dp.getTransmission_queue().clear();
 			dp.getBuffer().clear();
 			dp.setflag_received_requests(false);
+			// aggiorniamo il tempo dei DP
+			DistributionPeer.systemTime = 0;
 		}
 
 	}

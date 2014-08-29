@@ -11,7 +11,7 @@ import java.util.Set;
 
 import model_topoMan.Edge;
 
-public class DistributionPeer {
+public class DistributionPeer implements Comparable<DistributionPeer> {
 
 	static Integer systemTime = 0;
 	private String name;
@@ -106,7 +106,7 @@ public class DistributionPeer {
 
 		if (!this.received_offers.isEmpty()) {
 
-			System.out.println(this.getName() + " schedula le richieste...");
+			// System.out.println(this.getName() + " schedula le richieste...");
 			// annotiamoci chi sono i peer che si sono offerti come provider per
 			// chidergli solo un chunk alla volta
 			Set<DistributionPeer> providers = new HashSet<>();
@@ -232,8 +232,12 @@ public class DistributionPeer {
 				// trasmissione su un link molto buono andiamo ancora avanti
 				// sennò
 				// usciamo del tutto
-				if (residual_upBand < 3.0)
-					return;
+				// JOptionPane
+				// .showConfirmDialog(
+				// null,
+				// "Qui siamo nel caso in cui abbiamo poca banda per trasmettere il dato chunk ma non abbiamo finito di trasmettere tutto");
+				// if (residual_upBand < 3.0)
+				return;
 			}
 
 		}
@@ -399,6 +403,21 @@ public class DistributionPeer {
 
 	public void setReceived_chunks(ArrayList<Chunk> received_chunks) {
 		this.received_chunks = received_chunks;
+	}
+
+	@Override
+	public int compareTo(DistributionPeer other) {
+		// compareTo should return < 0 if this is supposed to be
+		// less than other, > 0 if this is supposed to be greater than
+		// other and 0 if they are supposed to be equal
+		int this_val = Integer.parseInt(this.name);
+		int other_val = Integer.parseInt(other.getName());
+		if (this_val < other_val)
+			return -1;
+		else if (this_val > other_val)
+			return 1;
+		else
+			return 0;
 	}
 
 }
