@@ -70,23 +70,22 @@ public class StreamingSimul {
 	void startSimulation() {
 		Collections.sort(distributionGraph.getDpeers());
 		for (DistributionPeer source : distributionGraph.getDpeers()) {
-//			JOptionPane.showConfirmDialog(
-//					null,
-//					"Vuoi lanciare uno streaming dalla sorgente: "
-//							+ source.getName() + "?");
+			// JOptionPane.showConfirmDialog(
+			// null,
+			// "Vuoi lanciare uno streaming dalla sorgente: "
+			// + source.getName() + "?");
 			runSimulation(source);
-//			JOptionPane.showConfirmDialog(
-//					null,
-//					"Fine dello streaming test dalla sorgente: "
-//							+ source.getName() + ". Continuare?");
+			// JOptionPane.showConfirmDialog(
+			// null,
+			// "Fine dello streaming test dalla sorgente: "
+			// + source.getName() + ". Continuare?");
 		}
 		return;
 
 	}
 
 	void runSimulation(DistributionPeer sorgente) {
-		ArrayList<Chunk> source_buffer = getInitialBuffer();
-		sorgente.setBuffer(source_buffer);
+		sorgente.setBuffer(getInitialBuffer());
 		sorgente.setflag_received_requests(true);
 		distributionGraph.distribuisci(sorgente);
 		distributionGraph.reset();

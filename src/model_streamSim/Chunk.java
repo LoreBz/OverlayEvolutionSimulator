@@ -68,4 +68,9 @@ public class Chunk implements Comparable<Chunk> {
 			return false;
 	}
 
+	@Override
+	public String toString() {
+		return "C#" + chunk_Seq_number;
+	}
+
 }

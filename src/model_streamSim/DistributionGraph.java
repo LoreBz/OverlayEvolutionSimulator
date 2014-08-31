@@ -70,32 +70,34 @@ public class DistributionGraph {
 	}
 
 	public void distribuisci(DistributionPeer sorgente) {
-		DistributionPeer.systemTime = 0;
+		DistributionPeer.systemTime = new Long(0);
 		System.out.println("Cominciata la trasmissione dal peer_sorgete: "
 				+ sorgente.getName());
 		boolean completed = false;
 		while (!completed) {
-			System.out.println("SENDING OFFERS...");
+
+			// System.out.println("SENDING OFFERS...time="
+			// + DistributionPeer.systemTime);
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.sendOffers();
 			}
-			System.out.println("\nSCHEDULING REQUESTS");
+			// System.out.println("\nSCHEDULING REQUESTS");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.scheduleRequests();
 			}
-			System.out.println("\nSENDING REQUESTS");
+			// System.out.println("\nSENDING REQUESTS");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.sendRequests();
 			}
-			System.out.println("\nTRANSMITTING CHUNKS");
+			// System.out.println("\nTRANSMITTING CHUNKS");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.transmit_requested_chunks();
 			}
-			System.out.println("\nUPDATING BUFFERS");
+			// System.out.println("\nUPDATING BUFFERS");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.updateBuffer();
 			}
-			System.out.println("\nRESETTING");
+			// System.out.println("\nRESETTING");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.reset();
 			}
@@ -111,11 +113,19 @@ public class DistributionGraph {
 
 			}
 			completed = !completed_update;
-			System.out.println("\nRESTART\n");
+			// System.out.println("\nRESTART...checking buffers\n");
+			//if (completed) {
+				System.out.println("Buffer4Peer:");
+				for (DistributionPeer dp : this.getDpeers()) {
+					dp.printBuffer();
+				}
+			//}
 
+			DistributionPeer.systemTime++;
 		}
 		System.out.println("Terminata la trasmissione dal peer: "
 				+ sorgente.getName());
+
 	}
 
 	// public ArrayList<Chunk> getStreaming_buffer() {
@@ -136,7 +146,7 @@ public class DistributionGraph {
 			dp.getBuffer().clear();
 			dp.setflag_received_requests(false);
 			// aggiorniamo il tempo dei DP
-			DistributionPeer.systemTime = 0;
+			DistributionPeer.systemTime = new Long(0);
 		}
 
 	}

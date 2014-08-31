@@ -13,7 +13,7 @@ import model_topoMan.Edge;
 
 public class DistributionPeer implements Comparable<DistributionPeer> {
 
-	static Integer systemTime = 0;
+	static Long systemTime = new Long(0);
 	private String name;
 	private List<DistributionPeer> neighbours;
 	private boolean flag_received_requests = false;
@@ -89,9 +89,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 						updated_local_providers = new ArrayList<>();
 						updated_local_providers.add(this);
 					}
-					System.out.println("OFFERTA: da" + this.getName() + " a "
-							+ neigh.getName() + "; chunk #"
-							+ chunk.getChunk_Seq_number());
+//					System.out.println("OFFERTA: da" + this.getName() + " a "
+//							+ neigh.getName() + "; chunk #"
+//							+ chunk.getChunk_Seq_number());
 					local_received_offers.put(chunk, updated_local_providers);
 					// neigh.setReceived_offers(local_received_offers);
 				}
@@ -145,10 +145,10 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 						requests_queue.put(best_peer, chunk);
 						providers.remove(best_peer);
 						flag = true;
-						System.out.println("RICHIESTA PIANIFICATA: "
-								+ this.getName() + " chiede a "
-								+ best_peer.getName() + " chunk #"
-								+ chunk.getChunk_Seq_number());
+//						System.out.println("RICHIESTA PIANIFICATA: "
+//								+ this.getName() + " chiede a "
+//								+ best_peer.getName() + " chunk #"
+//								+ chunk.getChunk_Seq_number());
 					}
 				}
 			}
@@ -183,9 +183,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				chunk_requesters.add(this);
 				selected_peer.getReceived_requests().put(requested_chunk,
 						chunk_requesters);
-				System.out.println("RICHIESTA INVIATA: da" + this.getName()
-						+ " a " + selected_peer.getName() + " chunk# "
-						+ requested_chunk.getChunk_Seq_number());
+//				System.out.println("RICHIESTA INVIATA: da" + this.getName()
+//						+ " a " + selected_peer.getName() + " chunk# "
+//						+ requested_chunk.getChunk_Seq_number());
 
 			}
 		}
@@ -223,9 +223,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				receiver.getReceived_chunks().add(chunkToTX);
 				// e decrementa la banda residua
 				residual_upBand -= requestedBand;
-				System.out.println("TRASMISSIONE: da " + this.getName() + " a "
-						+ receiver.getName() + " chunk# "
-						+ chunkToTX.getChunk_Seq_number());
+//				System.out.println("TRASMISSIONE: da " + this.getName() + " a "
+//						+ receiver.getName() + " chunk# "
+//						+ chunkToTX.getChunk_Seq_number());
 			} else {
 				// altrimenti...o usciamo oppure controlliamo quanta banda ci è
 				// rimasta...se ce n'è ancora un po' almeno per provare una
@@ -277,10 +277,10 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		if (this.received_chunks.isEmpty()) {
 			return;
 		} else {
-			System.out.println(this.getName() + " ha ricevuto chunks!");
+			//System.out.println(this.getName() + " ha ricevuto chunks!");
 			for (Chunk c : this.received_chunks) {
 				this.buffer.add(c);
-				System.out.println(c.getChunk_Seq_number() + ", ");
+				//System.out.println(c.getChunk_Seq_number() + ", ");
 			}
 			this.received_chunks.clear();
 		}
@@ -299,9 +299,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		// this.flag_received_requests = true;
 		// else
 		// this.flag_received_requests = false;
-		System.out.println("RESET: Peer " + this.getName()
-				+ " ha ricevuto richieste in questo ciclo?="
-				+ this.isflag_received_requests());
+//		System.out.println("RESET: Peer " + this.getName()
+//				+ " ha ricevuto richieste in questo ciclo?="
+//				+ this.isflag_received_requests());
 	}
 
 	// Chunk getYoungestChunk() {
@@ -418,6 +418,15 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 			return 1;
 		else
 			return 0;
+	}
+
+	public void printBuffer() {
+		Collections.sort(this.getBuffer());
+		System.out.println(this.getName() + ":");
+		for (Chunk c : this.getBuffer()) {
+			System.out.print("" + c + ",");
+		}
+		System.out.println("");
 	}
 
 }
