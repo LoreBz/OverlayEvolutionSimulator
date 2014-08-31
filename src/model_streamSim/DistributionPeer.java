@@ -71,7 +71,7 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		ArrayList<Chunk> offers_window = new ArrayList<>();
 		for (Chunk chunk : this.buffer) {
 			if (chunk.getGeneration_time() <= DistributionPeer.systemTime
-					&& chunk.getGeneration_time() >= (DistributionPeer.systemTime - 20)) {
+					&& chunk.getGeneration_time() >= (DistributionPeer.systemTime - 10)) {
 				offers_window.add(chunk);
 			}
 		}
@@ -89,9 +89,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 						updated_local_providers = new ArrayList<>();
 						updated_local_providers.add(this);
 					}
-//					System.out.println("OFFERTA: da" + this.getName() + " a "
-//							+ neigh.getName() + "; chunk #"
-//							+ chunk.getChunk_Seq_number());
+					System.out.println("OFFERTA: da" + this.getName() + " a "
+							+ neigh.getName() + "; chunk #"
+							+ chunk.getChunk_Seq_number());
 					local_received_offers.put(chunk, updated_local_providers);
 					// neigh.setReceived_offers(local_received_offers);
 				}
@@ -141,14 +141,19 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				// positivamente aggiunto una richiesta
 				while (!flag && !chunk_providers.isEmpty()) {
 					DistributionPeer best_peer = getMostDesiderablePeer(chunk_providers);
+					// ogni volta che facciamo una estrazione dai provider del
+					// tale chunk, a prescindere che esso sia disponibile o meno
+					// tiriamolo via dai provider locali sennò non scorriamo più
+					// tutte le offerte
+					chunk_providers.remove(best_peer);
 					if (providers.contains(best_peer)) {
 						requests_queue.put(best_peer, chunk);
 						providers.remove(best_peer);
 						flag = true;
-//						System.out.println("RICHIESTA PIANIFICATA: "
-//								+ this.getName() + " chiede a "
-//								+ best_peer.getName() + " chunk #"
-//								+ chunk.getChunk_Seq_number());
+						System.out.println("RICHIESTA PIANIFICATA: "
+								+ this.getName() + " chiede a "
+								+ best_peer.getName() + " chunk #"
+								+ chunk.getChunk_Seq_number());
 					}
 				}
 			}
@@ -183,9 +188,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				chunk_requesters.add(this);
 				selected_peer.getReceived_requests().put(requested_chunk,
 						chunk_requesters);
-//				System.out.println("RICHIESTA INVIATA: da" + this.getName()
-//						+ " a " + selected_peer.getName() + " chunk# "
-//						+ requested_chunk.getChunk_Seq_number());
+				System.out.println("RICHIESTA INVIATA: da" + this.getName()
+						+ " a " + selected_peer.getName() + " chunk# "
+						+ requested_chunk.getChunk_Seq_number());
 
 			}
 		}
@@ -223,9 +228,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				receiver.getReceived_chunks().add(chunkToTX);
 				// e decrementa la banda residua
 				residual_upBand -= requestedBand;
-//				System.out.println("TRASMISSIONE: da " + this.getName() + " a "
-//						+ receiver.getName() + " chunk# "
-//						+ chunkToTX.getChunk_Seq_number());
+				System.out.println("TRASMISSIONE: da " + this.getName() + " a "
+						+ receiver.getName() + " chunk# "
+						+ chunkToTX.getChunk_Seq_number());
 			} else {
 				// altrimenti...o usciamo oppure controlliamo quanta banda ci è
 				// rimasta...se ce n'è ancora un po' almeno per provare una
@@ -277,10 +282,10 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		if (this.received_chunks.isEmpty()) {
 			return;
 		} else {
-			//System.out.println(this.getName() + " ha ricevuto chunks!");
+			System.out.println(this.getName() + " ha ricevuto chunks!");
 			for (Chunk c : this.received_chunks) {
 				this.buffer.add(c);
-				//System.out.println(c.getChunk_Seq_number() + ", ");
+				System.out.println(c.getChunk_Seq_number() + ", ");
 			}
 			this.received_chunks.clear();
 		}
@@ -299,9 +304,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		// this.flag_received_requests = true;
 		// else
 		// this.flag_received_requests = false;
-//		System.out.println("RESET: Peer " + this.getName()
-//				+ " ha ricevuto richieste in questo ciclo?="
-//				+ this.isflag_received_requests());
+		// System.out.println("RESET: Peer " + this.getName()
+		// + " ha ricevuto richieste in questo ciclo?="
+		// + this.isflag_received_requests());
 	}
 
 	// Chunk getYoungestChunk() {

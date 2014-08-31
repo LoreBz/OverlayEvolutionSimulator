@@ -1,8 +1,17 @@
 package exercise;
 
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import javax.swing.SwingWorker;
 
 import model_streamSim.Chunk;
 import model_streamSim.DistributionGraph;
@@ -14,7 +23,7 @@ import model_topoMan.OverlayGraph;
 import model_topoMan.Peer;
 import model_topoMan.VirtualEdge;
 
-public class StreamingSimul {
+public class StreamingSimul extends SwingWorker<Void, Void> {
 
 	Network network;
 	Integer chunk_number;
@@ -68,18 +77,43 @@ public class StreamingSimul {
 	}
 
 	void startSimulation() {
-		Collections.sort(distributionGraph.getDpeers());
-		for (DistributionPeer source : distributionGraph.getDpeers()) {
-			// JOptionPane.showConfirmDialog(
-			// null,
-			// "Vuoi lanciare uno streaming dalla sorgente: "
-			// + source.getName() + "?");
-			runSimulation(source);
-			// JOptionPane.showConfirmDialog(
-			// null,
-			// "Fine dello streaming test dalla sorgente: "
-			// + source.getName() + ". Continuare?");
-		}
+		final JProgressBar progressBar = new JProgressBar(0, distributionGraph
+				.getDpeers().size());
+		progressBar.setValue(0);
+		progressBar.setStringPainted(true);
+		// progressBar.setVisible(true);
+		final JFrame frame = new JFrame("Streaming test");
+		frame.add(progressBar);
+		frame.setSize(700, 150);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		this.addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				// TODO Auto-generated method stub
+				if ("progress" == evt.getPropertyName()) {
+					int progress = (Integer) evt.getNewValue();
+					progressBar.setValue(progress);
+					// taskOutput.append(String.format(
+					// "Completed %d%% of task.\n",
+					// task.getProgress()));
+				}
+				switch ((StateValue) evt.getNewValue()) {
+				case DONE:
+					frame.dispatchEvent(new WindowEvent(frame,
+							WindowEvent.WINDOW_CLOSING));
+					break;
+				case PENDING:
+					break;
+				case STARTED:
+					break;
+				default:
+					break;
+				}
+			}
+		});
+		this.execute();
 		return;
 
 	}
@@ -98,5 +132,35 @@ public class StreamingSimul {
 			retval.add(c);
 		}
 		return retval;
+	}
+
+	@Override
+	protected Void doInBackground() throws Exception {
+		Collections.sort(distributionGraph.getDpeers());
+		int progress = 0;
+
+		for (DistributionPeer source : distributionGraph.getDpeers()) {
+
+			progress++;
+			setProgress(progress);
+			// JOptionPane.showConfirmDialog(
+			// null,
+			// "Vuoi lanciare uno streaming dalla sorgente: "
+			// + source.getName() + "?");
+			runSimulation(source);
+			// JOptionPane.showConfirmDialog(
+			// null,
+			// "Fine dello streaming test dalla sorgente: "
+			// + source.getName() + ". Continuare?");
+		}
+		return null;
+	}
+
+	@Override
+	protected void done() {
+		Toolkit.getDefaultToolkit().beep();
+		// startButton.setEnabled(true);
+		// setCursor(null); // turn off the wait cursor
+		JOptionPane.showMessageDialog(null, "Finito!");
 	}
 }
