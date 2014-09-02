@@ -7,13 +7,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 
 import model_topoMan.Edge;
+import model_topoMan.VirtualEdge;
 
 public class DistributionPeer implements Comparable<DistributionPeer> {
 
 	static Long systemTime = new Long(0);
+	static final int number_rtx_retries = 4;
 	private String name;
 	private List<DistributionPeer> neighbours;
 	private boolean flag_received_requests = false;
@@ -89,9 +92,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 						updated_local_providers = new ArrayList<>();
 						updated_local_providers.add(this);
 					}
-					System.out.println("OFFERTA: da" + this.getName() + " a "
-							+ neigh.getName() + "; chunk #"
-							+ chunk.getChunk_Seq_number());
+//					System.out.println("OFFERTA: da" + this.getName() + " a "
+//							+ neigh.getName() + "; chunk #"
+//							+ chunk.getChunk_Seq_number());
 					local_received_offers.put(chunk, updated_local_providers);
 					// neigh.setReceived_offers(local_received_offers);
 				}
@@ -131,12 +134,12 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 			// disponibile e prepariamo una richiesta
 			offered_chunks.removeAll(this.buffer);
 			this.requests_queue.clear();
+			boolean flag = false;
 			for (Chunk chunk : offered_chunks) {
 				List<DistributionPeer> chunk_providers = this.received_offers
 						.get(chunk);
-				boolean flag = false;
-				// occio che sono fuso in testa e non riesco a impostare una
-				// condizione while. Finchè la lista non è vuota oppure non
+				flag = false;
+				// se la lista non è vuota e non
 				// ho
 				// positivamente aggiunto una richiesta
 				while (!flag && !chunk_providers.isEmpty()) {
@@ -150,15 +153,13 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 						requests_queue.put(best_peer, chunk);
 						providers.remove(best_peer);
 						flag = true;
-						System.out.println("RICHIESTA PIANIFICATA: "
-								+ this.getName() + " chiede a "
-								+ best_peer.getName() + " chunk #"
-								+ chunk.getChunk_Seq_number());
+//						System.out.println("RICHIESTA PIANIFICATA: "
+//								+ this.getName() + " chiede a "
+//								+ best_peer.getName() + " chunk #"
+//								+ chunk.getChunk_Seq_number());
 					}
 				}
 			}
-		} else {
-			this.setflag_received_requests(false);
 		}
 
 	}
@@ -188,9 +189,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				chunk_requesters.add(this);
 				selected_peer.getReceived_requests().put(requested_chunk,
 						chunk_requesters);
-				System.out.println("RICHIESTA INVIATA: da" + this.getName()
-						+ " a " + selected_peer.getName() + " chunk# "
-						+ requested_chunk.getChunk_Seq_number());
+//				System.out.println("RICHIESTA INVIATA: da" + this.getName()
+//						+ " a " + selected_peer.getName() + " chunk# "
+//						+ requested_chunk.getChunk_Seq_number());
 
 			}
 		}
@@ -215,22 +216,28 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 			// se c'è una trasmissione da fare calcola la banda richiesta per
 			// effettuarla
 			Chunk chunkToTX = transmission.getPayload();
-			Edge TX_link = this.known_topology_graph.getEdge(this.name,
-					transmission.getDestination_peer().getName());
-			Float requestedBand = TX_link.getWeight();
-			requestedBand *= chunkToTX.getChunk_size();
-
+			Float requestedBand = chunkToTX.getChunk_size();
 			// se hai banda residua sufficiente fai la trasmissione e decrementa
 			// la banda
-			if (residual_upBand > requestedBand) {
+			if (residual_upBand >= requestedBand) {
+				// decrementa la banda residua
+				residual_upBand -= requestedBand;
 				// effettua la trasmissione
 				DistributionPeer receiver = transmission.getDestination_peer();
-				receiver.getReceived_chunks().add(chunkToTX);
-				// e decrementa la banda residua
-				residual_upBand -= requestedBand;
-				System.out.println("TRASMISSIONE: da " + this.getName() + " a "
-						+ receiver.getName() + " chunk# "
-						+ chunkToTX.getChunk_Seq_number());
+				// questa è la linea di codice dove bisogna metterci la
+				// trasmissione probabilistica
+				if (probabilisticChunkTransmission(receiver)) {
+					receiver.getReceived_chunks().add(chunkToTX);
+
+					System.out.println("TRASMISSIONE: da " + this.getName()
+							+ " a " + receiver.getName() + " chunk# "
+							+ chunkToTX.getChunk_Seq_number());
+				} else {
+					System.out.println("FALLIMENTO TRASMISSIONE: da "
+							+ this.getName() + " a " + receiver.getName()
+							+ " chunk# " + chunkToTX.getChunk_Seq_number());
+				}
+
 			} else {
 				// altrimenti...o usciamo oppure controlliamo quanta banda ci è
 				// rimasta...se ce n'è ancora un po' almeno per provare una
@@ -248,6 +255,72 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		}
 	}
 
+	private boolean probabilisticChunkTransmission(DistributionPeer receiver) {
+		VirtualEdge ve = known_topology_graph.getEdge(this.getName(),
+				receiver.getName());
+		List<Edge> path = ve.getPath();
+		// facciamo una trasmissione DA sorgente A destinazione
+		if (path.get(0).getSource().getName() == this.getName()
+				|| path.get(0).getDestination().getName() == this.getName()) {
+			// il path è ordinato non fare niente!
+		} else {
+			// altrimenti mettilo in ordine per la trasmissione
+			Collections.reverse(path);
+		}
+		// ora scorriamo gli edge da attraversare, per ogni edge proviamo
+		boolean goon = true;
+		for (int i = 0; i < path.size(); i++) {
+			// se hai attraversato l'arco precedente avanza
+			if (goon) {
+				if (crossedge(path.get(i))) {
+					// se riesci ad attraversare l'arco corrente
+					goon = true;
+				} else {
+					// se non attraversi l'arco la trasmissione fallisce
+					return false;
+				}
+			}
+
+		}
+		// se non sei mai uscito dal for con il caso "return false" allora hai
+		// attraversato tutti gli archi!
+		return goon;
+	}
+
+	private boolean crossedge(Edge e) {
+		Map<Edge, Integer> handle_counter = known_topology_graph
+				.getEdge2TX_counter();
+		Map<Edge, Integer> handle_fail = known_topology_graph
+				.getEdge2Fail_TX_counter();
+		int count = 0;
+		Random generator = new Random(System.currentTimeMillis());
+		// calcolo la probabilità di successo di una trasmissione su questo
+		// nodo
+		Float succesful_prob = 1 / (e.getWeight());
+		Float coin;
+		// fintanto che non provo troppe volte
+		while (count < DistributionPeer.number_rtx_retries) {
+			// estraggo un numero casuale nell'intervallo 0.0 e 1.0
+			coin = generator.nextFloat();
+			// se la mia probabilità è maggiore del numero estratto dico che la
+			// trasmissione è andata bene e ritorno true
+			if (succesful_prob > coin) {
+				handle_counter.put(e, handle_counter.get(e) + 1);
+				return true;
+			} else {
+				// altrimenti incremento i contatori di tentativo trasmissione,
+				// trasmissione fallite e numero tentativi per questa
+				// trasmissione
+				handle_counter.put(e, handle_counter.get(e) + 1);
+				handle_fail.put(e, handle_fail.get(e) + 1);
+				count++;
+			}
+		}
+		// se non esco dal while grazie ad un successo allora la trasmissione
+		// fallisce e non riesco ad attraversa l'arco: dunque ritorno false
+		return false;
+	}
+
 	private Transmission popRequest() {
 		if (!this.received_requests.isEmpty()) {
 			// trasmettiamo in ordine di chunk più utile (contrario dell'ordine
@@ -263,6 +336,7 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 					.get(veryFirstChunk);
 			// estraiamo il primo richiedente e aggiorniamo la mappa delle
 			// richieste
+			Collections.shuffle(requesters);
 			DistributionPeer popDP = requesters.get(0);
 			requesters.remove(popDP);
 			if (requesters.isEmpty())
@@ -285,7 +359,7 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 			System.out.println(this.getName() + " ha ricevuto chunks!");
 			for (Chunk c : this.received_chunks) {
 				this.buffer.add(c);
-				System.out.println(c.getChunk_Seq_number() + ", ");
+				//System.out.println(c.getChunk_Seq_number() + ", ");
 			}
 			this.received_chunks.clear();
 		}

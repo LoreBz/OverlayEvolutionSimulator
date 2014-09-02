@@ -1,27 +1,34 @@
 package model_streamSim;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import model_topoMan.Edge;
 import model_topoMan.Node;
+import model_topoMan.VirtualEdge;
 
 public class DistributionGraph {
 
 	List<DistributionPeer> dpeers;
-	Set<Edge> edges;
+	Set<VirtualEdge> edges;
+	Map<Edge, Integer> edge2TX_counter;
+	Map<Edge, Integer> edge2Fail_TX_counter;
 
 	// ArrayList<Chunk> streaming_buffer;
 
 	public DistributionGraph() {
 		this.dpeers = new ArrayList<>();
 		this.edges = new HashSet<>();
+		this.edge2Fail_TX_counter = new HashMap<>();
+		this.edge2TX_counter = new HashMap<>();
 	}
 
-	public Edge getEdge(String sourcename, String destname) {
-		for (Edge e : this.getEdges()) {
+	public VirtualEdge getEdge(String sourcename, String destname) {
+		for (VirtualEdge e : this.getEdges()) {
 			Node source = e.getSource();
 			Node dest = e.getDestination();
 			if ((source.getName() == sourcename && dest.getName() == destname)
@@ -61,11 +68,11 @@ public class DistributionGraph {
 		this.dpeers = dpeers;
 	}
 
-	public Set<Edge> getEdges() {
+	public Set<VirtualEdge> getEdges() {
 		return edges;
 	}
 
-	public void setEdges(Set<Edge> edges) {
+	public void setEdges(Set<VirtualEdge> edges) {
 		this.edges = edges;
 	}
 
@@ -76,28 +83,28 @@ public class DistributionGraph {
 		boolean completed = false;
 		while (!completed) {
 
-			 System.out.println("SENDING OFFERS...time="
-			 + DistributionPeer.systemTime);
+			System.out.println("SENDING OFFERS...time="
+					+ DistributionPeer.systemTime);
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.sendOffers();
 			}
-			 System.out.println("\nSCHEDULING REQUESTS");
+			System.out.println("\nSCHEDULING REQUESTS");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.scheduleRequests();
 			}
-			 System.out.println("\nSENDING REQUESTS");
+			System.out.println("\nSENDING REQUESTS");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.sendRequests();
 			}
-			 System.out.println("\nTRANSMITTING CHUNKS");
+			System.out.println("\nTRANSMITTING CHUNKS");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.transmit_requested_chunks();
 			}
-			 System.out.println("\nUPDATING BUFFERS");
+			System.out.println("\nUPDATING BUFFERS");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.updateBuffer();
 			}
-			 System.out.println("\nRESETTING");
+			System.out.println("\nRESETTING");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.reset();
 			}
@@ -114,12 +121,12 @@ public class DistributionGraph {
 			}
 			completed = !completed_update;
 			System.out.println("\nRESTART...checking buffers\n");
-			//if (completed) {
+			if (completed) {
 				System.out.println("Buffer4Peer:");
 				for (DistributionPeer dp : this.getDpeers()) {
 					dp.printBuffer();
 				}
-			//}
+			}
 
 			DistributionPeer.systemTime++;
 		}
@@ -149,6 +156,22 @@ public class DistributionGraph {
 			DistributionPeer.systemTime = new Long(0);
 		}
 
+	}
+
+	public Map<Edge, Integer> getEdge2TX_counter() {
+		return edge2TX_counter;
+	}
+
+	public void setEdge2TX_counter(Map<Edge, Integer> edge2tx_counter) {
+		edge2TX_counter = edge2tx_counter;
+	}
+
+	public Map<Edge, Integer> getEdge2Fail_TX_counter() {
+		return edge2Fail_TX_counter;
+	}
+
+	public void setEdge2Fail_TX_counter(Map<Edge, Integer> edge2Fail_TX_counter) {
+		this.edge2Fail_TX_counter = edge2Fail_TX_counter;
 	}
 
 }

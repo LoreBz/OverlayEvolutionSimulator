@@ -6,7 +6,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,7 +21,6 @@ import model_streamSim.DistributionGraph;
 import model_streamSim.DistributionPeer;
 import model_topoMan.Edge;
 import model_topoMan.Network;
-import model_topoMan.Node;
 import model_topoMan.OverlayGraph;
 import model_topoMan.Peer;
 import model_topoMan.VirtualEdge;
@@ -64,15 +66,23 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 		}
 
 		// inizializzazione archi grafo distribuzione
-		for (VirtualEdge ve : streaming_graph.getLinks()) {
-			Node source = ve.getSource();
-			Node dest = ve.getDestination();
-			Edge e = new Edge(source.getName() + "<->" + dest.getName(),
-					source, dest, ve.getWeight());
-			distributionGraph.getEdges().add(e);
-		}
+		// for (VirtualEdge ve : streaming_graph.getLinks()) {
+		// Node source = ve.getSource();
+		// Node dest = ve.getDestination();
+		// Edge e = new Edge(source.getName() + "<->" + dest.getName(),
+		// source, dest, ve.getWeight());
+		// distributionGraph.getEdges().add(e);
+		// }
+		Set<VirtualEdge> virtualedges = new HashSet<>();
+		virtualedges.addAll(streaming_graph.getLinks());
+		distributionGraph.setEdges(virtualedges);
 		// ArrayList<Chunk> initial_buffer = getInitialBuffer();
 		// distributionGraph.setStreaming_buffer(initial_buffer);
+		List<Edge> underlay_edges = network.getUnderlayGraph().getEdges();
+		for (Edge edge : underlay_edges) {
+			distributionGraph.getEdge2TX_counter().put(edge, 0);
+			distributionGraph.getEdge2Fail_TX_counter().put(edge, 0);
+		}
 
 	}
 
@@ -92,25 +102,30 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				// TODO Auto-generated method stub
-				if ("progress" == evt.getPropertyName()) {
-					int progress = (Integer) evt.getNewValue();
-					progressBar.setValue(progress);
-					// taskOutput.append(String.format(
-					// "Completed %d%% of task.\n",
-					// task.getProgress()));
+				try {
+					if ("progress" == evt.getPropertyName()) {
+						int progress = (Integer) evt.getNewValue();
+						progressBar.setValue(progress);
+						// taskOutput.append(String.format(
+						// "Completed %d%% of task.\n",
+						// task.getProgress()));
+					}
+					switch ((StateValue) evt.getNewValue()) {
+					case DONE:
+						frame.dispatchEvent(new WindowEvent(frame,
+								WindowEvent.WINDOW_CLOSING));
+						break;
+					case PENDING:
+						break;
+					case STARTED:
+						break;
+					default:
+						break;
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
-				switch ((StateValue) evt.getNewValue()) {
-				case DONE:
-					frame.dispatchEvent(new WindowEvent(frame,
-							WindowEvent.WINDOW_CLOSING));
-					break;
-				case PENDING:
-					break;
-				case STARTED:
-					break;
-				default:
-					break;
-				}
+
 			}
 		});
 		this.execute();
@@ -142,7 +157,9 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 		for (DistributionPeer source : distributionGraph.getDpeers()) {
 
 			progress++;
-			setProgress(progress);
+			Double peersize = new Double(distributionGraph.getDpeers().size());
+			Double num = (progress) / peersize * 100.0;
+			setProgress(num.intValue());
 			// JOptionPane.showConfirmDialog(
 			// null,
 			// "Vuoi lanciare uno streaming dalla sorgente: "
