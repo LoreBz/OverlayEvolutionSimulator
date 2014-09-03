@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -43,6 +44,8 @@ import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.View;
+
+import MyUtil.Results;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -66,21 +69,25 @@ public class Test {
 	JButton button_startOverlayStreamingEvaluation;
 	Graph underlaygraph;
 	Graph overlaygraph;
+	JButton btnSalvaStatsticheEvoluzione;
+	JButton btn_restartRandomOverlay;
+	JButton btn_40cicliDifila;
 
 	public Test() {
 
 	}
 
 	public static void main(String[] args) {
+		final Results results = new Results();
 		final Test test = new Test();
 		test.setLookAndFeel();
 		File graphFile = test.importGraphFile();
 
-		UnderlayGraph underlayGraph = new UnderlayGraph(graphFile);
+		final UnderlayGraph underlayGraph = new UnderlayGraph(graphFile);
 		underlayGraph.buildOLSRtables();
 
 		int number = test.getNeighSize();
-		OverlayGraph overlayGraph = new OverlayGraph(null, null, number);
+		final OverlayGraph overlayGraph = new OverlayGraph(null, null, number);
 		overlayGraph.randomInit(underlayGraph);
 
 		test.network = new Network(underlayGraph, overlayGraph, null);
@@ -94,12 +101,13 @@ public class Test {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				test.updateCiclesCounter();
+
 				OverlayEvSimul s = new OverlayEvSimul(test.network,
 						test.metrica);
 				s.one_cicle_update();
 
-				test.update_graphics_components(test.network, test.metrica);
+				test.update_graphics_components(test.network, test.metrica,
+						results);
 			}
 		});
 		test.button_saveOverlay.addActionListener(new ActionListener() {
@@ -126,7 +134,6 @@ public class Test {
 										"Quanti chunk vuoi far trasmettere alla sorgente dello streaming?");
 						chunk_number = Integer.parseInt(chunk_number_string);
 
-					
 						chunksize = new Float(0.5);
 
 						StreamingSimul simul = new StreamingSimul(test.network,
@@ -137,13 +144,61 @@ public class Test {
 
 					}
 				});
+		test.btnSalvaStatsticheEvoluzione
+				.addActionListener(new ActionListener() {
 
-	}
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+						results.printEvolutionResults();
+					}
+				});
+		test.btn_restartRandomOverlay.addActionListener(new ActionListener() {
 
-	void updateCiclesCounter() {
-		Integer n = Integer.parseInt(tf_contatoreAggiornamenti.getText());
-		System.out.println("Esecuzione ciclo di aggiornamento no: " + (n + 1));
-		tf_contatoreAggiornamenti.setText("" + (n + 1));
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				OverlayGraph og = test.network.getOverlayGraph();
+				for (Peer p : og.getPeers()) {
+					p.setNeighbours(og.newscast_randomSample(p));
+				}
+				test.network.updateNetwork();
+				test.update_graphics_components(test.network, test.metrica,
+						results);
+			}
+		});
+
+		test.btn_40cicliDifila.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				final OverlayEvSimul s = new OverlayEvSimul(test.network,
+						test.metrica);
+				SwingWorker<Void, Void> work = new SwingWorker<Void, Void>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						for (int i = 0; i < 40; i++) {
+							System.out
+									.println("Ciclo aggiornamento rapido no: "
+											+ (i + 1));
+							s.one_cicle_update();
+						}
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						// TODO Auto-generated method stub
+						test.update_graphics_components(test.network,
+								test.metrica, results);
+					}
+				};
+				work.execute();
+
+			}
+		});
 
 	}
 
@@ -311,7 +366,12 @@ public class Test {
 
 	}
 
-	protected void update_graphics_components(Network n, String metrica) {
+	protected void update_graphics_components(Network n, String metrica,
+			Results results) {
+		Integer num = Integer.parseInt(tf_contatoreAggiornamenti.getText());
+		System.out
+				.println("Esecuzione ciclo di aggiornamento no: " + (num + 1));
+		tf_contatoreAggiornamenti.setText("" + (num + 1));
 		// aggiornare i campi valore medio, ultimo valore medio e differenza tra
 		// i due
 		Float valore_medio_attuale;
@@ -385,12 +445,28 @@ public class Test {
 					"ui.class", "virtual");
 		}
 
+		switch (metrica) {
+		case "HopCount":
+			results.getHop_cicles2overallvalue().put(num + 1,
+					valore_medio_attuale);
+			break;
+		case "Djkstra-ETX":
+			results.getDjketx_cicles2overallvalue().put(num + 1,
+					valore_medio_attuale);
+		case "AvoidMultiPeerPath":
+			results.getAmpp_cicles2overallvalue().put(num + 1,
+					valore_medio_attuale);
+			break;
+		default:
+			break;
+		}
+
 	}
 
 	private String getMetricFromUser() {
 		Object[] selectionValues = { "HopCount", "Djkstra-ETX",
 				"AvoidMultiPeerPath" };
-		String initialSelection = "HopCount";
+		String initialSelection = "Djkstra-ETX";
 		Object selection = JOptionPane.showInputDialog(null,
 				"Scegli il criterio di aggiornamento dei peer",
 				"Metriche/criteri", JOptionPane.QUESTION_MESSAGE, null,
@@ -538,10 +614,18 @@ public class Test {
 		button_update = new JButton("Update Peers");
 		button_saveOverlay = new JButton("Save overlay graph");
 		button_startOverlayStreamingEvaluation = new JButton("Streaming Test");
+		btnSalvaStatsticheEvoluzione = new JButton(
+				"Salva statistiche evoluzione overlay");
+		btn_restartRandomOverlay = new JButton("Restart Random Overlay");
+		btn_40cicliDifila = new JButton(
+				"40 cicli di aggiornamento in un colpo!");
 
-		southern_panel.add(button_update);
-		southern_panel.add(button_saveOverlay);
+		//southern_panel.add(button_update);
+		//southern_panel.add(button_saveOverlay);
 		southern_panel.add(button_startOverlayStreamingEvaluation);
+		//southern_panel.add(btnSalvaStatsticheEvoluzione);
+		southern_panel.add(btn_restartRandomOverlay);
+		southern_panel.add(btn_40cicliDifila);
 		myJFrame.getContentPane().add(southern_panel, BorderLayout.SOUTH);
 
 		// listeners for buttons

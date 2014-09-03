@@ -4,6 +4,11 @@ import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
@@ -21,6 +27,7 @@ import model_streamSim.DistributionGraph;
 import model_streamSim.DistributionPeer;
 import model_topoMan.Edge;
 import model_topoMan.Network;
+import model_topoMan.Node;
 import model_topoMan.OverlayGraph;
 import model_topoMan.Peer;
 import model_topoMan.VirtualEdge;
@@ -83,6 +90,10 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 			distributionGraph.getEdge2TX_counter().put(edge, 0);
 			distributionGraph.getEdge2Fail_TX_counter().put(edge, 0);
 		}
+		for (DistributionPeer dp : distributionGraph.getDpeers()) {
+			List<Double> loss_list = new ArrayList<>();
+			distributionGraph.getChunk_loss_ratio().put(dp, loss_list);
+		}
 
 	}
 
@@ -134,9 +145,11 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 	}
 
 	void runSimulation(DistributionPeer sorgente) {
-		sorgente.setBuffer(getInitialBuffer());
+		ArrayList<Chunk> initialBuffer = getInitialBuffer();
+		sorgente.setBuffer(initialBuffer);
 		sorgente.setflag_received_requests(true);
 		distributionGraph.distribuisci(sorgente);
+		distributionGraph.saveChunkLossStatistic(initialBuffer.size());
 		distributionGraph.reset();
 	}
 
@@ -176,8 +189,164 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 	@Override
 	protected void done() {
 		Toolkit.getDefaultToolkit().beep();
-		// startButton.setEnabled(true);
-		// setCursor(null); // turn off the wait cursor
+
 		JOptionPane.showMessageDialog(null, "Finito!");
+		int response = JOptionPane.showConfirmDialog(null,
+				"Vuoi salvare le statistiche relative al chunkloss?",
+				"Mostrare statistiche", JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
+		if (response == JOptionPane.NO_OPTION) {
+			// System.out.println("No button clicked");
+		} else if (response == JOptionPane.YES_OPTION) {
+			// System.out.println("Yes button clicked");
+			saveStreamingChunkLossStatistic();
+		}
+
+		int response2 = JOptionPane
+				.showConfirmDialog(
+						null,
+						"Vuoi salvare le statistiche relative al numero di trasmissioni per link?",
+						"Mostrare statistiche", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+		if (response2 == JOptionPane.NO_OPTION) {
+			// System.out.println("No button clicked");
+		} else if (response2 == JOptionPane.YES_OPTION) {
+			// System.out.println("Yes button clicked");
+			saveTXstatstic();
+		}
+
+		int response3 = JOptionPane
+				.showConfirmDialog(
+						null,
+						"Vuoi salvare le statistiche relative al numero di trasmissioni fallite?",
+						"Mostrare statistiche", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+		if (response3 == JOptionPane.NO_OPTION) {
+			// System.out.println("No button clicked");
+		} else if (response3 == JOptionPane.YES_OPTION) {
+			// System.out.println("Yes button clicked");
+			saveFailTXstatstic();
+		}
+
+		distributionGraph.total_reset();
+	}
+
+	private void saveFailTXstatstic() {
+		File selectedFile = null;
+		JFileChooser fileDialog = new JFileChooser();
+		int saveChoice = fileDialog.showSaveDialog(null);
+		if (saveChoice == JFileChooser.APPROVE_OPTION) {
+			selectedFile = fileDialog.getSelectedFile();
+		}
+		if (selectedFile == null)
+			return;
+
+		try {
+
+			File file = new File(selectedFile.getAbsolutePath() + ".txt");
+
+			if (file.createNewFile()) {
+				System.out.println("File is created!");
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new FileWriter(file.getAbsolutePath())));
+				// codice per buttare fuori roba
+				Map<Edge, Integer> edge2TXcount_map = distributionGraph
+						.getEdge2Fail_TX_counter();
+				for (Edge e : edge2TXcount_map.keySet()) {
+					Node source = e.getSource();
+					Node dest = e.getDestination();
+					out.println(source.getName() + "<->" + dest.getName() + " "
+							+ edge2TXcount_map.get(e));
+				}
+				out.close();
+				// Desktop.getDesktop().open(file);
+			} else {
+				System.out.println("File already exists.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void saveTXstatstic() {
+		// TODO Auto-generated method stub
+		File selectedFile = null;
+		JFileChooser fileDialog = new JFileChooser();
+		int saveChoice = fileDialog.showSaveDialog(null);
+		if (saveChoice == JFileChooser.APPROVE_OPTION) {
+			selectedFile = fileDialog.getSelectedFile();
+		}
+		if (selectedFile == null)
+			return;
+
+		try {
+
+			File file = new File(selectedFile.getAbsolutePath() + ".txt");
+
+			if (file.createNewFile()) {
+				System.out.println("File is created!");
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new FileWriter(file.getAbsolutePath())));
+				// codice per buttare fuori roba
+				Map<Edge, Integer> edge2TXcount_map = distributionGraph
+						.getEdge2TX_counter();
+				for (Edge e : edge2TXcount_map.keySet()) {
+					Node source = e.getSource();
+					Node dest = e.getDestination();
+					out.println(source.getName() + dest.getName() + " "
+							+ edge2TXcount_map.get(e));
+				}
+				out.close();
+				// Desktop.getDesktop().open(file);
+			} else {
+				System.out.println("File already exists.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	void saveStreamingChunkLossStatistic() {
+		File selectedFile = null;
+		JFileChooser fileDialog = new JFileChooser();
+		int saveChoice = fileDialog.showSaveDialog(null);
+		if (saveChoice == JFileChooser.APPROVE_OPTION) {
+			selectedFile = fileDialog.getSelectedFile();
+		}
+		if (selectedFile == null)
+			return;
+
+		try {
+
+			File file = new File(selectedFile.getAbsolutePath() + ".txt");
+
+			if (file.createNewFile()) {
+				System.out.println("File is created!");
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new FileWriter(file.getAbsolutePath())));
+				// codice per buttare fuori roba
+				Map<DistributionPeer, List<Double>> chunkloss_map = distributionGraph
+						.getChunk_loss_ratio();
+				for (DistributionPeer dp : distributionGraph.getDpeers()) {
+					float total = 0;
+					for (double n : chunkloss_map.get(dp)) {
+						total += n;
+					}
+					double avg = total / distributionGraph.getDpeers().size();
+					out.println(dp.getName() + " " + avg);
+				}
+				out.close();
+				// Desktop.getDesktop().open(file);
+			} else {
+				System.out.println("File already exists.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

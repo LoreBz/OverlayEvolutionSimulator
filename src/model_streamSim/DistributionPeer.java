@@ -229,13 +229,13 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				if (probabilisticChunkTransmission(receiver)) {
 					receiver.getReceived_chunks().add(chunkToTX);
 
-					System.out.println("TRASMISSIONE: da " + this.getName()
-							+ " a " + receiver.getName() + " chunk# "
-							+ chunkToTX.getChunk_Seq_number());
+//					System.out.println("TRASMISSIONE: da " + this.getName()
+//							+ " a " + receiver.getName() + " chunk# "
+//							+ chunkToTX.getChunk_Seq_number());
 				} else {
-					System.out.println("FALLIMENTO TRASMISSIONE: da "
-							+ this.getName() + " a " + receiver.getName()
-							+ " chunk# " + chunkToTX.getChunk_Seq_number());
+//					System.out.println("FALLIMENTO TRASMISSIONE: da "
+//							+ this.getName() + " a " + receiver.getName()
+//							+ " chunk# " + chunkToTX.getChunk_Seq_number());
 				}
 
 			} else {
@@ -356,7 +356,7 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		if (this.received_chunks.isEmpty()) {
 			return;
 		} else {
-			System.out.println(this.getName() + " ha ricevuto chunks!");
+			//System.out.println(this.getName() + " ha ricevuto chunks!");
 			for (Chunk c : this.received_chunks) {
 				this.buffer.add(c);
 				//System.out.println(c.getChunk_Seq_number() + ", ");

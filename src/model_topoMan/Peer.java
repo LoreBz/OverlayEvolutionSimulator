@@ -27,7 +27,7 @@ public class Peer extends Node {
 
 	public void updatePeer(List<Peer> newscastSample, String metrica,
 			UnderlayGraph underlayGraph) {
-		System.out.println("Updating peer: " + this.name);
+		//System.out.println("Updating peer: " + this.name);
 
 		List<Peer> new_selected_neighs = new ArrayList<>();
 		// marcare tutti i peer noti come non classificati
@@ -51,10 +51,10 @@ public class Peer extends Node {
 				rankedPeers.put(peer, new Float(ve.getPath().size()));
 			}
 			// stampa del ranking
-			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
-				System.out.println("Peer: " + entry.getKey().getName()
-						+ ", rank=" + entry.getValue() + " - ");
-			}
+//			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
+//				System.out.println("Peer: " + entry.getKey().getName()
+//						+ ", rank=" + entry.getValue() + " - ");
+//			}
 			
 			// selezione
 			while (new_selected_neighs.size() < neigh_size) {
@@ -74,10 +74,10 @@ public class Peer extends Node {
 				rankedPeers.put(peer, ve.getWeight());
 			}
 			// stampa del ranking
-			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
-				System.out.println("Peer: " + entry.getKey().getName()
-						+ ", rank=" + entry.getValue() + " - ");
-			}
+//			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
+//				System.out.println("Peer: " + entry.getKey().getName()
+//						+ ", rank=" + entry.getValue() + " - ");
+//			}
 			
 			// selezione
 			while (new_selected_neighs.size() < neigh_size) {
@@ -113,10 +113,10 @@ public class Peer extends Node {
 				rankedPeers.put(peer, numeropeercoinvolti);
 			}
 			// stampa del ranking
-			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
-				System.out.println("Peer: " + entry.getKey().getName()
-						+ ", rank=" + entry.getValue() + " - ");
-			}
+//			for (Entry<Peer, Float> entry : rankedPeers.entrySet()) {
+//				System.out.println("Peer: " + entry.getKey().getName()
+//						+ ", rank=" + entry.getValue() + " - ");
+//			}
 			
 			// selezione
 			while (new_selected_neighs.size() < neigh_size) {
@@ -134,11 +134,11 @@ public class Peer extends Node {
 		// assegnamento nuovo vicinato al peer
 		this.neighbours.clear();
 		this.neighbours = new_selected_neighs;
-		System.out.println("Selected neighs: ");
-		for (Peer n : this.neighbours) {
-			System.out.println(n.getName() + " ");
-		}
-		System.out.println("end peer update\n");
+//		System.out.println("Selected neighs: ");
+//		for (Peer n : this.neighbours) {
+//			System.out.println(n.getName() + " ");
+//		}
+//		System.out.println("end peer update\n");
 
 	}
 
