@@ -19,6 +19,7 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 	static final int number_rtx_retries = 4;
 	private String name;
 	private List<DistributionPeer> neighbours;
+	private List<DistributionPeer> out_neighbours;
 	private boolean flag_received_requests = false;
 	private ArrayList<Chunk> buffer;
 	private Double uploadBandwidht;
@@ -41,6 +42,7 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		this.known_topology_graph = known_topology_graph;
 		// questi li inizializzo vuoti a mano non si sa mai
 		this.neighbours = new ArrayList<>();
+		this.out_neighbours = new ArrayList<>();
 		this.flag_received_requests = false;
 		this.buffer = new ArrayList<>();
 		this.received_offers = new HashMap<>();
@@ -74,14 +76,14 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		ArrayList<Chunk> offers_window = new ArrayList<>();
 		for (Chunk chunk : this.buffer) {
 			if (chunk.getGeneration_time() <= DistributionPeer.systemTime
-					&& chunk.getGeneration_time() >= (DistributionPeer.systemTime - 10)) {
+					&& chunk.getGeneration_time() >= (DistributionPeer.systemTime - 20)) {
 				offers_window.add(chunk);
 			}
 		}
 
 		if (!offers_window.isEmpty()) {
 			Map<Chunk, List<DistributionPeer>> local_received_offers;
-			for (DistributionPeer neigh : this.neighbours) {
+			for (DistributionPeer neigh : this.out_neighbours) {
 				local_received_offers = neigh.getReceived_offers();
 				for (Chunk chunk : offers_window) {
 					List<DistributionPeer> updated_local_providers = local_received_offers
@@ -96,7 +98,7 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 //							+ neigh.getName() + "; chunk #"
 //							+ chunk.getChunk_Seq_number());
 					local_received_offers.put(chunk, updated_local_providers);
-					// neigh.setReceived_offers(local_received_offers);
+					
 				}
 			}
 		}
@@ -507,5 +509,15 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		}
 		System.out.println("");
 	}
+
+	public List<DistributionPeer> getOut_neighbours() {
+		return out_neighbours;
+	}
+
+	public void setOut_neighbours(List<DistributionPeer> out_neighbours) {
+		this.out_neighbours = out_neighbours;
+	}
+	
+	
 
 }

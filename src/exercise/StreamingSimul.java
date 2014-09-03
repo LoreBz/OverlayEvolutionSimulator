@@ -71,6 +71,7 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 				retrievedDP.getNeighbours().add(dp_neigh);
 			}
 		}
+		distributionGraph.initOutNeighbours();
 
 		// inizializzazione archi grafo distribuzione
 		// for (VirtualEdge ve : streaming_graph.getLinks()) {
@@ -170,9 +171,8 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 		for (DistributionPeer source : distributionGraph.getDpeers()) {
 
 			progress++;
-			Double peersize = new Double(distributionGraph.getDpeers().size());
-			Double num = (progress) / peersize * 100.0;
-			setProgress(num.intValue());
+			
+			setProgress(progress);
 			// JOptionPane.showConfirmDialog(
 			// null,
 			// "Vuoi lanciare uno streaming dalla sorgente: "
@@ -295,7 +295,7 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 				for (Edge e : edge2TXcount_map.keySet()) {
 					Node source = e.getSource();
 					Node dest = e.getDestination();
-					out.println(source.getName() + dest.getName() + " "
+					out.println(source.getName() + "<->" + dest.getName() + " "
 							+ edge2TXcount_map.get(e));
 				}
 				out.close();
@@ -349,4 +349,5 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 		}
 
 	}
+
 }

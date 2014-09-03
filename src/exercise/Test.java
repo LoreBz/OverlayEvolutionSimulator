@@ -134,7 +134,7 @@ public class Test {
 										"Quanti chunk vuoi far trasmettere alla sorgente dello streaming?");
 						chunk_number = Integer.parseInt(chunk_number_string);
 
-						chunksize = new Float(0.5);
+						chunksize = new Float(0.25);
 
 						StreamingSimul simul = new StreamingSimul(test.network,
 								chunk_number, chunksize,
@@ -620,7 +620,7 @@ public class Test {
 		btn_40cicliDifila = new JButton(
 				"40 cicli di aggiornamento in un colpo!");
 
-		//southern_panel.add(button_update);
+		southern_panel.add(button_update);
 		//southern_panel.add(button_saveOverlay);
 		southern_panel.add(button_startOverlayStreamingEvaluation);
 		//southern_panel.add(btnSalvaStatsticheEvoluzione);

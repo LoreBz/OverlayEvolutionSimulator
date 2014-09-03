@@ -80,8 +80,8 @@ public class DistributionGraph {
 
 	public void distribuisci(DistributionPeer sorgente) {
 		DistributionPeer.systemTime = new Long(0);
-		System.out.println("Cominciata la trasmissione dal peer_sorgete: "
-				+ sorgente.getName());
+		// System.out.println("Cominciata la trasmissione dal peer_sorgete: "
+		// + sorgente.getName());
 		boolean completed = false;
 		while (!completed) {
 
@@ -219,6 +219,13 @@ public class DistributionGraph {
 			Map<DistributionPeer, List<Double>> chunk_loss_ratio) {
 		this.chunk_loss_ratio = chunk_loss_ratio;
 	}
-	
-	
+
+	public void initOutNeighbours() {
+		for (DistributionPeer dp : this.getDpeers()) {
+			for (DistributionPeer n : dp.getNeighbours()) {
+				n.getOut_neighbours().add(dp);
+			}
+		}
+	}
+
 }
