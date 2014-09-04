@@ -165,6 +165,8 @@ public class Test {
 				test.network.updateNetwork();
 				test.update_graphics_components(test.network, test.metrica,
 						results);
+				String nuova_metrica = test.getMetricFromUser();
+				test.setMetrica(nuova_metrica);
 			}
 		});
 
@@ -621,9 +623,9 @@ public class Test {
 				"40 cicli di aggiornamento in un colpo!");
 
 		southern_panel.add(button_update);
-		//southern_panel.add(button_saveOverlay);
+		// southern_panel.add(button_saveOverlay);
 		southern_panel.add(button_startOverlayStreamingEvaluation);
-		//southern_panel.add(btnSalvaStatsticheEvoluzione);
+		// southern_panel.add(btnSalvaStatsticheEvoluzione);
 		southern_panel.add(btn_restartRandomOverlay);
 		southern_panel.add(btn_40cicliDifila);
 		myJFrame.getContentPane().add(southern_panel, BorderLayout.SOUTH);
@@ -736,6 +738,14 @@ public class Test {
 
 	public void setTf_ValMedioAttuale(JTextField tf_ValMedioAttuale) {
 		this.tf_diff_att_prec = tf_ValMedioAttuale;
+	}
+
+	public String getMetrica() {
+		return metrica;
+	}
+
+	public void setMetrica(String metrica) {
+		this.metrica = metrica;
 	}
 
 }

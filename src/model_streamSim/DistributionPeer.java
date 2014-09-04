@@ -76,7 +76,7 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		ArrayList<Chunk> offers_window = new ArrayList<>();
 		for (Chunk chunk : this.buffer) {
 			if (chunk.getGeneration_time() <= DistributionPeer.systemTime
-					&& chunk.getGeneration_time() >= (DistributionPeer.systemTime - 20)) {
+					&& chunk.getGeneration_time() >= (DistributionPeer.systemTime - 10)) {
 				offers_window.add(chunk);
 			}
 		}
