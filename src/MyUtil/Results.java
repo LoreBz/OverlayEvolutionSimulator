@@ -56,18 +56,24 @@ public class Results {
 				// operazioni output
 				switch (discr) {
 				case 1:
-					for (Entry<Integer,Float> entry : this.hop_cicles2overallvalue.entrySet()) {
-						out.println(""+entry.getKey()+" "+entry.getValue());
+					for (Entry<Integer, Float> entry : this.hop_cicles2overallvalue
+							.entrySet()) {
+						out.println("" + entry.getKey() + " "
+								+ entry.getValue());
 					}
 					break;
 				case 2:
-					for (Entry<Integer,Float> entry : this.djketx_cicles2overallvalue.entrySet()) {
-						out.println(""+entry.getKey()+" "+entry.getValue());
+					for (Entry<Integer, Float> entry : this.djketx_cicles2overallvalue
+							.entrySet()) {
+						out.println("" + entry.getKey() + " "
+								+ entry.getValue());
 					}
 					break;
 				case 3:
-					for (Entry<Integer,Float> entry : this.ampp_cicles2overallvalue.entrySet()) {
-						out.println(""+entry.getKey()+" "+entry.getValue());
+					for (Entry<Integer, Float> entry : this.ampp_cicles2overallvalue
+							.entrySet()) {
+						out.println("" + entry.getKey() + " "
+								+ entry.getValue());
 					}
 					break;
 				default:
@@ -109,6 +115,13 @@ public class Results {
 	public void setAmpp_cicles2overallvalue(
 			Map<Integer, Float> ampp_cicles2overallvalue) {
 		this.ampp_cicles2overallvalue = ampp_cicles2overallvalue;
+	}
+
+	public void reset() {
+		this.ampp_cicles2overallvalue.clear();
+		this.djketx_cicles2overallvalue.clear();
+		this.hop_cicles2overallvalue.clear();
+
 	}
 
 }

@@ -94,11 +94,11 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 						updated_local_providers = new ArrayList<>();
 						updated_local_providers.add(this);
 					}
-//					System.out.println("OFFERTA: da" + this.getName() + " a "
-//							+ neigh.getName() + "; chunk #"
-//							+ chunk.getChunk_Seq_number());
+					// System.out.println("OFFERTA: da" + this.getName() + " a "
+					// + neigh.getName() + "; chunk #"
+					// + chunk.getChunk_Seq_number());
 					local_received_offers.put(chunk, updated_local_providers);
-					
+
 				}
 			}
 		}
@@ -144,21 +144,22 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				// se la lista non è vuota e non
 				// ho
 				// positivamente aggiunto una richiesta
+				Collections.shuffle(chunk_providers);
 				while (!flag && !chunk_providers.isEmpty()) {
-					DistributionPeer best_peer = getMostDesiderablePeer(chunk_providers);
+					DistributionPeer best_peer = chunk_providers.get(0);
 					// ogni volta che facciamo una estrazione dai provider del
 					// tale chunk, a prescindere che esso sia disponibile o meno
 					// tiriamolo via dai provider locali sennò non scorriamo più
-					// tutte le offerte
+					// tutti i provider
 					chunk_providers.remove(best_peer);
 					if (providers.contains(best_peer)) {
 						requests_queue.put(best_peer, chunk);
 						providers.remove(best_peer);
 						flag = true;
-//						System.out.println("RICHIESTA PIANIFICATA: "
-//								+ this.getName() + " chiede a "
-//								+ best_peer.getName() + " chunk #"
-//								+ chunk.getChunk_Seq_number());
+						// System.out.println("RICHIESTA PIANIFICATA: "
+						// + this.getName() + " chiede a "
+						// + best_peer.getName() + " chunk #"
+						// + chunk.getChunk_Seq_number());
 					}
 				}
 			}
@@ -191,9 +192,9 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				chunk_requesters.add(this);
 				selected_peer.getReceived_requests().put(requested_chunk,
 						chunk_requesters);
-//				System.out.println("RICHIESTA INVIATA: da" + this.getName()
-//						+ " a " + selected_peer.getName() + " chunk# "
-//						+ requested_chunk.getChunk_Seq_number());
+				// System.out.println("RICHIESTA INVIATA: da" + this.getName()
+				// + " a " + selected_peer.getName() + " chunk# "
+				// + requested_chunk.getChunk_Seq_number());
 
 			}
 		}
@@ -231,13 +232,13 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				if (probabilisticChunkTransmission(receiver)) {
 					receiver.getReceived_chunks().add(chunkToTX);
 
-//					System.out.println("TRASMISSIONE: da " + this.getName()
-//							+ " a " + receiver.getName() + " chunk# "
-//							+ chunkToTX.getChunk_Seq_number());
+					// System.out.println("TRASMISSIONE: da " + this.getName()
+					// + " a " + receiver.getName() + " chunk# "
+					// + chunkToTX.getChunk_Seq_number());
 				} else {
-//					System.out.println("FALLIMENTO TRASMISSIONE: da "
-//							+ this.getName() + " a " + receiver.getName()
-//							+ " chunk# " + chunkToTX.getChunk_Seq_number());
+					// System.out.println("FALLIMENTO TRASMISSIONE: da "
+					// + this.getName() + " a " + receiver.getName()
+					// + " chunk# " + chunkToTX.getChunk_Seq_number());
 				}
 
 			} else {
@@ -358,10 +359,10 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		if (this.received_chunks.isEmpty()) {
 			return;
 		} else {
-			//System.out.println(this.getName() + " ha ricevuto chunks!");
+			// System.out.println(this.getName() + " ha ricevuto chunks!");
 			for (Chunk c : this.received_chunks) {
 				this.buffer.add(c);
-				//System.out.println(c.getChunk_Seq_number() + ", ");
+				// System.out.println(c.getChunk_Seq_number() + ", ");
 			}
 			this.received_chunks.clear();
 		}
@@ -393,15 +394,15 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 	// return youngest_c;
 	// }
 
-	DistributionPeer getMostDesiderablePeer(List<DistributionPeer> list) {
-		DistributionPeer maxdes = null;
-		for (DistributionPeer dp : list) {
-			if (maxdes == null
-					|| maxdes.getUploadBandwidht() < dp.getUploadBandwidht())
-				maxdes = dp;
-		}
-		return maxdes;
-	}
+//	DistributionPeer getMostDesiderablePeer(List<DistributionPeer> list) {
+//		DistributionPeer maxdes = null;
+//		for (DistributionPeer dp : list) {
+//			if (maxdes == null
+//					|| maxdes.getUploadBandwidht() < dp.getUploadBandwidht())
+//				maxdes = dp;
+//		}
+//		return maxdes;
+//	}
 
 	public String getName() {
 		return name;
@@ -517,7 +518,5 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 	public void setOut_neighbours(List<DistributionPeer> out_neighbours) {
 		this.out_neighbours = out_neighbours;
 	}
-	
-	
 
 }

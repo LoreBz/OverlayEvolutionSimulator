@@ -134,7 +134,7 @@ public class Test {
 										"Quanti chunk vuoi far trasmettere alla sorgente dello streaming?");
 						chunk_number = Integer.parseInt(chunk_number_string);
 
-						chunksize = new Float(0.25);
+						chunksize = new Float(0.1);
 
 						StreamingSimul simul = new StreamingSimul(test.network,
 								chunk_number, chunksize,
@@ -151,6 +151,7 @@ public class Test {
 					public void actionPerformed(ActionEvent arg0) {
 						// TODO Auto-generated method stub
 						results.printEvolutionResults();
+						results.reset();
 					}
 				});
 		test.btn_restartRandomOverlay.addActionListener(new ActionListener() {
@@ -218,8 +219,7 @@ public class Test {
 
 	void saveStatstic() {
 
-		// ArrayList<org.graphstream.graph.Node> degreemap = Toolkit
-		// .degreeMap(overlaygraph);
+		int[] degreedistribution = Toolkit.degreeDistribution(overlaygraph);
 		Double avgDegree = Toolkit.averageDegree(overlaygraph);
 		Double densitiy = Toolkit.density(overlaygraph);
 		Double diameter = Toolkit.diameter(overlaygraph);
@@ -314,6 +314,34 @@ public class Test {
 				tablepara.add(table);
 				document.add(tablepara);
 
+				Paragraph degmapPara = new Paragraph();
+				PdfPTable table1 = new PdfPTable(2);
+
+				// t.setBorderColor(BaseColor.GRAY);
+				// t.setPadding(4);
+				// t.setSpacing(4);
+				// t.setBorderWidth(1);
+
+				PdfPCell cell1 = new PdfPCell(new Phrase("Grado"));
+				cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table1.addCell(cell1);
+
+				cell1 = new PdfPCell(
+						new Phrase("Numero di nodi con quel grado"));
+				cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table1.addCell(cell1);
+
+				table1.setHeaderRows(1);
+				for (int i = 0; i < degreedistribution.length; i++) {
+					if (degreedistribution[i] != 0) {
+						table1.addCell("" + i);
+						table1.addCell("" + degreedistribution[i]);
+					}
+
+				}
+				degmapPara.add(table1);
+				degmapPara.setSpacingBefore(50);
+				document.add(degmapPara);
 				document.close();
 				// System.out.println("Temp file : " + temp.getAbsolutePath());
 				// PrintWriter out = new PrintWriter(new BufferedWriter(
@@ -623,9 +651,9 @@ public class Test {
 				"40 cicli di aggiornamento in un colpo!");
 
 		southern_panel.add(button_update);
-		// southern_panel.add(button_saveOverlay);
+		southern_panel.add(button_saveOverlay);
 		southern_panel.add(button_startOverlayStreamingEvaluation);
-		// southern_panel.add(btnSalvaStatsticheEvoluzione);
+		southern_panel.add(btnSalvaStatsticheEvoluzione);
 		southern_panel.add(btn_restartRandomOverlay);
 		southern_panel.add(btn_40cicliDifila);
 		myJFrame.getContentPane().add(southern_panel, BorderLayout.SOUTH);
