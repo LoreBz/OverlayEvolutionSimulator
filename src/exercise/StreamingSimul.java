@@ -52,7 +52,7 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 
 	private void init() {
 
-		distributionGraph = new DistributionGraph();
+		distributionGraph = new DistributionGraph(network);
 		OverlayGraph streaming_graph = network.getOverlayGraph();
 
 		for (Peer p : streaming_graph.getPeers()) {
@@ -149,8 +149,19 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 		ArrayList<Chunk> initialBuffer = getInitialBuffer();
 		sorgente.setBuffer(initialBuffer);
 		sorgente.setflag_received_requests(true);
+
+		// almeno un po' di outneighbour casuali alla sorgente
+		ArrayList<DistributionPeer> sorgente_outneighs = new ArrayList<>();
+		for (DistributionPeer outneigh : sorgente.getOut_neighbours()) {
+			sorgente_outneighs.add(outneigh);
+		}
+		
+		sorgente.setOut_neighbours(distributionGraph
+				.newscast_randomSample(sorgente));
+
 		distributionGraph.distribuisci(sorgente);
 		distributionGraph.saveChunkLossStatistic(initialBuffer.size());
+		sorgente.setOut_neighbours(sorgente_outneighs);
 		distributionGraph.reset();
 	}
 
@@ -171,7 +182,7 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 		for (DistributionPeer source : distributionGraph.getDpeers()) {
 
 			progress++;
-			
+
 			setProgress(progress);
 			// JOptionPane.showConfirmDialog(
 			// null,
@@ -188,6 +199,8 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 
 	@Override
 	protected void done() {
+		File selectedFile = new File(System.getProperty("user.home")
+				+ "/Desktop");
 		Toolkit.getDefaultToolkit().beep();
 
 		JOptionPane.showMessageDialog(null, "Finito!");
@@ -199,64 +212,44 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 			// System.out.println("No button clicked");
 		} else if (response == JOptionPane.YES_OPTION) {
 			// System.out.println("Yes button clicked");
-			saveStreamingChunkLossStatistic();
-		}
 
-		int response2 = JOptionPane
-				.showConfirmDialog(
-						null,
-						"Vuoi salvare le statistiche relative al numero di trasmissioni per link?",
-						"Mostrare statistiche", JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-		if (response2 == JOptionPane.NO_OPTION) {
-			// System.out.println("No button clicked");
-		} else if (response2 == JOptionPane.YES_OPTION) {
-			// System.out.println("Yes button clicked");
-			saveTXstatstic();
-		}
-
-		int response3 = JOptionPane
-				.showConfirmDialog(
-						null,
-						"Vuoi salvare le statistiche relative al numero di trasmissioni fallite?",
-						"Mostrare statistiche", JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-		if (response3 == JOptionPane.NO_OPTION) {
-			// System.out.println("No button clicked");
-		} else if (response3 == JOptionPane.YES_OPTION) {
-			// System.out.println("Yes button clicked");
-			saveFailTXstatstic();
+			JFileChooser fileDialog = new JFileChooser();
+			int saveChoice = fileDialog.showSaveDialog(null);
+			if (saveChoice == JFileChooser.APPROVE_OPTION) {
+				selectedFile = fileDialog.getSelectedFile();
+			}
+			if (selectedFile == null)
+				return;
+			saveStreamingChunkLossStatistic(selectedFile);
+			saveTXstatstic(selectedFile);
+			saveFailTXstatstic(selectedFile);
 		}
 
 		distributionGraph.total_reset();
 	}
 
-	private void saveFailTXstatstic() {
-		File selectedFile = null;
-		JFileChooser fileDialog = new JFileChooser();
-		int saveChoice = fileDialog.showSaveDialog(null);
-		if (saveChoice == JFileChooser.APPROVE_OPTION) {
-			selectedFile = fileDialog.getSelectedFile();
-		}
-		if (selectedFile == null)
-			return;
+	private void saveFailTXstatstic(File selectedFile) {
 
 		try {
 
-			File file = new File(selectedFile.getAbsolutePath() + ".txt");
+			File file = new File(selectedFile.getAbsolutePath() + "_FailTX.txt");
 
 			if (file.createNewFile()) {
 				System.out.println("File is created!");
 				PrintWriter out = new PrintWriter(new BufferedWriter(
 						new FileWriter(file.getAbsolutePath())));
 				// codice per buttare fuori roba
-				Map<Edge, Integer> edge2TXcount_map = distributionGraph
+				Map<Edge, Integer> edge2FailTXcount_map = distributionGraph
 						.getEdge2Fail_TX_counter();
-				for (Edge e : edge2TXcount_map.keySet()) {
+				Set<Edge> edges = edge2FailTXcount_map.keySet();
+				List<Edge> sortededges = new ArrayList<>();
+				sortededges.addAll(edges);
+				Collections.sort(sortededges);
+				for (Edge e : sortededges) {
 					Node source = e.getSource();
 					Node dest = e.getDestination();
 					out.println(source.getName() + "<->" + dest.getName() + " "
-							+ edge2TXcount_map.get(e));
+							+ edge2FailTXcount_map.get(e));
 				}
 				out.close();
 				// Desktop.getDesktop().open(file);
@@ -270,20 +263,13 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 
 	}
 
-	private void saveTXstatstic() {
+	private void saveTXstatstic(File selectedFile) {
 		// TODO Auto-generated method stub
-		File selectedFile = null;
-		JFileChooser fileDialog = new JFileChooser();
-		int saveChoice = fileDialog.showSaveDialog(null);
-		if (saveChoice == JFileChooser.APPROVE_OPTION) {
-			selectedFile = fileDialog.getSelectedFile();
-		}
-		if (selectedFile == null)
-			return;
 
 		try {
 
-			File file = new File(selectedFile.getAbsolutePath() + ".txt");
+			File file = new File(selectedFile.getAbsolutePath()
+					+ "_TXcount.txt");
 
 			if (file.createNewFile()) {
 				System.out.println("File is created!");
@@ -292,7 +278,11 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 				// codice per buttare fuori roba
 				Map<Edge, Integer> edge2TXcount_map = distributionGraph
 						.getEdge2TX_counter();
-				for (Edge e : edge2TXcount_map.keySet()) {
+				Set<Edge> edges = edge2TXcount_map.keySet();
+				List<Edge> sortededges = new ArrayList<>();
+				sortededges.addAll(edges);
+				Collections.sort(sortededges);
+				for (Edge e : sortededges) {
 					Node source = e.getSource();
 					Node dest = e.getDestination();
 					out.println(source.getName() + "<->" + dest.getName() + " "
@@ -309,19 +299,12 @@ public class StreamingSimul extends SwingWorker<Void, Void> {
 		}
 	}
 
-	void saveStreamingChunkLossStatistic() {
-		File selectedFile = null;
-		JFileChooser fileDialog = new JFileChooser();
-		int saveChoice = fileDialog.showSaveDialog(null);
-		if (saveChoice == JFileChooser.APPROVE_OPTION) {
-			selectedFile = fileDialog.getSelectedFile();
-		}
-		if (selectedFile == null)
-			return;
+	void saveStreamingChunkLossStatistic(File selectedFile) {
 
 		try {
 
-			File file = new File(selectedFile.getAbsolutePath() + ".txt");
+			File file = new File(selectedFile.getAbsolutePath()
+					+ "_chunkloss.txt");
 
 			if (file.createNewFile()) {
 				System.out.println("File is created!");

@@ -76,10 +76,12 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		ArrayList<Chunk> offers_window = new ArrayList<>();
 		for (Chunk chunk : this.buffer) {
 			if (chunk.getGeneration_time() <= DistributionPeer.systemTime
-					&& chunk.getGeneration_time() >= (DistributionPeer.systemTime - 10)) {
+					&& chunk.getGeneration_time() >= (DistributionPeer.systemTime - 5)) {
 				offers_window.add(chunk);
 			}
 		}
+		// riduzione delle offerte
+		// ArrayList<Chunk> last3chunks = getYoungestChunks(offers_window);
 
 		if (!offers_window.isEmpty()) {
 			Map<Chunk, List<DistributionPeer>> local_received_offers;
@@ -104,6 +106,18 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		}
 
 	}
+
+	// private ArrayList<Chunk> getYoungestChunks(ArrayList<Chunk>
+	// offers_window) {
+	// ArrayList<Chunk> retval = new ArrayList<>();
+	// int size = offers_window.size();
+	// for (int i = 0; i < size; i++) {
+	// if (i >= (size - 4)) {
+	// retval.add(offers_window.get(i));
+	// }
+	// }
+	// return retval;
+	// }
 
 	public void scheduleRequests() {
 		// scorrendo received_offers imposta correttamente la request_queue con
@@ -261,7 +275,15 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 	private boolean probabilisticChunkTransmission(DistributionPeer receiver) {
 		VirtualEdge ve = known_topology_graph.getEdge(this.getName(),
 				receiver.getName());
-		List<Edge> path = ve.getPath();
+//		ve.setPath(ve.retrievePath(known_topology_graph.getNetwork()
+//				.getUnderlayGraph()));
+		List<Edge> path=null;
+		if (ve==null) {
+			path=known_topology_graph.getNetwork().getUnderlayGraph().retrievePath(this.name, receiver.getName());
+		} else {
+			path = ve.getPath();
+		}
+		
 		// facciamo una trasmissione DA sorgente A destinazione
 		if (path.get(0).getSource().getName() == this.getName()
 				|| path.get(0).getDestination().getName() == this.getName()) {
@@ -295,6 +317,30 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 				.getEdge2TX_counter();
 		Map<Edge, Integer> handle_fail = known_topology_graph
 				.getEdge2Fail_TX_counter();
+		int capacita_canale = 0;
+		float etx = e.getWeight();
+
+		if (etx <= 1.1)
+			capacita_canale = 10;
+		if (etx > 1.1 && etx < 1.3)
+			capacita_canale = 5;
+		if (etx >= 1.3 && etx < 1.6)
+			capacita_canale = 2;
+		if (etx >= 1.6)
+			capacita_canale = 1;
+
+		// if (DistributionGraph.TX4cicle > 200) {
+		// return false;
+		// }
+
+		if (e.getTx_tries_counter() >= capacita_canale) {
+			handle_fail.put(e, handle_fail.get(e) + 1);
+			e.setTx_tries_counter(e.getTx_tries_counter() + 1);
+			handle_counter.put(e, handle_counter.get(e) + 1);
+			// DistributionGraph.TX4cicle++;
+			return false;
+		}
+
 		int count = 0;
 		Random generator = new Random(System.currentTimeMillis());
 		// calcolo la probabilità di successo di una trasmissione su questo
@@ -302,22 +348,26 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 		Float succesful_prob = 1 / (e.getWeight());
 		Float coin;
 		// fintanto che non provo troppe volte
-		while (count < DistributionPeer.number_rtx_retries) {
+		while (count < DistributionPeer.number_rtx_retries
+				&& e.getTx_tries_counter() < capacita_canale) {
 			// estraggo un numero casuale nell'intervallo 0.0 e 1.0
 			coin = generator.nextFloat();
 			// se la mia probabilità è maggiore del numero estratto dico che la
 			// trasmissione è andata bene e ritorno true
 			if (succesful_prob > coin) {
-				handle_counter.put(e, handle_counter.get(e) + 1);
+
 				return true;
 			} else {
-				// altrimenti incremento i contatori di tentativo trasmissione,
+				// altrimenti incremento i contatori di
 				// trasmissione fallite e numero tentativi per questa
 				// trasmissione
-				handle_counter.put(e, handle_counter.get(e) + 1);
 				handle_fail.put(e, handle_fail.get(e) + 1);
-				count++;
+
 			}
+			e.setTx_tries_counter(e.getTx_tries_counter() + 1);
+			handle_counter.put(e, handle_counter.get(e) + 1);
+			count++;
+			// DistributionGraph.TX4cicle++;
 		}
 		// se non esco dal while grazie ad un successo allora la trasmissione
 		// fallisce e non riesco ad attraversa l'arco: dunque ritorno false
@@ -394,15 +444,15 @@ public class DistributionPeer implements Comparable<DistributionPeer> {
 	// return youngest_c;
 	// }
 
-//	DistributionPeer getMostDesiderablePeer(List<DistributionPeer> list) {
-//		DistributionPeer maxdes = null;
-//		for (DistributionPeer dp : list) {
-//			if (maxdes == null
-//					|| maxdes.getUploadBandwidht() < dp.getUploadBandwidht())
-//				maxdes = dp;
-//		}
-//		return maxdes;
-//	}
+	// DistributionPeer getMostDesiderablePeer(List<DistributionPeer> list) {
+	// DistributionPeer maxdes = null;
+	// for (DistributionPeer dp : list) {
+	// if (maxdes == null
+	// || maxdes.getUploadBandwidht() < dp.getUploadBandwidht())
+	// maxdes = dp;
+	// }
+	// return maxdes;
+	// }
 
 	public String getName() {
 		return name;

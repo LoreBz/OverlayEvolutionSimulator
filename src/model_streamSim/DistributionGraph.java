@@ -1,13 +1,16 @@
 package model_streamSim;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import model_topoMan.Edge;
+import model_topoMan.Network;
 import model_topoMan.Node;
 import model_topoMan.VirtualEdge;
 
@@ -18,15 +21,18 @@ public class DistributionGraph {
 	Map<Edge, Integer> edge2TX_counter;
 	Map<Edge, Integer> edge2Fail_TX_counter;
 	Map<DistributionPeer, List<Double>> chunk_loss_ratio;
+	Network network;
+	public static int TX4cicle=0;
 
 	// ArrayList<Chunk> streaming_buffer;
 
-	public DistributionGraph() {
+	public DistributionGraph(Network n) {
 		this.dpeers = new ArrayList<>();
 		this.edges = new HashSet<>();
 		this.edge2Fail_TX_counter = new HashMap<>();
 		this.edge2TX_counter = new HashMap<>();
 		this.chunk_loss_ratio = new HashMap<>();
+		this.network=n;
 	}
 
 	public VirtualEdge getEdge(String sourcename, String destname) {
@@ -99,6 +105,7 @@ public class DistributionGraph {
 				dp.sendRequests();
 			}
 			// System.out.println("\nTRANSMITTING CHUNKS");
+			Collections.shuffle(this.getDpeers());
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.transmit_requested_chunks();
 			}
@@ -109,6 +116,9 @@ public class DistributionGraph {
 			// System.out.println("\nRESETTING");
 			for (DistributionPeer dp : this.getDpeers()) {
 				dp.reset();
+			}
+			for (Edge e : edge2TX_counter.keySet()) {
+				e.resetEdge();
 			}
 
 			// diciamo che abbiamo completato quando nessuno ha ricevuto
@@ -131,6 +141,7 @@ public class DistributionGraph {
 			// }
 
 			DistributionPeer.systemTime++;
+			DistributionGraph.TX4cicle=0;
 		}
 		System.out.println("Terminata la trasmissione dal peer: "
 				+ sorgente.getName());
@@ -226,6 +237,30 @@ public class DistributionGraph {
 				n.getOut_neighbours().add(dp);
 			}
 		}
+	}
+	
+	public List<DistributionPeer> newscast_randomSample(DistributionPeer caller) {
+		List<DistributionPeer> randomSample = new ArrayList<>();
+		int addition_counter = 0;
+
+		while (addition_counter < caller.getNeighbours().size()) {
+			int randomInt = new Random().nextInt(dpeers.size());
+			DistributionPeer p = dpeers.get(randomInt);
+			if (!randomSample.contains(p) && !caller.equals(p)) {
+				randomSample.add(p);
+				addition_counter++;
+			}
+		}// end while
+
+		return randomSample;
+	}
+
+	public Network getNetwork() {
+		return network;
+	}
+
+	public void setNetwork(Network network) {
+		this.network = network;
 	}
 
 }

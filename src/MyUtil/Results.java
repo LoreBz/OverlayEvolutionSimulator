@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -37,47 +40,52 @@ public class Results {
 			JOptionPane.showMessageDialog(null, "Errore!");
 			return;
 		}
-		// se poi vale 1 vuol dire che ho i dati su hop, 2 djketx, 3 ampp
-		int discr = 47;
-		if (!this.hop_cicles2overallvalue.isEmpty())
-			discr = 1;
-		if (!this.djketx_cicles2overallvalue.isEmpty())
-			discr = 2;
-		if (!this.ampp_cicles2overallvalue.isEmpty())
-			discr = 3;
+		Set<Integer> keys = hop_cicles2overallvalue.keySet();
+		List<Integer> sortedkeys = new ArrayList<>();
+		sortedkeys.addAll(keys);
+		Collections.sort(sortedkeys);
+		File file;
 		try {
 
-			File file = new File(selectedFile.getAbsolutePath() + ".txt");
+			file = new File(selectedFile.getAbsolutePath() + "hop_series.txt");
 
 			if (file.createNewFile()) {
 				System.out.println("File is created!");
 				PrintWriter out = new PrintWriter(new BufferedWriter(
 						new FileWriter(file.getAbsolutePath())));
-				// operazioni output
-				switch (discr) {
-				case 1:
-					for (Entry<Integer, Float> entry : this.hop_cicles2overallvalue
-							.entrySet()) {
-						out.println("" + entry.getKey() + " "
-								+ entry.getValue());
-					}
-					break;
-				case 2:
-					for (Entry<Integer, Float> entry : this.djketx_cicles2overallvalue
-							.entrySet()) {
-						out.println("" + entry.getKey() + " "
-								+ entry.getValue());
-					}
-					break;
-				case 3:
-					for (Entry<Integer, Float> entry : this.ampp_cicles2overallvalue
-							.entrySet()) {
-						out.println("" + entry.getKey() + " "
-								+ entry.getValue());
-					}
-					break;
-				default:
-					break;
+				// operazioni output hop
+				for (Integer i : sortedkeys) {
+					out.println(hop_cicles2overallvalue.get(i)+"");
+				}
+				out.close();
+			} else {
+				System.out.println("File already exists.");
+			}
+			file = new File(selectedFile.getAbsolutePath()
+					+ "djketx_series.txt");
+
+			if (file.createNewFile()) {
+				System.out.println("File is created!");
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new FileWriter(file.getAbsolutePath())));
+				// operazioni output djk
+				for (Integer i : sortedkeys) {
+					out.println(djketx_cicles2overallvalue.get(i)+"");
+				}
+				out.close();
+			} else {
+				System.out.println("File already exists.");
+			}
+
+			file = new File(selectedFile.getAbsolutePath() + "ampp_series.txt");
+
+			if (file.createNewFile()) {
+				System.out.println("File is created!");
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new FileWriter(file.getAbsolutePath())));
+				// operazioni output ampp
+				for (Integer i : sortedkeys) {
+					out.println(ampp_cicles2overallvalue.get(i)+"");
 				}
 				out.close();
 			} else {

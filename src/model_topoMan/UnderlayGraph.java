@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import MyUtil.DjkstraUtil;
 
@@ -108,6 +110,67 @@ public class UnderlayGraph {
 			retval += "" + e + "\n";
 		}
 		return retval + "\n";
+	}
+	
+	public List<Edge> retrievePath(String source_id, String dest_id) {
+		// find the edgesource in the underlaygraph
+		Node source = null;
+		Node dest=null;
+		for (Node n : this.getNodes()) {
+			if (n.getName().equals(source_id)) {
+				source = n;
+			}
+			if (n.getName().equals(dest_id)) {
+				dest = n;
+			}
+			
+		}
+		
+		ArrayList<Node> path = new ArrayList<Node>();
+		Node step = dest;
+		Map<Node, Node> predecessors = source.getPredecessors();
+		// check if a path exists
+		if (predecessors != null) {
+			if (predecessors.get(step) == null) {
+				return null;
+			} else {
+				path.add(step);
+				while (predecessors.get(step) != null) {
+					step = predecessors.get(step);
+					path.add(step);
+				}
+				// Put it into the correct order
+				Collections.reverse(path);
+				ArrayList<Edge> edgepath = new ArrayList<>();
+				for (int i = 1; i < path.size(); i++) {
+					Edge e = getEdgeFromSourceAndDestination(path.get(i - 1),
+							path.get(i), this.getEdges());
+					edgepath.add(e);
+				}
+				return edgepath;
+			}
+		} else
+			return null;
+
+	}
+	
+	private Edge getEdgeFromSourceAndDestination(Node source, Node destination,
+			List<Edge> edges) {
+		for (Edge edge : edges) {
+			Node edgesource = edge.getSource();
+			Node edgedestination = edge.getDestination();
+			// link bidirezionali non so mai se li salvo in direzione
+			// source->dest o dest->source XD
+			if (edgesource.equals(source)
+					&& edgedestination.equals(destination)) {
+				return edge;
+			}
+			if (edgesource.equals(destination)
+					&& edgedestination.equals(source)) {
+				return edge;
+			}
+		}
+		return null;
 	}
 
 }

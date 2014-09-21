@@ -63,7 +63,7 @@ public class Test {
 	JTextField tf_diff_att_prec;
 	JPanel central_panel;
 	Network network;
-	String metrica;
+	public static String metrica;
 	JButton button_update;
 	JButton button_saveOverlay;
 	JButton button_startOverlayStreamingEvaluation;
@@ -72,6 +72,10 @@ public class Test {
 	JButton btnSalvaStatsticheEvoluzione;
 	JButton btn_restartRandomOverlay;
 	JButton btn_40cicliDifila;
+	private JTextField txf_hop;
+	private JTextField txf_ampp;
+	private JTextField txf_etx;
+	private JLabel lab_metrica;
 
 	public Test() {
 
@@ -96,17 +100,17 @@ public class Test {
 		test.displayall(test.network);
 
 		// richiesta metrica da utilizzare
-		test.metrica = test.getMetricFromUser();
+		Test.metrica = test.getMetricFromUser();
 		test.button_update.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				OverlayEvSimul s = new OverlayEvSimul(test.network,
-						test.metrica);
+						Test.metrica);
 				s.one_cicle_update();
 
-				test.update_graphics_components(test.network, test.metrica,
+				test.update_graphics_components(test.network, Test.metrica,
 						results);
 			}
 		});
@@ -134,7 +138,7 @@ public class Test {
 										"Quanti chunk vuoi far trasmettere alla sorgente dello streaming?");
 						chunk_number = Integer.parseInt(chunk_number_string);
 
-						chunksize = new Float(0.1);
+						chunksize = new Float(0.01);
 
 						StreamingSimul simul = new StreamingSimul(test.network,
 								chunk_number, chunksize,
@@ -164,10 +168,13 @@ public class Test {
 					p.setNeighbours(og.newscast_randomSample(p));
 				}
 				test.network.updateNetwork();
-				test.update_graphics_components(test.network, test.metrica,
+				test.update_graphics_components(test.network, Test.metrica,
 						results);
 				String nuova_metrica = test.getMetricFromUser();
 				test.setMetrica(nuova_metrica);
+				results.reset();
+				test.tf_contatoreAggiornamenti.setText("" + 0);
+
 			}
 		});
 
@@ -177,7 +184,7 @@ public class Test {
 			public void actionPerformed(ActionEvent arg0) {
 
 				final OverlayEvSimul s = new OverlayEvSimul(test.network,
-						test.metrica);
+						Test.metrica);
 				SwingWorker<Void, Void> work = new SwingWorker<Void, Void>() {
 
 					@Override
@@ -195,7 +202,7 @@ public class Test {
 					protected void done() {
 						// TODO Auto-generated method stub
 						test.update_graphics_components(test.network,
-								test.metrica, results);
+								Test.metrica, results);
 					}
 				};
 				work.execute();
@@ -475,25 +482,90 @@ public class Test {
 					"ui.class", "virtual");
 		}
 
-		switch (metrica) {
-		case "HopCount":
-			results.getHop_cicles2overallvalue().put(num + 1,
-					valore_medio_attuale);
-			break;
-		case "Djkstra-ETX":
-			results.getDjketx_cicles2overallvalue().put(num + 1,
-					valore_medio_attuale);
-		case "AvoidMultiPeerPath":
-			results.getAmpp_cicles2overallvalue().put(num + 1,
-					valore_medio_attuale);
-			break;
-		default:
-			break;
+		// aggiorna Results per vedere come evolvono i tre parametri nel corso
+		// dell'evoluzione dell'overlay
+		for (int i = 0; i < 3; i++) {
+			List<Float> values = new ArrayList<>();
+			if (i == 0) {
+				// hop
+				for (VirtualEdge ve : n.getOverlayGraph().getLinks()) {
+					// ve.setPath(ve.retrievePath(n.getUnderlayGraph()));
+					values.add(new Float(ve.getPath().size()));
+				}
+				float hoptot = 0;
+				for (Float f : values) {
+					hoptot += f;
+				}
+				float hopavg = hoptot / n.getOverlayGraph().getLinks().size();
+				results.getHop_cicles2overallvalue().put(num + 1, hopavg);
+				txf_hop.setText("" + hopavg);
+				values.clear();
+			}
+			if (i == 1) {
+				// djketx
+				for (VirtualEdge ve : n.getOverlayGraph().getLinks()) {
+					// ve.setPath(ve.retrievePath(n.getUnderlayGraph()));
+					values.add(new Float(ve.getWeight()));
+				}
+				float djktot = 0;
+				for (Float f : values) {
+					djktot += f;
+				}
+				float djkavg = djktot / n.getOverlayGraph().getLinks().size();
+				results.getDjketx_cicles2overallvalue().put(num + 1, djkavg);
+				txf_etx.setText("" + djkavg);
+				values.clear();
+			}
+			if (i == 2) {
+				// ampp
+				for (VirtualEdge ve : n.getOverlayGraph().getLinks()) {
+					// ve.setPath(ve.retrievePath(n.getUnderlayGraph()));
+					Set<Node> nodi_attraversati = new HashSet<>();
+					for (Edge e : ve.getPath()) {
+						nodi_attraversati.add(e.getSource());
+						nodi_attraversati.add(e.getDestination());
+					}
+					// per ogni virtualink, nodiattrvarsati comprenderà
+					// ve.source e
+					// ve.dest che sono dei peer! per questo faccio patrire il
+					// contatore da - 2
+					Float numeropeercoinvolti = new Float(-2);
+					for (Node node : nodi_attraversati) {
+						if (n.getOverlayGraph().getPeers().contains(node)) {
+							numeropeercoinvolti++;
+						}
+					}
+					values.add(numeropeercoinvolti);
+				}
+				float ampptot = 0;
+				for (Float f : values) {
+					ampptot += f;
+				}
+				float amppavg = ampptot / n.getOverlayGraph().getLinks().size();
+				results.getAmpp_cicles2overallvalue().put(num + 1, amppavg);
+				txf_ampp.setText("" + amppavg);
+				values.clear();
+			}
 		}
+		// switch (metrica) {
+		// case "HopCount":
+		// results.getHop_cicles2overallvalue().put(num + 1,
+		// valore_medio_attuale);
+		// break;
+		// case "Djkstra-ETX":
+		// results.getDjketx_cicles2overallvalue().put(num + 1,
+		// valore_medio_attuale);
+		// case "AvoidMultiPeerPath":
+		// results.getAmpp_cicles2overallvalue().put(num + 1,
+		// valore_medio_attuale);
+		// break;
+		// default:
+		// break;
+		// }
 
 	}
 
-	private String getMetricFromUser() {
+	public String getMetricFromUser() {
 		Object[] selectionValues = { "HopCount", "Djkstra-ETX",
 				"AvoidMultiPeerPath" };
 		String initialSelection = "Djkstra-ETX";
@@ -529,7 +601,7 @@ public class Test {
 		return true;
 	}
 
-	File importGraphFile() {
+	public File importGraphFile() {
 		final JFileChooser fc = new JFileChooser();
 		// FileNameExtensionFilter filter = new
 		// FileNameExtensionFilter("edges");
@@ -667,12 +739,8 @@ public class Test {
 		JPanel row1 = new JPanel();
 		JPanel row2 = new JPanel();
 		JPanel row3 = new JPanel();
-		JLabel lab1 = new JLabel(
-				"Valore medio metrica tenuta in considerazionei:");
 		JLabel lab2 = new JLabel("Contatore aggiornamenti della topologia");
 		row1.setLayout(new BoxLayout(row1, BoxLayout.Y_AXIS));
-		// JLabel lab3 = new JLabel("asd");
-		row1.add(lab1);
 		row2.setLayout(new BoxLayout(row2, BoxLayout.Y_AXIS));
 		row2.add(lab2);
 		// row3.add(lab3);
@@ -680,12 +748,52 @@ public class Test {
 
 		JPanel panel_1 = new JPanel();
 		row1.add(panel_1);
+		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
+
+		JPanel panel_8 = new JPanel();
+		panel_1.add(panel_8);
+		lab_metrica = new JLabel(
+				"Valore medio metrica tenuta in considerazione:");
+		panel_8.add(lab_metrica);
 
 		tf_valoremedio = new JTextField();
-		panel_1.add(tf_valoremedio);
+		panel_8.add(tf_valoremedio);
 		tf_valoremedio.setEditable(false);
-		tf_valoremedio.setText("0000");
+		tf_valoremedio.setText("0");
 		tf_valoremedio.setColumns(8);
+
+		JPanel panel_5 = new JPanel();
+		panel_1.add(panel_5);
+
+		JLabel lblNewLabel = new JLabel("ETX");
+		panel_5.add(lblNewLabel);
+
+		txf_etx = new JTextField();
+		txf_etx.setText("0");
+		panel_5.add(txf_etx);
+		txf_etx.setColumns(10);
+
+		JPanel panel_6 = new JPanel();
+		panel_1.add(panel_6);
+
+		JLabel lblNewLabel_1 = new JLabel("HOP");
+		panel_6.add(lblNewLabel_1);
+
+		txf_hop = new JTextField();
+		txf_hop.setText("0");
+		panel_6.add(txf_hop);
+		txf_hop.setColumns(10);
+
+		JPanel panel_7 = new JPanel();
+		panel_1.add(panel_7);
+
+		JLabel lblNewLabel_2 = new JLabel("AMPP");
+		panel_7.add(lblNewLabel_2);
+
+		txf_ampp = new JTextField();
+		txf_ampp.setText("0");
+		panel_7.add(txf_ampp);
+		txf_ampp.setColumns(10);
 		eastern_panel.add(row2);
 
 		JPanel panel_2 = new JPanel();
@@ -773,7 +881,7 @@ public class Test {
 	}
 
 	public void setMetrica(String metrica) {
-		this.metrica = metrica;
+		Test.metrica = metrica;
 	}
 
 }
